@@ -1,2 +1,2 @@
 # playdate-frontend
-Frontend
+Frontend for Playdate
