@@ -1,0 +1,141 @@
+.homepage {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+}
+
+.overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(10, 10, 10, 0.5);
+  z-index: -1;
+}
+
+.content-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  padding: 0 5%;
+  position: relative;
+}
+
+.text-section {
+  width: 45%;
+  color: #fff;
+}
+
+.text-section h1 {
+  font-size: 3rem;
+  margin-bottom: 20px;
+}
+
+.text-section h2 {
+  font-size: 2rem;
+  font-weight: 300;
+}
+
+.carousel-container {
+  width: 55%;
+  height: 75%;
+  position: relative;
+  display: flex;
+  justify-content: flex-end; /* Push everything to right */
+  align-items: center;
+  margin-right: -10%; /* Push it outside a little */
+}
+
+.carousel-images {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  position: relative;
+}
+
+.slide-wrapper {
+  width: 220px; /* Smaller main image */
+  height: 350px;
+  overflow: hidden;
+  border-radius: 20px;
+  background: #fff;
+  position: relative;
+  z-index: 2;
+}
+
+.slide-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 20px;
+}
+
+.random-slide-wrapper {
+  width: 180px; /* Slightly smaller */
+  height: 300px;
+  overflow: hidden;
+  background: #fff;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  border-top-right-radius: 0; /* No radius on right */
+  border-bottom-right-radius: 0; /* No radius on right */
+  position: relative;
+  right: -20px; /* Move it half outside */
+  z-index: 1;
+}
+
+.random-slide-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+}
+
+.slide-title {
+  position: absolute;
+  bottom: 15px;
+  left: 20px;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+}
+
+/* Controllers inside a capsule */
+.controllers {
+  position: absolute;
+  bottom: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgb(51, 50, 50);
+  border-radius: 50px;
+  padding: 5px 8px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  bottom: 60px;
+}
+
+.controller-button {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.controller-button:hover {
+  color: black;
+}
+.homepage {
+  transition: all 0.4s ease;
+}
