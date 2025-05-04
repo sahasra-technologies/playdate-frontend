@@ -1,0 +1,128 @@
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0; /* remove vertical padding for full height logo */
+  height: 70px; /* fixed height for better logo fitting */
+  color: rgb(106, 103, 103);
+}
+
+.nav-logo {
+  background-color: white;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+  overflow: hidden;
+}
+
+.logo-image {
+  height: 100%;
+  object-fit: contain;
+}
+
+.delivery {
+  display: flex;
+  align-items: center;
+  margin-left: 20px;
+}
+
+.icon-map {
+  font-size: 20px;
+  margin-right: 8px;
+}
+
+.delivery-text {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+}
+
+.deliver-to {
+  font-size: 12px;
+  color: gray;
+}
+
+.location {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+}
+
+.icon-down {
+  margin-left: 5px;
+  font-size: 10px;
+}
+
+.nav-buttons {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+  padding: 8px 15px;
+  margin-left: 10px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.sky-blue {
+  background-color: #00bfff; /* Sky blue */
+  color: white;
+}
+
+.gray-btn {
+  background-color: rgb(47, 45, 45);
+  color: white;
+}
+
+.btn-icon {
+  margin-right: 8px;
+  font-size: 18px;
+}
+
+.search-btn {
+  background-color: gray;
+  color: white;
+}
+
+.dropdown-menu {
+  position: absolute;
+  background-color: rgb(73, 69, 69);
+  border: 1px solid #848080;
+  margin-top: 5px;
+  list-style: none;
+  padding: 8px 0;
+  width: 160px;
+  z-index: 10;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-menu li {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.dropdown-menu li:hover {
+  background-color: #2b2a2a;
+}
+
+:root {
+  --menu-bg: #f5f5f5;     
+  --menu-text: #000000;   
+}
+
+[data-theme="dark"] {
+  --menu-bg: #2c2c2c;     
+  --menu-text: #ffffff;   
+}
