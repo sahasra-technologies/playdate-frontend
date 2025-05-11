@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { FaUser, FaMapMarkerAlt, FaSearch, FaChevronDown } from 'react-icons/fa';
+import { FaUser, FaMapMarkerAlt, FaSearch, FaChevronDown, FaBars } from 'react-icons/fa';
 import { MdLocalOffer } from 'react-icons/md';
-import { ThemeContext } from '../../context/ThemeContext'; // Adjust if path differs
+import { ThemeContext } from '../../context/ThemeContext';
 import './Navbar.css';
 
 const majorCities = [
@@ -13,7 +13,8 @@ const Navbar = () => {
   const [location, setLocation] = useState('Fetching location...');
   const [showCityDropdown, setShowCityDropdown] = useState(false);
   const [showLoginDropdown, setShowLoginDropdown] = useState(false);
-  const { darkMode, toggleTheme } = useContext(ThemeContext);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const { theme, toggleTheme } = useContext(ThemeContext);
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -49,14 +50,44 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="navbar">
-      {/* Logo Image */}
-      <div className="nav-logo">
-        <img src="/src/assets/images/image.png" alt="Logo" className="logo-image" />
+    <nav className="navbar" data-theme={theme}>
+      {/* Logo + Menu Icon */}
+      <div className="nav-logo-wrapper">
+        <div className="nav-logo" onClick={() => setShowMobileMenu(!showMobileMenu)}>
+          <img src="/src/assets/images/image.png" alt="Logo" className="logo-image" />
+          <FaBars className="menu-icon" />
+        </div>
+
+        {showMobileMenu && (
+          <div className="mobile-dropdown">
+            <button className="btn search-btn">
+              <FaSearch className="btn-icon" /> Search
+            </button>
+            <button className="btn sky-blue">My Venues</button>
+            <button className="btn">
+              <MdLocalOffer className="btn-icon" /> Offers
+            </button>
+            <div className="mobile-login">
+              <button className="btn" onClick={() => setShowLoginDropdown(!showLoginDropdown)}>
+                <FaUser className="btn-icon" /> Login
+              </button>
+              {showLoginDropdown && (
+                <ul className="dropdown-menu">
+                  <li onClick={() => alert("Go to Profile")}>Profile</li>
+                  <li>
+                    <button onClick={toggleTheme} className="theme-switch">
+                      Switch to {theme === 'dark' ? 'Light' : 'Dark'} Mode
+                    </button>
+                  </li>
+                </ul>
+              )}
+            </div>
+          </div>
+        )}
       </div>
 
-      {/* Delivery Address with City Dropdown */}
-      <div className="delivery">
+      {/* Delivery Location */}
+      <div className={`delivery ${showMobileMenu ? 'hide-on-mobile' : ''}`}>
         <FaMapMarkerAlt className="icon-map" />
         <div className="delivery-text">
           <span className="deliver-to">Delivery to</span>
@@ -75,31 +106,33 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Nav Buttons */}
-      <div className="nav-buttons">
-        <button className="btn gray-btn search-btn">
-          <FaSearch className="btn-icon" /> Search
-        </button>
-        <button className="btn sky-blue">My Venues</button>
-        <button className="btn gray-btn">
-          <MdLocalOffer className="btn-icon" /> Offers
-        </button>
-
-        {/* Login Dropdown */}
-        <div className="dropdown-wrapper">
-          <button className="btn gray-btn" onClick={() => setShowLoginDropdown(!showLoginDropdown)}>
-            <FaUser className="btn-icon" /> Login
+      {/* Desktop Buttons */}
+      {!showMobileMenu && (
+        <div className="nav-buttons desktop-only">
+          <button className="btn search-btn">
+            <FaSearch className="btn-icon" /> Search
           </button>
-          {showLoginDropdown && (
-            <ul className="dropdown-menu right-align">
-              <li onClick={() => alert("Go to Profile")}>Profile</li>
-              <button onClick={toggleTheme} style={{ margin: '1rem' }}>
-      Switch to {darkMode ? 'Light' : 'Dark'} Mode
-    </button>
-            </ul>
-          )}
+          <button className="btn sky-blue">My Venues</button>
+          <button className="btn">
+            <MdLocalOffer className="btn-icon" /> Offers
+          </button>
+          <div className="dropdown-wrapper">
+            <button className="btn" onClick={() => setShowLoginDropdown(!showLoginDropdown)}>
+              <FaUser className="btn-icon" /> Login
+            </button>
+            {showLoginDropdown && (
+              <ul className="dropdown-menu right-align">
+                <li onClick={() => alert("Go to Profile")}>Profile</li>
+                <li>
+                  <button onClick={toggleTheme} className="theme-switch">
+                    Switch to {theme === 'dark' ? 'Light' : 'Dark'} Mode
+                  </button>
+                </li>
+              </ul>
+            )}
+          </div>
         </div>
-      </div>
+      )}
     </nav>
   );
 };
