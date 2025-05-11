@@ -1,0 +1,159 @@
+.reviews-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 30px;
+  font-family: "Poppins", sans-serif;
+  justify-content: center;
+  height: 100vh;
+  align-items: center;
+}
+
+.review-box {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 20px;
+  width: 30%;
+  min-width: 250px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 35%;
+}
+
+.review-box h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.optional {
+  font-weight: 400;
+  font-size: 14px;
+  color: gray;
+}
+
+.stars {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+textarea {
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 10px;
+  resize: none;
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+
+.submit-btn {
+  background-color: #2661d3;
+  color: white;
+  border: none;
+  padding: 10px 30px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+  transition: 0.2s ease-in-out;
+}
+
+.submit-btn:hover {
+  background-color: #1f4db8;
+}
+
+.preview-image {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  margin: 15px 0;
+  object-fit: cover;
+}
+
+.page-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full screen height */
+  background-color: #f9f9f9; /* Optional */
+}
+
+/* Tablet devices (≤1024px) */
+@media screen and (max-width: 1024px) {
+  .reviews-container {
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 20px;
+    height: auto;
+  }
+
+  .review-box {
+    width: 45%;
+    height: auto;
+  }
+
+  textarea {
+    font-size: 14px;
+  }
+}
+
+/* Mobile devices (≤768px) */
+@media screen and (max-width: 768px) {
+  .reviews-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 25px;
+    padding: 20px;
+    height: auto;
+  }
+
+  .review-box {
+    width: 90%;
+    padding: 20px;
+    height: auto;
+  }
+
+  .stars {
+    gap: 5px;
+  }
+
+  .submit-btn {
+    width: 100%;
+    padding: 12px 0;
+    font-size: 15px;
+  }
+
+  textarea {
+    font-size: 14px;
+    padding: 10px;
+    min-height: 100px;
+  }
+}
+
+/* Small mobile (≤480px) */
+@media screen and (max-width: 480px) {
+  .review-box {
+    width: 100%;
+    padding: 16px;
+  }
+
+  .review-box h3 {
+    font-size: 16px;
+  }
+
+  .submit-btn {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  textarea {
+    font-size: 13px;
+    padding: 8px;
+  }
+}

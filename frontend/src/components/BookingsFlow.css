@@ -1,0 +1,152 @@
+* {
+    font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+    font-weight: 400;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  .playgroundsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    padding: 20px;
+    background: #f9f9f9;
+    min-height: 100vh;
+  }
+  
+  .bookingsContainer {
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: row;
+    width: 440px;
+    padding: 20px 20px 5px 20px;
+    border-radius: 30px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+  }
+  
+  .bookingsContainer:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+  }
+  
+  .firstpart {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .ratingpart {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .staricon {
+    color: goldenrod;
+  }
+  
+  .starnumber {
+    font-size: 14px;
+    font-weight: 500;
+    margin-left: 5px;
+  }
+  
+  .imagesportbox {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .sportimage {
+    width: 100%;
+    max-width: 180px;
+    object-fit: contain;
+  }
+  
+  .secondpart {
+    width: 50%;
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .secondpart h2,
+  .secondpart p,
+  .secondpart button {
+    margin-bottom: 10px;
+  }
+  
+  .headingsports {
+    font-size: 24px;
+    font-weight: 700;
+    color: #000;
+    letter-spacing: 0.5px;
+  }
+  
+  .sportname {
+    font-size: 14px;
+    font-weight: 400;
+    color: gray;
+    letter-spacing: 0.5px;
+  }
+  
+  .ageplayers {
+    font-size: 13px;
+    font-weight: 400;
+    color: #333;
+    letter-spacing: 0.5px;
+  }
+  
+  .location {
+    font-size: 12px;
+    font-weight: 400;
+    color: #666;
+    letter-spacing: 0.5px;
+  }
+  
+  .entryfees {
+    font-size: 16px;
+    font-weight: 600;
+    color: #000;
+    letter-spacing: 0.5px;
+  }
+  
+  .buttonbook {
+    background-color: #397cc0;
+    width: 100px;
+    height: 36px;
+    border: none;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: auto;
+    align-self: self-end;
+    margin-right: 20px;
+  }
+  
+  .buttonbook:hover {
+    background-color: #2f64a1;
+  }
+  
+  .booktext {
+    font-size: 14px;
+    font-weight: 600;
+    color: #ffffff;
+    letter-spacing: 0.5px;
+  }
+  
+  .iconupright {
+    background-color: #bad1e9;
+    padding: 5px;
+    border-radius: 50%;
+    font-size: 16px;
+  }
+  
