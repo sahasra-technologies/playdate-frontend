@@ -13,6 +13,16 @@
   z-index: 1000;
 }
 
+.modern-footer.light {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.modern-footer.dark {
+  background-color: #121212;
+  color: #ffffff;
+}
+
 .footer-text {
   font-size: 0.875rem;
   color: #6b7280;

@@ -1,0 +1,134 @@
+.venue-details-wrapper {
+  position: relative;
+  padding: 24px;
+  max-width: 1000px;
+  margin: 40px auto;
+  font-family: 'Segoe UI', sans-serif;
+  /* background-color: #fff; */
+  box-sizing: border-box;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e0e0e0;
+}
+.venue-details-wrapper.light {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.venue-details-wrapper.dark {
+  background-color: #121212;
+  color: #ffffff;
+}
+
+
+
+
+.back-btn {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  background: #0074cc;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  z-index: 10;
+  transition: background 0.3s;
+}
+
+.back-btn:hover {
+  background: #005fa3;
+}
+
+.top-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.main-img {
+  flex: 1;
+  width: 100%;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.details-section {
+  flex: 2;
+  display: flex;
+  align-items: center;
+}
+
+.details-header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.details-header h1 {
+  margin: 0;
+  font-size: 1.8rem;
+}
+
+.game-name {
+  font-size: 1rem;
+  color: #666;
+}
+
+.get-directions {
+  background-color: #0074cc;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 5px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+}
+
+.get-directions:hover {
+  background-color: #005fa3;
+}
+
+.section {
+  margin-bottom: 24px;
+}
+
+.section h2 {
+  font-size: 1.3rem;
+  margin-bottom: 6px;
+}
+
+.section p {
+  font-size: 1rem;
+  color: #333;
+  line-height: 1.5;
+}
+
+.book-button {
+  margin-top: 20px;
+  background-color: #3c4bf4;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  font-size: 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.book-button:hover {
+  background-color: #4b6eee;
+}
+
+.loading-msg,
+.error-msg {
+  text-align: center;
+  margin-top: 40px;
+  font-size: 1.2rem;
+  color: #555;
+}

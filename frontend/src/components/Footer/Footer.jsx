@@ -1,9 +1,11 @@
-import React from 'react';
+import React, {useContext} from 'react';
+import { ThemeContext } from '../../context/ThemeContext';
 import './Footer.css';
 
 const Footer = () => {
+  const { theme } = useContext(ThemeContext);
   return (
-    <footer className="modern-footer">
+    <footer className={`modern-footer ${theme}`}>
 
   {/* Footer bottom content: text + icons */}
   <div className="footer-bottom">

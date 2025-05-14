@@ -1,7 +1,9 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { FaUser, FaMapMarkerAlt, FaSearch, FaChevronDown } from 'react-icons/fa';
+import { FaUser, FaMapMarkerAlt, FaSearch, FaChevronDown, FaBars } from 'react-icons/fa';
 import { MdLocalOffer } from 'react-icons/md';
-import { ThemeContext } from '../../context/ThemeContext'; // Adjust if path differs
+import { ThemeContext } from '../../context/ThemeContext';
+import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 import './Navbar.css';
 
 const majorCities = [
@@ -13,7 +15,18 @@ const Navbar = () => {
   const [location, setLocation] = useState('Fetching location...');
   const [showCityDropdown, setShowCityDropdown] = useState(false);
   const [showLoginDropdown, setShowLoginDropdown] = useState(false);
-  const { darkMode, toggleTheme } = useContext(ThemeContext);
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const { theme, toggleTheme } = useContext(ThemeContext);
+
+  const navigate = useNavigate();
+
+
+  useEffect(() => {
+      const token = Cookies.get("access");
+      if (!token) {
+        navigate("/");
+      }
+    }, [navigate]);
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -49,14 +62,46 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="navbar">
-      {/* Logo Image */}
-      <div className="nav-logo">
-        <img src="/src/assets/images/image.png" alt="Logo" className="logo-image" />
+    <nav className="navbar" data-theme={theme}>
+      {/* Logo + Menu Icon */}
+      <div className="nav-logo-wrapper">
+        <div className="nav-logo" onClick={() => navigate("/tournaments")}>
+          <img src="/src/assets/images/image.png" alt="Logo" className="logo-image" />
+           {/* <FaBars className="menu-icon" /> */}
+        </div>
+
+        {showMobileMenu && (
+          <div className="mobile-dropdown">
+            <FaBars className="menu-icon" />
+            <button className="btn search-btn">
+              
+              <FaSearch className="btn-icon" /> Search
+            </button>
+            <button className="btn sky-blue">My Venues</button>
+            <button className="btn">
+              <MdLocalOffer className="btn-icon" /> Offers
+            </button>
+            <div className="mobile-login">
+              <button className="btn" onClick={() => setShowLoginDropdown(!showLoginDropdown)}>
+                <FaUser className="btn-icon" /> Profile
+              </button>
+              {showLoginDropdown && (
+                <ul className="dropdown-menu">
+                  <li onClick={() => alert("Go to Profile")}>User Profile</li>
+                  <li>
+                    <button onClick={toggleTheme} className="theme-switch">
+                      Switch to {theme === 'dark' ? 'Light' : 'Dark'} Mode
+                    </button>
+                  </li>
+                </ul>
+              )}
+            </div>
+          </div>
+        )}
       </div>
 
-      {/* Delivery Address with City Dropdown */}
-      <div className="delivery">
+      {/* Delivery Location */}
+      <div className={`delivery ${showMobileMenu ? 'hide-on-mobile' : ''}`}>
         <FaMapMarkerAlt className="icon-map" />
         <div className="delivery-text">
           <span className="deliver-to">Delivery to</span>
@@ -75,31 +120,40 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Nav Buttons */}
-      <div className="nav-buttons">
-        <button className="btn gray-btn search-btn">
-          <FaSearch className="btn-icon" /> Search
-        </button>
-        <button className="btn sky-blue">My Venues</button>
-        <button className="btn gray-btn">
-          <MdLocalOffer className="btn-icon" /> Offers
-        </button>
-
-        {/* Login Dropdown */}
-        <div className="dropdown-wrapper">
-          <button className="btn gray-btn" onClick={() => setShowLoginDropdown(!showLoginDropdown)}>
-            <FaUser className="btn-icon" /> Login
+      {/* Desktop Buttons */}
+      {!showMobileMenu && (
+        <div className="nav-buttons desktop-only">
+          <button className="btn search-btn">
+            <FaSearch className="btn-icon" /> Search
           </button>
-          {showLoginDropdown && (
-            <ul className="dropdown-menu right-align">
-              <li onClick={() => alert("Go to Profile")}>Profile</li>
-              <button onClick={toggleTheme} style={{ margin: '1rem' }}>
-      Switch to {darkMode ? 'Light' : 'Dark'} Mode
-    </button>
-            </ul>
-          )}
+          <button className="btn sky-blue">My Venues</button>
+          <button className="btn">
+            <MdLocalOffer className="btn-icon" /> Offers
+          </button>
+          <div className="dropdown-wrapper">
+            <button className="btn" onClick={() => setShowLoginDropdown(!showLoginDropdown)}>
+              <FaUser className="btn-icon" />Profile
+            </button>
+            {showLoginDropdown && (
+              <div className="dropdown-menu right-align">
+                <li onClick={() => alert("Go to Profile")}>User Profile</li>
+                <div>
+                  <button onClick={toggleTheme} className="theme-switch">
+                     {theme === 'dark' ? 'Light' : 'Dark'} Mode
+                  </button>
+                </div> 
+                  <button onClick={() => {
+                          Cookies.remove("access");
+                          Cookies.remove("refresh");
+                          navigate("/");
+                        }}>
+                          Logout
+                  </button>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
+      )}
     </nav>
   );
 };
