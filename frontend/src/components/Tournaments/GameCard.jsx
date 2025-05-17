@@ -1,4 +1,3 @@
-// src/components/Tournaments/GameCard.jsx
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './GameCard.css';
@@ -6,9 +5,8 @@ import './GameCard.css';
 const GameCard = ({ game }) => {
   const navigate = useNavigate();
 
-  // Navigate with full game object via state
   const handleCardClick = (tab) => {
-    navigate(`/game/${game.id}?tab=${tab}`, { state: game });
+    navigate(`/game/${game.id}?tab=${tab}`);
   };
 
   return (

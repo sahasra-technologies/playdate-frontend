@@ -3,6 +3,23 @@
   background: linear-gradient(to bottom, #b9d9f9, #dce3ec);
   min-height: 100vh;
 }
+.back-button {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  cursor: pointer;
+  background-color: #f0f0f0;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: bold;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.2s;
+  z-index: 1000;
+}
+
+.back-button:hover {
+  background-color: #e0e0e0;
+}
 
 .details-container {
   max-width: 1200px;
@@ -93,7 +110,7 @@
 }
 
 .venue-card img {
-  width: 100%;
+  width: 110%;
   height: 290px;
   object-fit: cover;
   display: block;

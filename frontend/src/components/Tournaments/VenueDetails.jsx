@@ -1,99 +1,88 @@
-import React, { useState, useEffect, useContext } from 'react';
+// VenueDetails.jsx
+import React, { useContext } from 'react';
 import './VenueDetails.css';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { ThemeContext } from '../../context/ThemeContext';
-import GameSchedule from '../Tournaments/GameVenue/GameSchedule';
-import GameTournamentRules from './GameVenue/GameTournamentRules';
-
-const WS_URL = 'ws://157.173.195.249:8000/tournaments';
+import { useGame } from '../../context/GameContext';
+import { Navigation, ArrowLeft } from 'lucide-react';
+import gameImg from '../../assets/Venues/gamelogo.png';
 
 const VenueDetails = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const { theme } = useContext(ThemeContext);
-  const [game, setGame] = useState(null);
-  const [tournaments, setTournaments] = useState([]);
-  const [wsError, setWsError] = useState(false);
+  const { ground, game } = useGame();
 
-  // Establish WebSocket connection
-  useEffect(() => {
-    const socket = new WebSocket(WS_URL);
+  const user = true;
 
-    socket.onopen = () => {
-      console.log('✅ WebSocket connected');
-      setWsError(false);
-    };
-
-    socket.onmessage = (event) => {
-      try {
-        const msg = JSON.parse(event.data);
-        if (msg.action === 'initial' && Array.isArray(msg.data)) {
-          setTournaments(msg.data);
-        }
-      } catch (err) {
-        console.error('❌ WebSocket parsing error:', err);
-      }
-    };
-
-    socket.onerror = (error) => {
-      console.error('❌ WebSocket error:', error);
-      setWsError(true);
-    };
-
-    socket.onclose = () => {
-      console.warn('⚠️ WebSocket disconnected.');
-    };
-
-    return () => socket.close();
-  }, []);
-
-  // Set current game from URL param
-  useEffect(() => {
-    if (tournaments.length > 0) {
-      const selectedGame = tournaments.find((g) => g.id === id);
-      setGame(selectedGame);
+  const handleBack = () => navigate(-1);
+  const handleBooking = () => {
+    if (user) alert('✅ Proceeding to booking...');
+    else {
+      alert('⚠️ Please log in to book a slot.');
+      navigate('/login');
     }
-  }, [tournaments, id]);
+  };
 
-  if (wsError) return <p className="error-msg">WebSocket connection failed. Try again later.</p>;
-  if (!game) return <p className="loading-msg">Loading venue details...</p>;
+  if (!ground) return <p className="error-msg">❌ No venue data found.</p>;
+
+  const location = ground.location || ground.address || 'N/A';
+  const mainImage = game?.images?.[0]?.url || gameImg;
 
   return (
     <div className={`venue-details-wrapper ${theme}`}>
-      <h2>{game.name} - Venue & Rules</h2>
+      <button className="back-btn" onClick={handleBack}>
+        <ArrowLeft size={22} /> Back
+      </button>
 
-      <div className="venue-description">
-        <p>{game.about}</p>
+      <div className="top-section">
+        <img src={mainImage} alt="ground" className="main-img" />
+        <div className="details-section">
+          <div className="details-header">
+            <div>
+              <h1>{ground.ground_name}</h1>
+              <p className="game-name">{ground.name || 'N/A'}</p>
+            </div>
+            <a
+              href={`https://maps.google.com/?q=${encodeURIComponent(location)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="get-directions"
+            >
+              Get Directions <Navigation size={14} />
+            </a>
+          </div>
+        </div>
       </div>
 
-      {/* Clickable Image Gallery to switch game */}
-      <div className="venue-images-gallery">
-        {tournaments.map((g) => (
-          <div
-            className="venue-img-card"
-            key={g.id}
-            onClick={() => setGame(g)}
-            style={{ cursor: 'pointer' }}
-          >
-            <img src={g.images?.main_image} alt={g.name} />
-            <div className="img-caption">
-              {g.name} <span style={{ marginLeft: '8px' }}>➤</span>
-            </div>
+      <div className="section"><h2>About</h2><p>{ground.description || 'No description available.'}</p></div>
+
+      <div className="section">
+        <h2>Slot Time</h2>
+        {ground.maintenanceSchedule?.map((slot, idx) => (
+          <div key={idx} className="maintance-schedule">
+            <p>Days: {slot.days.join(', ')}</p>
+            <p>Start: {slot.startTime}</p>
+            <p>End: {slot.endTime}</p>
           </div>
         ))}
       </div>
 
-      {/* Split Section for Schedule and Rules */}
-      <div className="venue-split-section">
-        <div className="venue-schedule">
-          <h3>📅 Match Schedule</h3>
-          <GameSchedule schedule={game.schedule} />
-        </div>
-
-        <div className="venue-rules">
-          <h3>📜 Tournament Rules</h3>
-          <GameTournamentRules rules={game.rules} />
-        </div>
+      <div className="section">
+        <h2>Amenities</h2>
+        <ul className="amenities-list">
+          {ground.amenities?.map((a, i) => <li key={i}>{a},</li>)}
+        </ul>
       </div>
+
+      <div className="section"><h2>Location</h2><p>{ground.address || 'N/A'}</p></div>
+      <div className="section"><h2>Ground Timings</h2><p>{ground.Created || 'N/A'}</p></div>
+
+      {user && (
+        <button className="book-button" onClick={handleBooking}>
+          Book Slot
+        </button>
+      )}
     </div>
   );
 };

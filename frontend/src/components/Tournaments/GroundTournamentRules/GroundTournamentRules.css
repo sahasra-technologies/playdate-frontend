@@ -1,0 +1,45 @@
+.tournament-rules-container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 24px;
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme='dark'] .tournament-rules-container,
+.dark .tournament-rules-container {
+  background-color: #1f2937;
+  color: #f9fafb;
+}
+
+.heading-section {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.heading-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+[data-theme='dark'] .heading-title,
+.dark .heading-title {
+  color: #f9fafb;
+}
+
+.rules-content {
+  font-size: 16px;
+  line-height: 1.8;
+  color: #374151;
+}
+
+[data-theme='dark'] .rules-content,
+.dark .rules-content {
+  color: #e5e7eb;
+}
+
+.rules-content p {
+  margin-bottom: 12px;
+}

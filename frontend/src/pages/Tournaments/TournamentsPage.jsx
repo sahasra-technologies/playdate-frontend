@@ -5,40 +5,83 @@ import './TournamentsPage.css';
 const TournamentPage = () => {
   const navigate = useNavigate();
   const [tournamentData, setTournamentData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [webSocketLoading, setWebSocketLoading] = useState(true);
+  let ws;
 
-  const connectWebSocket = () => {
-    const ws = new WebSocket('ws://157.173.195.249:8000/tournaments');
+  useEffect(() => {
+    setIsLoading(true);
+    setWebSocketLoading(true);
+
+    ws = new WebSocket('ws://157.173.195.249:8000/tournaments');
 
     ws.onopen = () => {
       console.log('✅ WebSocket connected');
+      setWebSocketLoading(false);
     };
 
     ws.onmessage = (event) => {
+      setIsLoading(true);
       try {
         const payload = JSON.parse(event.data);
         console.log('📩 WebSocket data:', payload);
-
-        if (payload.action === 'initial' && Array.isArray(payload.data)) {
-          setTournamentData(payload.data);
-        }
+        handleWebSocketAction(payload);
       } catch (error) {
         console.error('❌ Failed to parse WebSocket data:', error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
     ws.onerror = (error) => {
       console.error('❌ WebSocket error:', error);
+      setWebSocketLoading(false);
     };
 
     ws.onclose = (e) => {
       console.log('🔌 WebSocket closed. Reconnecting in 3s...', e.reason);
-      setTimeout(connectWebSocket, 3000);
+      setTimeout(() => connectWebSocket(), 3000);
     };
+
+    return () => {
+      if (ws) ws.close();
+    };
+  }, []);
+
+  const connectWebSocket = () => {
+    ws = new WebSocket('ws://157.173.195.249:8000/tournaments');
   };
 
-  useEffect(() => {
-    connectWebSocket();
-  }, []);
+  const handleWebSocketAction = (message) => {
+    switch (message.action) {
+      case 'initial':
+        if (Array.isArray(message.data)) {
+          setTournamentData(message.data);
+        }
+        break;
+
+      case 'create':
+        setTournamentData((prev) => [...prev, message.data]);
+        break;
+
+      case 'update':
+        setTournamentData((prev) =>
+          prev.map((item) =>
+            item.id === message.data.id ? { ...item, ...message.data } : item
+          )
+        );
+        break;
+
+      case 'delete':
+        setTournamentData((prev) =>
+          prev.filter((item) => item.id !== message.data.id)
+        );
+        break;
+
+      default:
+        console.warn('⚠️ Unhandled WebSocket action:', message.action);
+    }
+  };
 
   const handleCardClick = (gameId) => {
     navigate(`/tournaments/${gameId}`);
@@ -50,6 +93,9 @@ const TournamentPage = () => {
       <div className="tournament-container">
         <h1 className="sub-heading">PICK YOUR GAME</h1>
         <p className="sub-title">PICK YOUR GAME</p>
+
+        {webSocketLoading && <p>Connecting to server...</p>}
+        {isLoading && <p>Loading tournaments...</p>}
 
         <div className="game-grid">
           {tournamentData.length > 0 ? (
