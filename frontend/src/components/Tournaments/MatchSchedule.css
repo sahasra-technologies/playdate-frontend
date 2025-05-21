@@ -1,148 +1,18 @@
-/* Root styling for light/dark themes */
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #ffffff;
-    color: #1a1a1a;
-    margin: 0;
-    padding: 0;
-  }
-  
-  [data-theme='dark'] body,
-  .dark body {
-    background-color: #111827;
-    color: #f1f5f9;
-  }
-  
-  .match-schedule-container {
-    max-width: 800px;
-    margin: 40px auto;
-    padding: 24px;
-    background-color: #ffffff;
-    border-radius: 16px;
-    box-shadow: 5px 5px 10px rgba(128, 128, 128, 0.2);
-  }
-  
-  [data-theme='dark'] .match-schedule-container,
-  .dark .match-schedule-container {
-    background-color: #1f2937;
-    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.5);
-  }
-  
-  .top-section {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-  }
-  
-  .top-section img {
-    width: 96px;
-    height: 96px;
-    object-fit: cover;
-    border-radius: 8px;
-    box-shadow: 2px 2px 6px rgba(100, 100, 100, 0.3);
-  }
-  
-  .details-section {
-    flex: 1;
-    margin-left: 16px;
-  }
-  
-  .details-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: start;
-  }
-  
-  .details-header h1 {
-    font-size: 24px;
-    font-weight: 700;
-    margin: 0;
-  }
-  
-  .details-header .game-name {
-    font-size: 14px;
-    color: #6b7280;
-    margin-top: 4px;
-  }
-  
-  [data-theme='dark'] .game-name,
-  .dark .game-name {
-    color: #9ca3af;
-  }
-  
-  .get-directions {
-    color: #2563eb;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    font-size: 14px;
-    gap: 4px;
-  }
-  
-  .get-directions:hover {
-    text-decoration: underline;
-  }
-  
-  /* Section blocks */
-  .section {
-    margin-top: 24px;
-  }
-  
-  .section h2 {
-    font-size: 18px;
-    font-weight: 600;
-    margin-bottom: 4px;
-  }
-  
-  .section p {
-    font-size: 14px;
-    color: #4b5563;
-    margin: 0;
-  }
-  
-  [data-theme='dark'] .section p,
-  .dark .section p {
-    color: #d1d5db;
-  }
-  
-  /* Book Slot Button */
-  .book-button {
-    width: 100%;
-    background-color: #2563eb;
-    color: white;
-    padding: 12px;
-    font-size: 16px;
-    border: none;
-    border-radius: 12px;
-    margin-top: 24px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .book-button:hover {
-    background-color: #1d4ed8;
-  }
-  
-  .get-directions{
-     display: flex;
-     flex-wrap: wrap;
-  }
-  .get-directions {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-weight: 500;
-    color: var(--primary-text, #007bff); /* fallback blue text */
-    text-decoration: none;
-  }
-  
-  .nav-icon-bg {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #007bff; /* blue background */
-    color: white;              /* icon color */
-    border-radius: 50%;
-    padding: 6px;
-  }
-  
+/* MatchSchedule.css */
+.match-schedule-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 16px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+.match-schedule-image {
+  max-width: 100;
+  height: auto;
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+

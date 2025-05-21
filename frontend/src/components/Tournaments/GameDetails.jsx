@@ -1,118 +1,103 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { FaLightbulb, FaCalendarAlt, FaChevronRight } from 'react-icons/fa';
 import { FcRules } from 'react-icons/fc';
 import { ThemeContext } from '../../context/ThemeContext';
-import MatchSchedule from './MatchSchedule';
-import TournamentsRules from './TournamentRules';
-import './GameDetails.css';
+import { useGame } from '../../context/GameContext';
+// import GroundMatchSchedule from './MatchSchedule';
+import GroundTournamentRules from './GroundTournamentRules/GroundTournamentRules';
+import axios from 'axios';
 import Cookies from 'js-cookie';
+import './GameDetails.css';
+import defaultVenueImage from '../../assets/Tournment/sahasra.png'; 
+import MatchSchedule from './MatchSchedule';
 
-const WS_URL = 'ws://157.173.195.249:8000/tournaments';
+const API_URL = 'http://157.173.195.249:8000/Tournament/tournaments/';
 
 const GameDetailsPage = () => {
   const { id } = useParams();
-  const [tournaments, setTournaments] = useState([]);
-  const [activeTab, setActiveTab] = useState('venue');
-  const [showDetailsBelowCard, setShowDetailsBelowCard] = useState(false);
-  const { theme } = useContext(ThemeContext);
-  const [game, setGame] = useState(null);
-  const [wsError, setWsError] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const { theme } = useContext(ThemeContext);
+  const { game, setGame, setGround } = useGame();
+
+  const [activeTab, setActiveTab] = useState('venue');
+
+useEffect(() => {
+  const queryParams = new URLSearchParams(location.search);
+  const currentTab = queryParams.get('tab') || 'venue';
+  setActiveTab(currentTab);
+}, [location.search]);
+
+  const [grounds, setGrounds] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    const token = Cookies.get("access");
+    const token = Cookies.get('access');
     if (!token) {
-      navigate("/"); 
+      navigate('/');
     }
   }, [navigate]);
 
-  const connectWebSocket = () => {
-    const socket = new WebSocket(WS_URL);
-
-    socket.onopen = () => {
-      console.log('✅ WebSocket connected');
-      setWsError(false);
-    };
-
-    socket.onmessage = (event) => {
+  useEffect(() => {
+    const fetchGameDetails = async () => {
       try {
-        const msg = JSON.parse(event.data);
-        if (msg.action === 'initial' && Array.isArray(msg.data)) {
-          setTournaments(msg.data);
-        }
+        const response = await axios.post(API_URL, { id }, {
+          headers: { 'Content-Type': 'application/json' }
+        });
+
+        const fetchedGrounds = response.data.ground || [];
+        setGrounds(fetchedGrounds);
+        setGame({ id, ...response.data });
       } catch (err) {
-        console.error('❌ WebSocket parsing error:', err);
+        console.error('API fetch error: ', err);
+        setError('Failed to fetch tournament data.');
+      } finally {
+        setLoading(false);
       }
     };
 
-    socket.onerror = (error) => {
-      console.error('❌ WebSocket error:', error);
-      setWsError(true);
-    };
+    if (id) fetchGameDetails();
+  }, [id, setGame]);
 
-    socket.onclose = () => {
-      console.warn('⚠️ WebSocket disconnected. Reconnecting in 3s...');
-      setTimeout(connectWebSocket, 3000);
-    };
-
-    return socket;
+  const handleVenueClick = (ground) => {
+    setGround(ground);
+    navigate(`/venue/${ground.id}`);
   };
 
-  useEffect(() => {
-    const socket = connectWebSocket();
-    return () => socket.close();
-  }, []);
-
-  useEffect(() => {
-    if (tournaments.length > 0) {
-      const selectedGame = tournaments.find((g) => g.id === id);
-      setGame(selectedGame);
-    }
-  }, [tournaments, id]);
-
-  const handleVenueClick = () => {
-    setShowDetailsBelowCard(true);
+  const updateTab = (tabName) => {
+    setActiveTab(tabName);
+    navigate(`/tournaments/${id}?tab=${tabName}`, { replace: true });
   };
 
-  const handleIconClick = () => {
-    navigate(`/venue/${id}`);
-  };
-
-  if (wsError) return <p style={{ color: 'red' }}>WebSocket connection failed. Please try again later.</p>;
-  if (!game) return <p>Loading game details...</p>;
+  if (loading) return <p>Loading game details...</p>;
+  if (error) return <div>{error}</div>;
+  if (!grounds.length) return <div>No grounds found.</div>;
 
   return (
     <div className="page-wrapper">
       <div className={`details-container ${theme}`}>
-        <h1>{game.name}</h1>
+        <h1>{game?.name || 'Game Details'}</h1>
 
+        {/* Tabs */}
         <div className="tab-buttons">
-          <button
-            onClick={() => setActiveTab('venue')}
-            className={activeTab === 'venue' ? 'active' : ''}
-          >
+          <button onClick={() => updateTab('venue')} className={activeTab === 'venue' ? 'active' : ''}>
             <div className="tab-icon"><FaLightbulb /></div>
             <div>
               Venue Details
               <small>Stadium & surroundings</small>
             </div>
           </button>
-          <button
-            onClick={() => setActiveTab('schedule')}
-            className={activeTab === 'schedule' ? 'active' : ''}
-          >
-            <FaCalendarAlt className="tab-icon" />
+          <button onClick={() => updateTab('schedule')} className={activeTab === 'schedule' ? 'active' : ''}>
+            <div className="tab-icon"><FaCalendarAlt /></div>
             <div>
               Match Schedule
               <small>Check game dates</small>
             </div>
           </button>
-          <button
-            onClick={() => setActiveTab('rules')}
-            className={activeTab === 'rules' ? 'active' : ''}
-          >
-            <FcRules className="tab-icon" />
+          <button onClick={() => updateTab('rules')} className={activeTab === 'rules' ? 'active' : ''}>
+            <div className="tab-icon"><FcRules /></div>
             <div>
               Tournament Rules
               <small>Guidelines & rules</small>
@@ -120,53 +105,51 @@ const GameDetailsPage = () => {
           </button>
         </div>
 
+        {/* Tab Content */}
         <div className="tab-content">
           {activeTab === 'venue' && (
             <div className="venue-section">
-              {game.images?.main_image && (
-                <div className="venue-images-grid">
-                  {[...Array(5)].map((_, rowIndex) => (
+              <div className="venue-grid">
+                {grounds.map((ground) => {
+                  let imageUrl = defaultVenueImage;
+                  if (Array.isArray(ground.images) && ground.images.length > 0 && ground.images[0].url) {
+                    imageUrl = ground.images[0].url;
+                  } else if (ground.images?.url) {
+                    imageUrl = ground.images.url;
+                  }
+
+                  return (
                     <div
-                      key={rowIndex}
+                      key={ground.id}
                       className="venue-card"
-                      onClick={handleVenueClick}
-                      style={{ cursor: 'pointer' }}
+                      onClick={() => handleVenueClick(ground)}
                     >
-                      <img src={game.images.main_image} alt={`venue`} />
-                      <div className="venue-label">
-                        {game.name} {rowIndex + 1}
-                        <div className="venue-time"> {game.price} </div>
-                      </div>
-                      <div
-                        className="go-to-icon"
+                      <button
                         onClick={(e) => {
-                          e.stopPropagation(); // To prevent triggering parent click
-                          handleIconClick();
+                          e.stopPropagation();
+                          navigate(-1);
                         }}
-                        style={{ cursor: 'pointer' }}
+                        className="card-back-button"
                       >
-                        <FaChevronRight />
+                        ⬅
+                      </button>
+
+                      <img src={imageUrl} alt="Venue" />
+
+                      <div className="venue-label">
+                        {ground.ground_name || 'Unknown Ground'}
+                        <div className="venue-time">{ground.address || 'Unknown Address'}</div>
                       </div>
+                      <div className="go-to-icon"><FaChevronRight /></div>
                     </div>
-                  ))}
-                </div>
-              )}
-
-              {showDetailsBelowCard && (
-                <div className="split-view" style={{ marginTop: '2rem' }}>
-                  <div className="left-pane"><MatchSchedule /></div>
-                  <div className="right-pane"><TournamentsRules /></div>
-                </div>
-              )}
+                  );
+                })}
+              </div>
             </div>
           )}
 
-          {(activeTab === 'schedule' || activeTab === 'rules') && (
-            <div className="split-view">
-              <div className="left-pane"><MatchSchedule /></div>
-              <div className="right-pane"><TournamentsRules /></div>
-            </div>
-          )}
+          {activeTab === 'schedule' && <MatchSchedule  id={id}/>}
+          {activeTab === 'rules' && <GroundTournamentRules id={id} />}
         </div>
       </div>
     </div>

@@ -1,0 +1,117 @@
+.venue-layout-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px;
+  background-color: #f9f9f9;
+}
+
+/* Tab Buttons */
+.tab-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+
+.tab-buttons button {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background-color: #fff;
+  border: 2px solid #ccc;
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.tab-buttons button:hover {
+  border-color: #007bff;
+  background-color: #f0f8ff;
+}
+
+.tab-buttons button.active {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+.tab-buttons small {
+  display: block;
+  font-size: 12px;
+  font-weight: normal;
+  color: #666;
+}
+
+.tab-icon {
+  font-size: 20px;
+}
+
+/* Card Container Below Tabs */
+.venue-tab-content {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 32px;
+  width: 100%;
+}
+
+/* Venue & Rules Cards */
+.venue-card,
+.rules-card {
+  flex: 1 1 400px;
+  max-width: 1200px;
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 24px;
+    min-height: 200px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+  .venue-layout-wrapper {
+    padding: 24px;
+  }
+
+  .venue-tab-content {
+    gap: 24px;
+  }
+
+  .venue-card,
+  .rules-card {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .venue-layout-wrapper {
+    padding: 16px;
+  }
+
+  .venue-card,
+  .rules-card {
+    padding: 16px;
+  }
+
+  .tab-buttons {
+    gap: 10px;
+    margin-bottom: 24px;
+  }
+
+  .tab-buttons button {
+    padding: 10px 16px;
+    font-size: 14px;
+    flex: 1 1 auto;
+  }
+
+  .tab-icon {
+    font-size: 18px;
+  }
+}
