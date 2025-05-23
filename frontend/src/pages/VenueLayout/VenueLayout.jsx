@@ -9,7 +9,7 @@ import { FcRules } from 'react-icons/fc';
 import MatchSchedule from '../../components/Tournaments/MatchSchedule';
 import './VenueLayout.css';
 
-const VenueLayout = () => {
+const VenueLayout = ({ setIsLoading }) => {
   const { id } = useParams();
   const [activeTab, setActiveTab] = useState('venue');
 
@@ -63,13 +63,13 @@ const VenueLayout = () => {
 
         {activeTab === 'schedule' && (
           <div className="rules-card">
-            <MatchSchedule />
+            <MatchSchedule setIsLoading={setIsLoading}/>
           </div>
         )}
 
         {activeTab === 'rules' && (
           <div className="rules-card">
-            <GroundTournamentRules id={id} />
+            <GroundTournamentRules id={id} setIsLoading={setIsLoading}/>
           </div>
         )}
       </div>

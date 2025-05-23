@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   BrowserRouter,
   Routes,
@@ -24,8 +24,11 @@ import GroundVenueDetails from './components/Tournaments/GroundVenueDetails/Grou
 import GroundTournamentRules from './components/Tournaments/GroundTournamentRules/GroundTournamentRules';
 import VenueDetails from './components/Tournaments/VenueDetails';
 
+import { SpinnerInfinity } from 'spinners-react';
+
 import './App.css';
 
+// 🔄 Layout with Navbar/Footer
 function LayoutWrapper({ children }) {
   const location = useLocation();
   const { theme = 'light' } = useContext(ThemeContext) || {};
@@ -42,6 +45,7 @@ function LayoutWrapper({ children }) {
   );
 }
 
+// ❌ 404 fallback
 const NotFound = () => (
   <div style={{ textAlign: 'center', padding: '50px' }}>
     <h2>404 - Page Not Found</h2>
@@ -49,69 +53,57 @@ const NotFound = () => (
   </div>
 );
 
+// ✅ Main App Component
 function App() {
+  const [isLoading, setIsLoading] = useState(false);
+
   return (
     <BrowserRouter>
+      {/* ✅ Spinner placed above Routes */}
+      {isLoading && (
+        <div className="spinner-overlay">
+          <SpinnerInfinity
+            size={100}
+            thickness={100}
+            speed={100}
+            color="rgb(7, 141, 236)"
+            secondaryColor="rgba(0, 0, 0, 0.1)"
+            style={{
+              position: 'fixed',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              zIndex: 9999,
+            }}
+          />
+        </div>
+      )}
+
       <LayoutWrapper>
         <Routes>
           {/* Public Routes */}
-          <Route path="/" element={<TournamentPage />} />
+          <Route path="/" element={<TournamentPage setIsLoading={setIsLoading} />} />
           <Route path="/login" element={<LoginForm />} />
           <Route path="/reset-password" element={<ResetPassword />} />
-          {/* <Route path="/register" element={<Register />} /> */}
 
-          {/* Protected Routes */}
-          <Route
-            path="/home"
-            element={
-                <Home />
-            }
-          />
-          <Route
-            path="/tournaments/:id"
-            element={
-                <GameDetailsPage />
-            }
-          />
-          <Route
-            path="/venue/:id"
-            element={
-                <VenueLayout />
-            }
-          />
- 
-
-          <Route
-            path="/venue/:id/details"
-            element={
-                <GroundVenueDetails />
-            }
-          />
-          <Route
-            path="/venue/:id/tournament-rules"
-            element={
-                <GroundTournamentRules />
-            }
-          />
-          <Route
-            path="/venue-details/:id"
-            element={
-                <VenueDetails />
-            }
-          />
+          {/* Protected & Other Routes */}
+          <Route path="/home" element={<Home setIsLoading={setIsLoading} />} />
+          <Route path="/tournaments/:id" element={<GameDetailsPage setIsLoading={setIsLoading} />} />
+          <Route path="/venue/:id" element={<VenueLayout setIsLoading={setIsLoading} />} />
+          <Route path="/venue/:id/details" element={<GroundVenueDetails setIsLoading={setIsLoading} />} />
+          <Route path="/venue/:id/tournament-rules" element={<GroundTournamentRules setIsLoading={setIsLoading} />} />
+          <Route path="/venue-details/:id" element={<VenueDetails setIsLoading={setIsLoading} />} />
           <Route
             path="/add-team"
             element={
               <ProtectedRoute>
-                <AddTeamDetails />
+                <AddTeamDetails setIsLoading={setIsLoading} />
               </ProtectedRoute>
             }
           />
+          <Route path="/match-schedule" element={<MatchSchedule setIsLoading={setIsLoading} />} />
 
-          {/* Public Route: Match Schedule */}
-          <Route path="/match-schedule" element={<MatchSchedule />} />
-
-          {/* Catch-all */}
+          {/* 404 fallback */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </LayoutWrapper>

@@ -1,45 +1,43 @@
-// src/pages/TournamentsPage/TournamentPage.jsx
 import React, { useEffect, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { ThemeContext } from '../../context/ThemeContext';
 import './TournamentsPage.css';
 
-const TournamentPage = () => {
+const TournamentPage = ({ setIsLoading }) => {
   const navigate = useNavigate();
   const { theme } = useContext(ThemeContext);
 
   const [tournamentData, setTournamentData] = useState([]);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  // const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [webSocketLoading, setWebSocketLoading] = useState(true);
 
   let ws;
 
- useEffect(() => {
-  const token = Cookies.get("access");
-  if (token) {
-    setIsAuthenticated(true);
-  } else {
-    setIsAuthenticated(true); // not required but makes intent clear
-  }
+  // useEffect(() => {
+  //   const token = Cookies.get("access");
+  //   if (token) {
+  //     setIsAuthenticated(true);
+  //   } else {
+  //     setIsAuthenticated(true); // defaulting to true, adjust as needed
+  //   }
+  // }, []);
+
+  // useEffect(() => {
+  //   if (isAuthenticated) {
+  //     connectWebSocket();
+  //   }
+  // }, [isAuthenticated]);
+
+  useEffect(() => {
+  connectWebSocket();
 }, []);
 
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      connectWebSocket();
-    }
-    else{
-      connectWebSocket();
-    }
-    // return () => {
-    //   if (ws) ws.close();
-    // };
-  }, [isAuthenticated]);
-
   const connectWebSocket = () => {
     setWebSocketLoading(true);
+    setIsLoading(true);
+
     ws = new WebSocket('ws://157.173.195.249:8000/tournaments');
 
     ws.onopen = () => {
@@ -63,6 +61,7 @@ const TournamentPage = () => {
     ws.onerror = (error) => {
       console.error('❌ WebSocket error:', error);
       setWebSocketLoading(false);
+      setIsLoading(false);
     };
 
     ws.onclose = (e) => {
@@ -110,7 +109,7 @@ const TournamentPage = () => {
     navigate("/add-team");
   };
 
-  if (!isAuthenticated) return null;
+  // if (!isAuthenticated) return null;
 
   return (
     <div className={`main-container ${theme}`}>
@@ -118,10 +117,9 @@ const TournamentPage = () => {
         <h1 className="main-heading">
           Released <span>Tournaments</span>
         </h1>
-       <button className="add-team-button" onClick={handleAddPlayer}>
-  + Add Team
-</button>
-
+        <button className="add-team-button" onClick={handleAddPlayer}>
+          + Add Team
+        </button>
       </div>
 
       <div className="tournament-container">
@@ -129,7 +127,6 @@ const TournamentPage = () => {
         <p className="sub-title">PICK YOUR GAME</p>
 
         {webSocketLoading && <p>Connecting to server...</p>}
-        {isLoading && <p>Loading tournaments...</p>}
 
         <div className="game-grid">
           {tournamentData.length > 0 ? (

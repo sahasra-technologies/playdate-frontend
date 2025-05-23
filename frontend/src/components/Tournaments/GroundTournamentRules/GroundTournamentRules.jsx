@@ -1,42 +1,50 @@
 import React, { useEffect, useState } from 'react';
-import './GroundTournamentRules.css'
+import './GroundTournamentRules.css';
 
-const GroundTournamentFirstRules = () => {
+const GroundTournamentRules = ({ setIsLoading }) => {
   const [firstRules, setFirstRules] = useState([]);
 
   useEffect(() => {
-    fetch('http://157.173.195.249:8000/Tournament/tournaments/')
-      .then(response => {
+    const fetchData = async () => {
+      try {
+        setIsLoading(true); // show spinner
+
+        const response = await fetch('http://157.173.195.249:8000/Tournament/tournaments/');
         if (!response.ok) {
           throw new Error('Network response was not ok ' + response.statusText);
         }
-        return response.json();
-      })
-      .then(data => {
-        // Extract the first rule from each tournament (if exists)
+
+        const data = await response.json();
+
         const firstRuleList = data
-          .map(tournament => tournament.rules?.[0]) // Get only the first rule
-          .filter(rule => rule); // Remove undefined/null
+          .map(tournament => tournament.rules?.[0])
+          .filter(rule => rule);
 
         setFirstRules(firstRuleList);
-      })
-      .catch(error => {
+      } catch (error) {
         console.error('Fetch error:', error);
-      });
-  }, []);
+      } finally {
+        setIsLoading(false); // hide spinner
+      }
+    };
+
+    fetchData();
+  }, [setIsLoading]);
 
   return (
     <div>
       <h2>Tournament Rules</h2>
-      <div >
-      <ul >
-        {firstRules.map((rule, index) => (
-          <li className='rules-list'  key={index}>{rule}</li>
-        ))}
-      </ul>
+      <div>
+        <ul>
+          {firstRules.map((rule, index) => (
+            <li className='rules-list' key={index}>
+              {rule}
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );
 };
 
-export default GroundTournamentFirstRules;
+export default GroundTournamentRules;

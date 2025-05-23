@@ -21,7 +21,9 @@
   margin-bottom: 20px;
   flex-wrap: wrap;
 }
-
+.heading{
+  text-align: center;
+}
 .tab-buttons button {
   flex: 1;
   min-width: 220px;

@@ -14,7 +14,7 @@ import MatchSchedule from './MatchSchedule';
 
 const API_URL = 'http://157.173.195.249:8000/Tournament/tournaments/';
 
-const GameDetailsPage = () => {
+const GameDetailsPage = ({ setIsLoading }) => {
   const { id } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
@@ -78,7 +78,7 @@ useEffect(() => {
   return (
     <div className="page-wrapper">
       <div className={`details-container ${theme}`}>
-        <h1>{game?.name || 'Game Details'}</h1>
+        <h1 className='heading'>{game?.name || 'Game Details'}</h1>
 
         {/* Tabs */}
         <div className="tab-buttons">
@@ -149,7 +149,7 @@ useEffect(() => {
           )}
 
           {activeTab === 'schedule' && <MatchSchedule  id={id}/>}
-          {activeTab === 'rules' && <GroundTournamentRules id={id} />}
+          {activeTab === 'rules' && <GroundTournamentRules id={id} setIsLoading={setIsLoading}/>}
         </div>
       </div>
     </div>
