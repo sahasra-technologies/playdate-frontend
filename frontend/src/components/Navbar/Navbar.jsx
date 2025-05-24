@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { FaUser, FaMapMarkerAlt, FaSearch, FaChevronDown, FaBars } from 'react-icons/fa';
+import { FaUser, FaMapMarkerAlt, FaSearch, FaChevronDown } from 'react-icons/fa';
 import { MdLocalOffer } from 'react-icons/md';
 import { ThemeContext } from '../../context/ThemeContext';
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+import { useUser } from '../Login/UserContext';
 import './Navbar.css';
 
 const majorCities = [
@@ -15,18 +16,16 @@ const Navbar = () => {
   const [location, setLocation] = useState('Fetching location...');
   const [showCityDropdown, setShowCityDropdown] = useState(false);
   const [showLoginDropdown, setShowLoginDropdown] = useState(false);
-  const [showMobileMenu, setShowMobileMenu] = useState(false);
-  const { theme, toggleTheme } = useContext(ThemeContext);
+  const [isLoggedIn, setIsLoggedIn] = useState(!!Cookies.get("access"));
 
+  const { theme, toggleTheme } = useContext(ThemeContext);
+  const { names } = useUser();
   const navigate = useNavigate();
 
-
   useEffect(() => {
-      const token = Cookies.get("access");
-      if (!token) {
-        navigate("/");
-      }
-    }, [navigate]);
+    const token = Cookies.get("access");
+    setIsLoggedIn(!!token);
+  }, []);
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -61,47 +60,29 @@ const Navbar = () => {
     setShowCityDropdown(false);
   };
 
+  const handleLogout = () => {
+    Cookies.remove("access");
+    Cookies.remove("refresh");
+    Cookies.remove("userId");
+    setIsLoggedIn(false);
+    navigate("/");
+  };
+
+  const handleLoginClick = () => {
+    navigate("/login");
+  };
+
   return (
     <nav className="navbar" data-theme={theme}>
-      {/* Logo + Menu Icon */}
+      {/* Logo */}
       <div className="nav-logo-wrapper">
-        <div className="nav-logo" onClick={() => navigate("/tournaments")}>
+        <div className="nav-logo" onClick={() => navigate("/")}>
           <img src="/src/assets/images/image.png" alt="Logo" className="logo-image" />
-           {/* <FaBars className="menu-icon" /> */}
         </div>
-
-        {showMobileMenu && (
-          <div className="mobile-dropdown">
-            <FaBars className="menu-icon" />
-            <button className="btn search-btn">
-              
-              <FaSearch className="btn-icon" /> Search
-            </button>
-            <button className="btn sky-blue">My Venues</button>
-            <button className="btn">
-              <MdLocalOffer className="btn-icon" /> Offers
-            </button>
-            <div className="mobile-login">
-              <button className="btn" onClick={() => setShowLoginDropdown(!showLoginDropdown)}>
-                <FaUser className="btn-icon" /> Profile
-              </button>
-              {showLoginDropdown && (
-                <ul className="dropdown-menu">
-                  <li onClick={() => alert("Go to Profile")}>User Profile</li>
-                  <li>
-                    <button onClick={toggleTheme} className="theme-switch">
-                      Switch to {theme === 'dark' ? 'Light' : 'Dark'} Mode
-                    </button>
-                  </li>
-                </ul>
-              )}
-            </div>
-          </div>
-        )}
       </div>
 
       {/* Delivery Location */}
-      <div className={`delivery ${showMobileMenu ? 'hide-on-mobile' : ''}`}>
+      <div className="delivery">
         <FaMapMarkerAlt className="icon-map" />
         <div className="delivery-text">
           <span className="deliver-to">Delivery to</span>
@@ -121,39 +102,36 @@ const Navbar = () => {
       </div>
 
       {/* Desktop Buttons */}
-      {!showMobileMenu && (
-        <div className="nav-buttons desktop-only">
-          <button className="btn search-btn">
-            <FaSearch className="btn-icon" /> Search
+      <div className="nav-buttons desktop-only">
+        <button className="btn search-btn">
+          <FaSearch className="btn-icon" /> Search
+        </button>
+        <button className="btn sky-blue" onClick={() => navigate('/')}>Tournaments</button>
+        <button className="btn">
+          <MdLocalOffer className="btn-icon" /> Offers
+        </button>
+        <div className="dropdown-wrapper">
+          <button className="btn" onClick={() => setShowLoginDropdown(!showLoginDropdown)}>
+            <FaUser className="btn-icon" /> {isLoggedIn ? (names || 'Profile') : 'Login'}
           </button>
-          <button className="btn sky-blue">My Venues</button>
-          <button className="btn">
-            <MdLocalOffer className="btn-icon" /> Offers
-          </button>
-          <div className="dropdown-wrapper">
-            <button className="btn" onClick={() => setShowLoginDropdown(!showLoginDropdown)}>
-              <FaUser className="btn-icon" />Profile
-            </button>
-            {showLoginDropdown && (
-              <div className="dropdown-menu right-align">
-                <li onClick={() => alert("Go to Profile")}>User Profile</li>
-                <div>
+
+          {showLoginDropdown && (
+            <div className="dropdown-menu right-align">
+              {isLoggedIn ? (
+                <>
+                  
                   <button onClick={toggleTheme} className="theme-switch">
-                     {theme === 'dark' ? 'Light' : 'Dark'} Mode
+                    {theme === 'dark' ? 'Light' : 'Dark'} Mode
                   </button>
-                </div> 
-                  <button onClick={() => {
-                          Cookies.remove("access");
-                          Cookies.remove("refresh");
-                          navigate("/");
-                        }}>
-                          Logout
-                  </button>
-              </div>
-            )}
-          </div>
+                  <button onClick={handleLogout}>Logout</button>
+                </>
+              ) : (
+                <button onClick={handleLoginClick}>Go to Login</button>
+              )}
+            </div>
+          )}
         </div>
-      )}
+      </div>
     </nav>
   );
 };

@@ -21,6 +21,30 @@
   margin-bottom: 20px;
   flex-wrap: wrap;
 }
+.heading{
+  text-align: center;
+}
+.tab-buttons button {
+  flex: 1;
+  min-width: 220px;
+  background: white;
+  border: 1px solid #ccc;
+  padding: 18px;
+  border-radius: 12px;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  color: black;
+  transition: all 0.3s ease;
+}
+
+.tab-buttons .active {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
 
 .tab-icon {
   display: inline-flex;
@@ -41,22 +65,6 @@
   color: #007bff;
 }
 
-.tab-buttons button {
-  flex: 1;
-  min-width: 220px;
-  background: white;
-  border: 1px solid #ccc;
-  padding: 18px;
-  border-radius: 12px;
-  text-align: left;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  cursor: pointer;
-  color: black;
-  transition: all 0.3s ease;
-}
-
 .tab-buttons button div {
   display: flex;
   flex-direction: column;
@@ -67,29 +75,38 @@
   color: gray;
 }
 
-.tab-buttons .active {
-  background-color: #007bff;
-  color: white;
-  border-color: #007bff;
-}
-
-.venue-section p {
-  margin-bottom: 20px;
-  font-size: 16px;
-}
-
-.venue-images-grid {
+/* Grid Layout for Venues */
+.venue-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 24px;
 }
 
+@media screen and (max-width: 1024px) {
+  .venue-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media screen and (max-width: 640px) {
+  .venue-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Venue Card */
 .venue-card {
   position: relative;
   border-radius: 14px;
   overflow: hidden;
   background-color: #f5f5f5;
   box-shadow: 5px 5px 10px rgba(128, 128, 128, 0.4);
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.venue-card:hover {
+  transform: translateY(-5px);
 }
 
 .venue-card img {
@@ -97,7 +114,7 @@
   height: 290px;
   object-fit: cover;
   display: block;
-  border-radius: 14px;
+  border-radius: 14px 14px 0 0;
 }
 
 .venue-label {
@@ -110,7 +127,6 @@
   padding: 8px 12px;
   font-size: 14px;
   border-bottom-left-radius: 14px;
-  border-bottom-right-radius: 0;
 }
 
 .venue-time {
@@ -118,54 +134,7 @@
   color: #e0e0e0;
 }
 
-.go-to-icon {
-  position: absolute;
-  bottom: 12px;
-  right: 12px;
-  background-color: #87ceeb;
-  border-radius: 50%;
-  padding: 8px;
-  color: white;
-  font-size: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-}
-
-.details-container.dark {
-  background-color: #1a1a1a;
-  color: #e0e0e0;
-}
-
-.details-container.dark .tab-buttons button {
-  background-color: #2a2a2a;
-  color: #fff;
-  border-color: #444;
-}
-
-.details-container.dark .tab-buttons .active {
-  background-color: #007bff;
-  color: white;
-}
-
-.details-container.dark .tab-buttons .active .tab-icon {
-  background-color: #ffffff;
-  color: #007bff;
-}
-
-.details-container.dark .venue-card {
-  background-color: #2e2e2e;
-}
-
-.details-container.dark .venue-label {
-  background-color: #005bb5;
-}
-
-.details-container.dark .go-to-icon {
-  background-color: #3399ff;
-}
-
+/* Split View */
 .split-view {
   display: flex;
   flex-wrap: wrap;
@@ -187,4 +156,67 @@
   .venue-card img {
     height: 180px;
   }
+}
+
+/* Dark Mode */
+.details-container.dark {
+  background-color: #1a1a1a;
+  color: #e0e0e0;
+}
+
+.details-container.dark .tab-buttons button {
+  background-color: #2a2a2a;
+  color: #fff;
+  border-color: #444;
+}
+
+.details-container.dark .tab-buttons .active {
+  background-color: #007bff;
+  color: white;
+}
+
+.details-container.dark .tab-buttons .active .tab-icon {
+  background-color: white;
+  color: #007bff;
+}
+
+.details-container.dark .venue-card {
+  background-color: #2e2e2e;
+}
+
+.details-container.dark .venue-label {
+  background-color: #005bb5;
+}
+
+.details-container.dark .go-to-icon {
+  background-color: #3399ff;
+}
+
+/* Utility */
+.go-to-icon {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  background-color: #87ceeb;
+  border-radius: 50%;
+  padding: 8px;
+  color: white;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.card-back-button {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: white;
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  font-size: 16px;
+  cursor: pointer;
 }

@@ -1,0 +1,48 @@
+.custom-spinner-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.custom-spinner-wrapper {
+  position: relative;
+  width: 120px;
+  height: 120px;
+}
+
+.spinner-logo {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+
+.spinner-ring {
+  width: 100%;
+  height: 100%;
+  border: 6px solid rgba(0, 123, 255, 0.3);
+  border-top-color: rgb(0, 123, 255);
+  border-radius: 50%;
+  animation: spin 1.2s linear infinite;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

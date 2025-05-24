@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import logo from '../../assets/logo.jpg';
+import logo from '../../assets/images/logo.png';
+import {useUser} from './UserContext';
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 import './Login.css';
 
 const apiClient = axios.create({
@@ -27,7 +29,10 @@ const LoginForm = () => {
   const [password, setPassword] = useState('');
   const [showForgot, setShowForgot] = useState(false);
   const [forgotEmail, setForgotEmail] = useState('');
-
+  const [showPassword, setShowPassword] = useState(false);
+  
+  const {setUser} = useUser()
+  
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
@@ -40,10 +45,32 @@ const LoginForm = () => {
 
       const { access, refresh } = res.data;
 
-      Cookies.set('access', access, { expires: 1 / 72 });
+      Cookies.set('access', access, { expires: 1 / 24 });
       Cookies.set('refresh', refresh, { expires: 7 });
 
-      navigate('/tournaments');
+      // Get user info using access token
+      const userRes = await apiClient.get(`/User/user/?username=${username}`, {
+        headers: {
+          Authorization: `Bearer ${access}`,
+        },
+      });
+
+      const firstName = userRes.data.first_name;
+      const userId = userRes.data.id
+      const userEmail = userRes.data.email
+
+      Cookies.set('userId', userId);
+
+      Cookies.set('email', userEmail)
+     
+      
+      setUser(firstName);
+
+      
+      Cookies.set('first_name', firstName);
+
+      
+      navigate('/');
     } catch (err) {
       console.error('Login error:', err);
       alert('Invalid credentials');
@@ -60,6 +87,10 @@ const LoginForm = () => {
       }, 1000);
     }
   };
+
+  const togglePasswordVisibility = () =>{
+    setShowPassword(prev => !prev);
+  }
 
   return (
     <div className='login-container'>
@@ -78,13 +109,18 @@ const LoginForm = () => {
                 required
                 className="input-field"
               />
-              <input
-                type="password"
-                placeholder="Password"
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                className="input-field"
-              />
+              <div className="password-wrapper">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Password"
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  className="input-field"
+                />
+                <span onClick={togglePasswordVisibility} className="eye-icon">
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </span>
+              </div>
               <div className="forgot-password" onClick={() => setShowForgot(true)}>
                 Forgot Password?
               </div>
@@ -134,3 +170,5 @@ const LoginForm = () => {
 };
 
 export default LoginForm;
+
+

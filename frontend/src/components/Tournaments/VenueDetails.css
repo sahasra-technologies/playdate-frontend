@@ -1,27 +1,24 @@
+.venue-container{
+  display: flex;
+  flex-direction: row;
+  padding: auto;
+  height: 100vh;
+}
+
 .venue-details-wrapper {
   position: relative;
-  padding: 24px;
-  max-width: 1000px;
-  margin: 40px auto;
-  font-family: 'Segoe UI', sans-serif;
-  /* background-color: #fff; */
-  box-sizing: border-box;
-  border-radius: 12px;
+  width: 50%;
+  max-width: 538px;
+  height: auto;
+  border-radius: 4px;
+  background-color: #fff;
+  padding: 20px;
+  overflow-y: auto;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
   border: 1px solid #e0e0e0;
+  margin: 0 auto;
+  box-sizing: border-box;
 }
-.venue-details-wrapper.light {
-  background-color: #ffffff;
-  color: #000000;
-}
-
-.venue-details-wrapper.dark {
-  background-color: #121212;
-  color: #ffffff;
-}
-
-
-
 
 .back-btn {
   position: absolute;
@@ -33,6 +30,9 @@
   padding: 8px 14px;
   border-radius: 6px;
   font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
   cursor: pointer;
   z-index: 10;
   transition: background 0.3s;
@@ -52,6 +52,7 @@
 .main-img {
   flex: 1;
   width: 100%;
+  max-height: 300px;
   border-radius: 10px;
   object-fit: cover;
 }
@@ -60,12 +61,15 @@
   flex: 2;
   display: flex;
   align-items: center;
+  width: 100%;
 }
 
 .details-header {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   width: 100%;
+  flex-wrap: wrap;
 }
 
 .details-header h1 {
@@ -76,6 +80,7 @@
 .game-name {
   font-size: 1rem;
   color: #666;
+  margin-top: 4px;
 }
 
 .get-directions {
@@ -88,6 +93,7 @@
   align-items: center;
   gap: 6px;
   font-size: 0.9rem;
+  margin-top: 12px;
 }
 
 .get-directions:hover {
@@ -107,6 +113,33 @@
   font-size: 1rem;
   color: #333;
   line-height: 1.5;
+}
+
+.maintance-schedule {
+  padding: 8px;
+  margin-bottom: 8px;
+  border-radius: 6px;
+}
+
+.maintance-schedule p {
+  margin: 2px 0;
+  font-size: 0.95rem;
+  color: #444;
+}
+
+.amenities-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.amenities-list li {
+  padding: 6px;
+  font-size: 0.9rem;
+  font-weight: 400;
 }
 
 .book-button {
@@ -132,3 +165,107 @@
   font-size: 1.2rem;
   color: #555;
 }
+
+.modal-overlay {
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.6);
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-form {
+  background: white;
+  border-radius: 18px;
+  padding: 2rem 1.5rem;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  box-sizing: border-box;
+  transform: scale(1);
+  opacity: 1;
+  transition: all 0.3s ease-in-out;
+}
+
+.form-title {
+  width: 100%;
+  font-size: 24px;
+  font-weight: bold;
+  color: #1d4ed8;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.form-group {
+  flex: 0 0 48%;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 0.4rem;
+}
+
+.form-group input,
+.form-group select {
+  padding: 0.6rem 0.8rem;
+  border: 2px solid #d1d5db;
+  border-radius: 10px;
+  font-size: 1rem;
+  outline: none;
+  transition: border 0.3s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #3b82f6;
+}
+
+.submit-btn {
+  margin-top: 1rem;
+  width: 100%;
+  background: #3b82f6;
+  color: white;
+  padding: 0.7rem;
+  border: none;
+  border-radius: 999px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.submit-btn:hover {
+  background: #2563eb;
+}
+
+.inout-form-payment{
+   background-color: #bbbabae1;
+   color: #999999;
+   cursor: not-allowed;
+   border: 1px solid #ccc;
+}
+
+
