@@ -4,13 +4,11 @@ import { FaLightbulb, FaCalendarAlt, FaChevronRight } from 'react-icons/fa';
 import { FcRules } from 'react-icons/fc';
 import { ThemeContext } from '../../context/ThemeContext';
 import { useGame } from '../../context/GameContext';
-// import GroundMatchSchedule from './MatchSchedule';
-import GroundTournamentRules from './GroundTournamentRules/GroundTournamentRules';
 import axios from 'axios';
-import Cookies from 'js-cookie';
 import './GameDetails.css';
 import defaultVenueImage from '../../assets/Tournment/sahasra.png'; 
 import MatchSchedule from './MatchSchedule';
+import GroundTournamentRules from './GroundTournamentRules/GroundTournamentRules';
 
 const API_URL = 'http://157.173.195.249:8000/Tournament/tournaments/';
 
@@ -22,23 +20,15 @@ const GameDetailsPage = ({ setIsLoading }) => {
   const { game, setGame, setGround } = useGame();
 
   const [activeTab, setActiveTab] = useState('venue');
-
-useEffect(() => {
-  const queryParams = new URLSearchParams(location.search);
-  const currentTab = queryParams.get('tab') || 'venue';
-  setActiveTab(currentTab);
-}, [location.search]);
-
   const [grounds, setGrounds] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const token = Cookies.get('access');
-    if (!token) {
-      navigate('/');
-    }
-  }, [navigate]);
+    const queryParams = new URLSearchParams(location.search);
+    const currentTab = queryParams.get('tab') || 'venue';
+    setActiveTab(currentTab);
+  }, [location.search]);
 
   useEffect(() => {
     const fetchGameDetails = async () => {
@@ -148,8 +138,8 @@ useEffect(() => {
             </div>
           )}
 
-          {activeTab === 'schedule' && <MatchSchedule  id={id}/>}
-          {activeTab === 'rules' && <GroundTournamentRules id={id} setIsLoading={setIsLoading}/>}
+          {activeTab === 'schedule' && <MatchSchedule id={id} />}
+          {activeTab === 'rules' && <GroundTournamentRules id={id} setIsLoading={setIsLoading} />}
         </div>
       </div>
     </div>

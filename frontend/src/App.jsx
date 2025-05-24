@@ -24,8 +24,8 @@ import GroundVenueDetails from './components/Tournaments/GroundVenueDetails/Grou
 import GroundTournamentRules from './components/Tournaments/GroundTournamentRules/GroundTournamentRules';
 import VenueDetails from './components/Tournaments/VenueDetails';
 
-import { SpinnerInfinity } from 'spinners-react';
-
+// import { SpinnerInfinity } from 'spinners-react';
+import CustomSpinner from './components/Spinner/CustomSpinner';
 import './App.css';
 
 // 🔄 Layout with Navbar/Footer
@@ -62,7 +62,7 @@ function App() {
       {/* ✅ Spinner placed above Routes */}
       {isLoading && (
         <div className="spinner-overlay">
-          <SpinnerInfinity
+          <CustomSpinner
             size={100}
             thickness={100}
             speed={100}
