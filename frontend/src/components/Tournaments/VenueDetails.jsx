@@ -49,10 +49,10 @@ const VenueDetails = () => {
 
  useEffect(() => {
   const fetchTeams = async () => {
-    // if (!user) {
-    //   navigate('/login');
-    //   return;
-    // }
+    if (!user) {
+      navigate('/login');
+      return;
+    }
 
    const token = Cookies.get('access');
    const userId = Cookies.get('userId')
@@ -67,7 +67,7 @@ const VenueDetails = () => {
       });
 
       const data = response.data; 
-      console.log(data, "fetched tournament data");
+      
 
       const teamsData = data.map(item => item.team);
       setTeams(teamsData);
@@ -80,7 +80,7 @@ const VenueDetails = () => {
   fetchTeams();
 }, [user, navigate]);
 
- console.log(game,"gamedeatils")
+ 
 
 
   useEffect(() => {
@@ -91,8 +91,14 @@ const VenueDetails = () => {
   }, [game]);
 
   const handleBack = () => navigate(-1);
-  const handleBooking = () => {
-  setShowForm(true); // allow both types of users
+ 
+const handleBooking = () => {
+   if (user) {
+      setShowForm(true);
+    } else {
+      alert('⚠️ Please log in to book a slot.');
+      navigate('/login');
+    }
 };
 
 
@@ -102,24 +108,35 @@ const VenueDetails = () => {
   const mainImage = game?.images?.[0]?.url || gameImg;   
 
 
+const isGuest = !Cookies.get("access");
 
 
   //payment
 
 useEffect(() => {
-  if (!document.getElementById('razorpay-script')) {
-    const script = document.createElement("script");
-    script.id = 'razorpay-script';
-    script.src = "https://checkout.razorpay.com/v1/checkout.js";
-    script.async = true;
-    document.body.appendChild(script);
-  }
+  const script = document.createElement("script");
+  script.src = "https://checkout.razorpay.com/v1/checkout.js";
+  script.async = true;
+  document.body.appendChild(script);
+
+  return () => {
+    document.body.removeChild(script); 
+  };
 }, []);
 
 //payment
-
-const updateTransactionStatus = async (paymentId, status, message, orderId, signature) => {
+const updateTransactionStatus = async (paymentId, status, message, razorpayOrderId, signature) => {
   const user = Cookies.get("access");
+
+  const payload = {
+    payment_id: paymentId,
+    status,
+    message,
+    order_id: razorpayOrderId, 
+    signature,
+  };
+
+  console.log("PUT Payload:", payload);
 
   try {
     const response = await fetch("http://157.173.195.249:8000/payments/order/", {
@@ -128,16 +145,11 @@ const updateTransactionStatus = async (paymentId, status, message, orderId, sign
         "Content-Type": "application/json",
         "X-CSRFTOKEN": user,
       },
-      body: JSON.stringify({
-        payment_id: paymentId,
-        status: status,
-        message: message,
-        order_id: orderId,
-        signature: signature,
-      }),
+      body: JSON.stringify(payload),
     });
 
     const result = await response.json();
+    console.log('put response', result)
 
     if (!response.ok) {
       console.error("Failed to update transaction:", result);
@@ -149,42 +161,38 @@ const updateTransactionStatus = async (paymentId, status, message, orderId, sign
   }
 };
 
+
+
+
 const handlePayment = async () => {
-  if (!formData.email || !formData.team) {
-    notification.warning({
-      message: 'Missing Info',
-      description: 'Please enter email and select a team.',
-    });
-    return;
-  }
+  const user = Cookies.get("access");
+
 
   const payload = {
     tournamentId: game.id,
-    amount: Number(formData.price) * 100,
+    amount: Number(formData.price),
     currency: "INR",
     user: formData.email,
-    teamId: formData.team,  // use actual team
+    teamId: '',
+    
   };
 
   try {
-    const headers = {
-      "Content-Type": "application/json",
-    };
-
-    const accessToken = Cookies.get("access");
-    if (accessToken) {
-      headers["X-CSRFTOKEN"] = accessToken;
-    }
-
     const orderResponse = await fetch("http://157.173.195.249:8000/payments/orders/", {
       method: "POST",
-      headers,
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFTOKEN": user,
+      },
       body: JSON.stringify(payload),
     });
 
     const data = await orderResponse.json();
+    console.log(data,"datasssss")
+
 
     if (!orderResponse.ok) {
+      console.error("Order creation failed:", data);
       notification.error({
         message: "Order Failed",
         description: data?.error || "Unable to create order.",
@@ -192,12 +200,12 @@ const handlePayment = async () => {
       return;
     }
 
-    notification.success({
-      message: "Success",
-      description: "Payment initiated!",
-    });
+     
+    const razorpayOrderId = data.order_id; 
 
-    initiatePayment(data.id, data.amount, formData.email);
+    notification.success({ message: "Success", description: "Payment initiated!" });
+    initiatePayment(razorpayOrderId, data.amount, formData.email);
+    console.log("🚀 Order ID:", data.order_id);
   } catch (error) {
     console.error("Error creating order:", error);
     notification.error({
@@ -207,13 +215,14 @@ const handlePayment = async () => {
   }
 };
 
+const initiatePayment = (razorpayOrderId, amount, userEmail) => {
+  const user = Cookies.get("access");
 
-const initiatePayment = (orderId, amount, userEmail) => {
   const options = {
     key: "rzp_test_JvXFkNCRf4a6j0",
     name: "Test Company",
-    description: "Tournament Booking",
-    order_id: orderId,
+    description: "Test Transaction",
+    order_id: razorpayOrderId,
     amount: amount,
     currency: "INR",
     handler: async (response) => {
@@ -226,7 +235,7 @@ const initiatePayment = (orderId, amount, userEmail) => {
         response.razorpay_payment_id,
         "SUCCESS",
         "Payment successful",
-        orderId,
+        razorpayOrderId,
         response.razorpay_signature
       );
     },
@@ -240,18 +249,20 @@ const initiatePayment = (orderId, amount, userEmail) => {
   razorpay.on("payment.failed", async (response) => {
     notification.error({
       message: "Payment Failed",
-      description: response?.error?.description || "Unable to process payment.",
+      description: "Unable to process payment.",
     });
 
     await updateTransactionStatus(
       response?.error?.metadata?.payment_id || '',
       "FAILED",
       response?.error?.description || "Payment failed",
-      response?.error?.metadata?.order_id || '',
+      razorpayOrderId || '',
       response?.error?.metadata?.razorpay_signature || ''
     );
   });
 };
+
+
 
 
 
@@ -340,8 +351,8 @@ const initiatePayment = (orderId, amount, userEmail) => {
                   setFormData((prev) => ({ ...prev, email: e.target.value }))
                 }
                 placeholder="Enter your mail ID"
-                className='inout-form-payment'
-                disabled={isAuthenticated} 
+                className={`inout-form-payments ${!isGuest ? 'disabled-input' : ''}`}
+                disabled={!isGuest} 
               />
             </div>
 
