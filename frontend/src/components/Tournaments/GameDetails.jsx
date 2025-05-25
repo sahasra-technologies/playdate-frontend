@@ -21,7 +21,6 @@ const GameDetailsPage = ({ setIsLoading }) => {
 
   const [activeTab, setActiveTab] = useState('venue');
   const [grounds, setGrounds] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -32,6 +31,7 @@ const GameDetailsPage = ({ setIsLoading }) => {
 
   useEffect(() => {
     const fetchGameDetails = async () => {
+      setIsLoading(true); // Start spinner
       try {
         const response = await axios.post(API_URL, { id }, {
           headers: { 'Content-Type': 'application/json' }
@@ -44,12 +44,12 @@ const GameDetailsPage = ({ setIsLoading }) => {
         console.error('API fetch error: ', err);
         setError('Failed to fetch tournament data.');
       } finally {
-        setLoading(false);
+        setIsLoading(false); // Stop spinner
       }
     };
 
     if (id) fetchGameDetails();
-  }, [id, setGame]);
+  }, [id, setGame, setIsLoading]);
 
   const handleVenueClick = (ground) => {
     setGround(ground);
@@ -61,7 +61,6 @@ const GameDetailsPage = ({ setIsLoading }) => {
     navigate(`/tournaments/${id}?tab=${tabName}`, { replace: true });
   };
 
-  if (loading) return <p>Loading game details...</p>;
   if (error) return <div>{error}</div>;
   if (!grounds.length) return <div>No grounds found.</div>;
 
