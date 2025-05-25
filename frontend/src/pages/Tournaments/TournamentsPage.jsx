@@ -9,25 +9,10 @@ const TournamentPage = ({ setIsLoading }) => {
   const { theme } = useContext(ThemeContext);
 
   const [tournamentData, setTournamentData] = useState([]);
-  // const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [webSocketLoading, setWebSocketLoading] = useState(true);
 
   let ws;
-
-  // useEffect(() => {
-  //   const token = Cookies.get("access");
-  //   if (token) {
-  //     setIsAuthenticated(true);
-  //   } else {
-  //     setIsAuthenticated(true); // defaulting to true, adjust as needed
-  //   }
-  // }, []);
-
-  // useEffect(() => {
-  //   if (isAuthenticated) {
-  //     connectWebSocket();
-  //   }
-  // }, [isAuthenticated]);
 
   useEffect(() => {
   connectWebSocket();
@@ -109,7 +94,12 @@ const TournamentPage = ({ setIsLoading }) => {
     navigate("/add-team");
   };
 
-  // if (!isAuthenticated) return null;
+ useEffect(() => {
+  const token = Cookies.get('access');
+  setIsAuthenticated(!!token);
+}, []);
+
+
 
   return (
     <div className={`main-container ${theme}`}>
@@ -117,9 +107,11 @@ const TournamentPage = ({ setIsLoading }) => {
         <h1 className="main-heading">
           Released <span>Tournaments</span>
         </h1>
-        <button className="add-team-button" onClick={handleAddPlayer}>
-          + Add Team
-        </button>
+        {isAuthenticated && (
+  <button className="add-team-button" onClick={handleAddPlayer}>
+    + Add Team
+  </button>
+)}
       </div>
 
       <div className="tournament-container">

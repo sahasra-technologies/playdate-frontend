@@ -49,10 +49,10 @@ const VenueDetails = () => {
 
  useEffect(() => {
   const fetchTeams = async () => {
-    if (!user) {
-      navigate('/login');
-      return;
-    }
+    // if (!user) {
+    //   navigate('/login');
+    //   return;
+    // }
 
    const token = Cookies.get('access');
    const userId = Cookies.get('userId')
@@ -91,7 +91,6 @@ const VenueDetails = () => {
   }, [game]);
 
   const handleBack = () => navigate(-1);
-
   const handleBooking = () => {
     if (user) {
       setShowForm(true);
@@ -100,8 +99,6 @@ const VenueDetails = () => {
       navigate('/login');
     }
   };
-
-  
 
   if (!ground) return <p className="error-msg">❌ No venue data found.</p>;
 
@@ -166,7 +163,7 @@ const handlePayment = async () => {
 
   const payload = {
     tournamentId: game.id,
-    amount: Number(formData.price),
+    amount: Number(formData.price) * 100,
     currency: "INR",
     user: formData.email,
     teamId: '',
@@ -254,10 +251,9 @@ const initiatePayment = (orderId, amount, userEmail) => {
 
 
 
-
-
   return (
     <div className='venue-container'>
+      <div className='sub-container'>
     <div className={`venue-details-wrapper ${theme}`}>
       <button className="back-btn" onClick={handleBack}>
         <ArrowLeft size={22} /> Back
@@ -309,11 +305,8 @@ const initiatePayment = (orderId, amount, userEmail) => {
       <div className="section"><h2>Location</h2><p>{ground.address || 'N/A'}</p></div>
       <div className="section"><h2>Ground Timings</h2><p>{ground.Created || 'N/A'}</p></div>
 
-      {user && (
-        <button className="book-button" onClick={handleBooking}>
-          Book Slot
-        </button>
-      )}
+     
+      
 
       {showForm && (
         <div className="modal-overlay" onClick={() => setShowForm(false)}>
@@ -368,13 +361,15 @@ const initiatePayment = (orderId, amount, userEmail) => {
                 readOnly
               />
             </div>
-
-            <button className="submit-btn" onClick={(e) => {
-              e.preventDefault(); 
-              handlePayment();
-            }}>
-              Book Slot
-            </button>
+           <div>
+          <button className="submit-btn" onClick={(e) => {
+                  e.preventDefault(); 
+                  handlePayment();
+                }}>
+                  Book Slot
+          </button>
+            </div>
+           
           </div>
         </div>
       )}
@@ -383,10 +378,19 @@ const initiatePayment = (orderId, amount, userEmail) => {
     <TournamentRules/>
     </div>
     </div>
+       <button className="book-button" onClick={handleBooking}>
+          Book Slot
+        </button>
+
+    </div>
   );
 };
 
 export default VenueDetails;
+
+
+
+
 
 
 

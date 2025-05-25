@@ -1,8 +1,12 @@
 .venue-container{
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   padding: auto;
-  height: 100vh;
+  min-height: 100vh;
+}
+.sub-container{
+  display: flex;
+  flex-direction: row;
 }
 
 .venue-details-wrapper {
@@ -200,9 +204,6 @@
   flex-wrap: wrap;
   justify-content: space-between;
   box-sizing: border-box;
-  transform: scale(1);
-  opacity: 1;
-  transition: all 0.3s ease-in-out;
 }
 
 .form-title {
@@ -267,5 +268,3 @@
    cursor: not-allowed;
    border: 1px solid #ccc;
 }
-
-

@@ -23,7 +23,7 @@
   position: fixed; 
   top: 140px;
   right: 130px;
-  background-color: #4CAF50;
+  background-color: #4f8ccb;
   color: white;
   padding: 12px 12px;
   border: none;
@@ -36,7 +36,7 @@
 }
 
 .add-team-button:hover {
-  background-color: #45a049;
+  background-color: #4f8ccd;
 }
 
 
