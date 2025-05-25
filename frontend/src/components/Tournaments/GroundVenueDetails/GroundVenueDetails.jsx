@@ -70,15 +70,6 @@ const GroundVenueDetails = () => {
         <p>{venue.ground_timings || '6:00 AM - 10:00 PM Daily'}</p>
       </div>
 
-      <button className="book-button">Book Slot</button>
-
-      <button
-        className="book-button"
-        style={{ marginTop: '16px', backgroundColor: '#6b7280' }}
-        onClick={() => navigate(-1)}
-      >
-        Back to Venues
-      </button>
     </div>
   );
 };

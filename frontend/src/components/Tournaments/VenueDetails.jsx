@@ -92,13 +92,9 @@ const VenueDetails = () => {
 
   const handleBack = () => navigate(-1);
   const handleBooking = () => {
-    if (user) {
-      setShowForm(true);
-    } else {
-      alert('⚠️ Please log in to book a slot.');
-      navigate('/login');
-    }
-  };
+  setShowForm(true); // allow both types of users
+};
+
 
   if (!ground) return <p className="error-msg">❌ No venue data found.</p>;
 
@@ -154,10 +150,11 @@ const updateTransactionStatus = async (paymentId, status, message, orderId, sign
 };
 
 const handlePayment = async () => {
-  const user = Cookies.get("access");
-
-  if (!user) {
-    setShowEmailPopup(true);
+  if (!formData.email || !formData.team) {
+    notification.warning({
+      message: 'Missing Info',
+      description: 'Please enter email and select a team.',
+    });
     return;
   }
 
@@ -166,23 +163,28 @@ const handlePayment = async () => {
     amount: Number(formData.price) * 100,
     currency: "INR",
     user: formData.email,
-    teamId: '',
+    teamId: formData.team,  // use actual team
   };
 
   try {
+    const headers = {
+      "Content-Type": "application/json",
+    };
+
+    const accessToken = Cookies.get("access");
+    if (accessToken) {
+      headers["X-CSRFTOKEN"] = accessToken;
+    }
+
     const orderResponse = await fetch("http://157.173.195.249:8000/payments/orders/", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRFTOKEN": user,
-      },
+      headers,
       body: JSON.stringify(payload),
     });
 
     const data = await orderResponse.json();
 
     if (!orderResponse.ok) {
-      console.error("Order creation failed:", data);
       notification.error({
         message: "Order Failed",
         description: data?.error || "Unable to create order.",
@@ -190,7 +192,11 @@ const handlePayment = async () => {
       return;
     }
 
-    notification.success({ message: "Success", description: "Payment initiated!" });
+    notification.success({
+      message: "Success",
+      description: "Payment initiated!",
+    });
+
     initiatePayment(data.id, data.amount, formData.email);
   } catch (error) {
     console.error("Error creating order:", error);
@@ -201,13 +207,12 @@ const handlePayment = async () => {
   }
 };
 
-const initiatePayment = (orderId, amount, userEmail) => {
-  const user = Cookies.get("access");
 
+const initiatePayment = (orderId, amount, userEmail) => {
   const options = {
     key: "rzp_test_JvXFkNCRf4a6j0",
     name: "Test Company",
-    description: "Test Transaction",
+    description: "Tournament Booking",
     order_id: orderId,
     amount: amount,
     currency: "INR",
@@ -235,7 +240,7 @@ const initiatePayment = (orderId, amount, userEmail) => {
   razorpay.on("payment.failed", async (response) => {
     notification.error({
       message: "Payment Failed",
-      description: "Unable to process payment.",
+      description: response?.error?.description || "Unable to process payment.",
     });
 
     await updateTransactionStatus(
@@ -247,6 +252,7 @@ const initiatePayment = (orderId, amount, userEmail) => {
     );
   });
 };
+
 
 
 
@@ -361,7 +367,7 @@ const initiatePayment = (orderId, amount, userEmail) => {
                 readOnly
               />
             </div>
-           <div>
+           <div className="form-btn-wrap">
           <button className="submit-btn" onClick={(e) => {
                   e.preventDefault(); 
                   handlePayment();
@@ -378,10 +384,11 @@ const initiatePayment = (orderId, amount, userEmail) => {
     <TournamentRules/>
     </div>
     </div>
+    <div className='btn-wrap'>
        <button className="book-button" onClick={handleBooking}>
-          Book Slot
+          Go to book slot
         </button>
-
+</div>
     </div>
   );
 };
