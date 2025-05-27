@@ -123,3 +123,67 @@ span{
   border-bottom-right-radius: 20px;
 }
 
+ 
+/* tab */
+
+@media (max-width: 1024px) {
+  .game-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .add-team-button {
+    top: 100px;
+    right: 30px;
+    padding: 10px 10px;
+    font-size: 13px;
+  }
+
+  .main-heading {
+    font-size: 1.8rem;
+    padding: 15px;
+  }
+
+  .sub-heading {
+    font-size: 1.5rem;
+  }
+
+  .sub-title {
+    font-size: 0.85rem;
+  }
+}
+
+/* Mobile (up to 767px) */
+@media (max-width: 767px) {
+  .game-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .add-team-button {
+    top: 80px;
+    right: 20px;
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+
+  .main-heading {
+    font-size: 1.6rem;
+    padding: 12px;
+  }
+
+  .sub-heading {
+    font-size: 1.3rem;
+  }
+
+  .sub-title {
+    font-size: 0.8rem;
+  }
+
+  .tournament-container {
+    margin: 20px 10px;
+    padding: 15px;
+  }
+
+  .game-card {
+    max-width: 90%;
+  }
+}

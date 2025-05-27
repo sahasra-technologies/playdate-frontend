@@ -283,3 +283,17 @@
    cursor: not-allowed;
    border: 1px solid #ccc;
 }
+
+
+.inout-form-payments {
+  background-color: #fff;
+  color: #000;
+  cursor: text;
+  border: 1px solid #ccc;
+}
+
+.disabled-input {
+  background-color: #bbbabae1;
+  color: #999999;
+  cursor: not-allowed;
+}
