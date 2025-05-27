@@ -13,7 +13,7 @@ const GroundMatchSchedule = () => {
   useEffect(() => {
     const fetchSchedule = async () => {
       try {
-        const response = await axios.get(`http://157.173.195.249:8000/Tournament/schedule/${id}`);
+        const response = await axios.get(`http://94.136.191.98:8000/Tournament/schedule/${id}`);
         setSchedule(response.data || []);
       } catch (err) {
         console.error('Error fetching match schedule:', err);

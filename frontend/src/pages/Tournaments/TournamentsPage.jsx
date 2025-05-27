@@ -23,7 +23,7 @@ const TournamentPage = ({ setIsLoading }) => {
     setWebSocketLoading(true);
     setIsLoading(true);
 
-    ws = new WebSocket('ws://157.173.195.249:8000/tournaments');
+    ws = new WebSocket('ws://94.136.191.98:8000/tournaments');
 
     ws.onopen = () => {
       

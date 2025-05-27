@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import '../Login/Login'
 
 const apiClient = axios.create({
-  baseURL: 'http://157.173.195.249:8000',
+  baseURL: 'http://94.136.191.98:8000',
   headers: { 'Content-Type': 'application/json' },
 }); 
 
