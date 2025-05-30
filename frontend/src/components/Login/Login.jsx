@@ -145,11 +145,11 @@ const LoginForm = () => {
           )}
         </form>
 
-        <div className="divider">
+        {/* <div className="divider">
           <hr /><span>or continue with</span><hr />
-        </div>
+        </div> */}
 
-        <div className="social-login">
+        {/* <div className="social-login">
           <div className='icon-logo'>
             <img src="https://cdn-icons-png.flaticon.com/512/281/281764.png" alt="Google" className='image-logo' />
           </div>
@@ -159,7 +159,7 @@ const LoginForm = () => {
           <div className='icon-logo'>
             <img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt='Twitter' className='image-logo' />
           </div>
-        </div>
+        </div> */}
 
         <div className="register-text">
           Don’t have an account? <span onClick={() => navigate('/register')}>Register for free</span>
