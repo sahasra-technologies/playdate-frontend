@@ -1,0 +1,39 @@
+.game-card {
+    border: 1px solid #f0f0f6;
+    border-radius: 12px;
+    padding: 20px;
+    margin: 20px;
+    cursor: pointer;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+  }
+  
+  .game-card:hover {
+    transform: scale(1.02);
+  }
+  
+  .game-logo {
+    width: 100px;
+    height: auto;
+  }
+  
+  .game-card-buttons {
+    margin-top: 10px;
+  }
+  
+  .game-card-buttons button {
+    margin-right: 10px;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+  }
+  
+  .game-card-buttons button:hover {
+    background-color: #0056b3;
+  }
+  
+  

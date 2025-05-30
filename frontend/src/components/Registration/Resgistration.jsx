@@ -66,7 +66,7 @@ const Register = () =>{
         <button type="button" className="sign-in-button" onClick={handleRegister}>
           Register
         </button>
-        <div className="forgot-password" onClick={() => navigate('/')}>
+        <div className="forgot-password" onClick={() => navigate('/login')}>
           Back to Login
         </div>
       </div>

@@ -18,6 +18,7 @@ import VenueLayout from './pages/VenueLayout/VenueLayout';
 import LoginForm from './components/Login/Login';
 import ResetPassword from './components/ResetPassword/ResetPassword';
 import AddTeamDetails from './components/Tournaments/AddTeamDetails/AddTeamDetails';
+import Registration from './components/Registration//Resgistration';
 import GameDetailsPage from './components/Tournaments/GameDetails';
 import MatchSchedule from './components/Tournaments/MatchSchedule';
 import GroundVenueDetails from './components/Tournaments/GroundVenueDetails/GroundVenueDetails';
@@ -85,6 +86,7 @@ function App() {
           <Route path="/" element={<TournamentPage setIsLoading={setIsLoading} />} />
           <Route path="/login" element={<LoginForm />} />
           <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/register" element={<Registration/>}/>
 
           {/* Protected & Other Routes */}
           <Route path="/home" element={<Home setIsLoading={setIsLoading} />} />

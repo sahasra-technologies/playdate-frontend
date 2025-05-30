@@ -92,6 +92,10 @@ const LoginForm = () => {
     setShowPassword(prev => !prev);
   }
 
+  const handleBack = () =>{
+    navigate('/login', {state: {fromLogin: true}})
+  }
+
   return (
     <div className='login-container'>
       <div className="login-box">
@@ -138,7 +142,7 @@ const LoginForm = () => {
               <button type='button' className='sign-in-button' onClick={handleForgotPassword}>
                 Send Reset Link
               </button>
-              <div className="forgot-password" onClick={() => setShowForgot(false)}>
+              <div className="forgot-password" onClick={handleBack}>
                 Back to Login
               </div>
             </div>

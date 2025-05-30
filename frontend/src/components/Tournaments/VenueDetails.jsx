@@ -93,6 +93,7 @@ const VenueDetails = () => {
   const handleBack = () => navigate(-1);
  
 const handleBooking = () => {
+   
    if (user) {
       setShowForm(true);
     } else {
@@ -136,7 +137,7 @@ const updateTransactionStatus = async (paymentId, status, message, razorpayOrder
     signature,
   };
 
-  console.log("PUT Payload:", payload);
+  
 
   try {
     const response = await fetch("http://157.173.195.249:8000/payments/order/", {
@@ -149,7 +150,7 @@ const updateTransactionStatus = async (paymentId, status, message, razorpayOrder
     });
 
     const result = await response.json();
-    console.log('put response', result)
+  
 
     if (!response.ok) {
       console.error("Failed to update transaction:", result);
@@ -188,7 +189,7 @@ const handlePayment = async () => {
     });
 
     const data = await orderResponse.json();
-    console.log(data,"datasssss")
+    
 
 
     if (!orderResponse.ok) {
@@ -205,7 +206,7 @@ const handlePayment = async () => {
 
     notification.success({ message: "Success", description: "Payment initiated!" });
     initiatePayment(razorpayOrderId, data.amount, formData.email);
-    console.log("🚀 Order ID:", data.order_id);
+    
   } catch (error) {
     console.error("Error creating order:", error);
     notification.error({
@@ -261,6 +262,10 @@ const initiatePayment = (razorpayOrderId, amount, userEmail) => {
     );
   });
 };
+
+
+//modal pop code 
+
 
 
 
@@ -351,8 +356,8 @@ const initiatePayment = (razorpayOrderId, amount, userEmail) => {
                   setFormData((prev) => ({ ...prev, email: e.target.value }))
                 }
                 placeholder="Enter your mail ID"
-                className='inout-form-payment'
-                disabled={isAuthenticated} 
+                className={`inout-form-payments ${!isGuest ? 'disabled-input' : ''}`}
+                disabled={!isGuest} 
               />
             </div>
 
@@ -405,7 +410,6 @@ const initiatePayment = (razorpayOrderId, amount, userEmail) => {
 };
 
 export default VenueDetails;
-
 
 
 

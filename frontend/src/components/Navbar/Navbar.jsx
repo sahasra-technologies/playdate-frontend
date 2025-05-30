@@ -3,7 +3,7 @@ import {
   FaUser, FaMapMarkerAlt, FaSearch, FaChevronDown, FaBars, FaTimes
 } from 'react-icons/fa';
 import { MdLocalOffer } from 'react-icons/md';
-import { ThemeContext } from '../../context/ThemeContext';
+// import { ThemeContext } from '../../context/ThemeContext';
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { useUser } from '../Login/UserContext';
@@ -18,7 +18,7 @@ const Navbar = () => {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(!!Cookies.get("access"));
 
-  const { theme, toggleTheme } = useContext(ThemeContext);
+  // const { theme, toggleTheme } = useContext(ThemeContext);
   const { names } = useUser();
   const navigate = useNavigate();
 
@@ -75,9 +75,9 @@ const Navbar = () => {
 
  const renderDropdown = () => (
   <div className="dropdown-menu right-align">
-    <button onClick={toggleTheme} className="dropdown-btn">
+    {/* <button onClick={toggleTheme} className="dropdown-btn">
       {theme === 'dark' ? '🌞 Light Mode' : '🌙 Dark Mode'}
-    </button>
+    </button> */}
     {isLoggedIn ? (
       <button onClick={handleLogout} className="dropdown-btn">Logout</button>
     ) : (
@@ -87,7 +87,7 @@ const Navbar = () => {
 );
 
   return (
-    <nav className="navbar" data-theme={theme}>
+    <nav className="navbar" data-theme=''>
       {/* Logo */}
       <div className="nav-logo-wrapper">
         <div className="nav-logo" onClick={() => navigate("/")}>
