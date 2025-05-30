@@ -23,7 +23,6 @@ import MatchSchedule from './components/Tournaments/MatchSchedule';
 import GroundVenueDetails from './components/Tournaments/GroundVenueDetails/GroundVenueDetails';
 import GroundTournamentRules from './components/Tournaments/GroundTournamentRules/GroundTournamentRules';
 import VenueDetails from './components/Tournaments/VenueDetails';
-import Registration from './components/Registration/Resgistration';
 
 // import { SpinnerInfinity } from 'spinners-react';
 import CustomSpinner from './components/Spinner/CustomSpinner';
@@ -86,7 +85,6 @@ function App() {
           <Route path="/" element={<TournamentPage setIsLoading={setIsLoading} />} />
           <Route path="/login" element={<LoginForm />} />
           <Route path="/reset-password" element={<ResetPassword />} />
-          <Route path='/register' element={<Registration/>}/>
 
           {/* Protected & Other Routes */}
           <Route path="/home" element={<Home setIsLoading={setIsLoading} />} />

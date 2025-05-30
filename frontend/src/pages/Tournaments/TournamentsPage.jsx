@@ -26,7 +26,7 @@ const TournamentPage = ({ setIsLoading }) => {
     ws = new WebSocket('ws://157.173.195.249:8000/tournaments');
 
     ws.onopen = () => {
-      console.log('✅ WebSocket connected');
+      
       setWebSocketLoading(false);
     };
 
@@ -34,7 +34,7 @@ const TournamentPage = ({ setIsLoading }) => {
       setIsLoading(true);
       try {
         const payload = JSON.parse(event.data);
-        console.log('📩 WebSocket data:', payload);
+       
         handleWebSocketAction(payload);
       } catch (error) {
         console.error('❌ Failed to parse WebSocket data:', error);
@@ -50,7 +50,7 @@ const TournamentPage = ({ setIsLoading }) => {
     };
 
     ws.onclose = (e) => {
-      console.log('🔌 WebSocket closed. Reconnecting in 3s...', e.reason);
+      
       setTimeout(connectWebSocket, 3000);
     };
   };

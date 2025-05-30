@@ -351,8 +351,8 @@ const initiatePayment = (razorpayOrderId, amount, userEmail) => {
                   setFormData((prev) => ({ ...prev, email: e.target.value }))
                 }
                 placeholder="Enter your mail ID"
-                className={`inout-form-payments ${!isGuest ? 'disabled-input' : ''}`}
-                disabled={!isGuest} 
+                className='inout-form-payment'
+                disabled={isAuthenticated} 
               />
             </div>
 
