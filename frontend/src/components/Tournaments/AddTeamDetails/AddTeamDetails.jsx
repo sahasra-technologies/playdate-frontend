@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./AddTeamDetails.css";
 import defaultImage from "../../../assets/Tournment/team.png";
 
-const API_URL = "http://94.136.191.98:8000/Tournament/teams/";
+const API_URL = "http://playdatesport.com:8000/Tournament/teams/";
 const ACCESS_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ4MDAwMDA5LCJpYXQiOjE3NDc1NjgwMDksImp0aSI6ImYwMzJmMTBhY2Q2ZDQ0YTliNTY1OWQyYjM5ODM4ZjQ2IiwidXNlcl9pZCI6MjR9._X7HvE5I_-423jWElaK83K9QO-L1TxiKOl3GmYL1wpY";
 
 // Decode JWT to extract user_id
