@@ -4,7 +4,7 @@ import axios from 'axios'
 import '../Login/Login.css'  
 
 const apiClient = axios.create({
-    baseURL: 'http://playdatesport.com:8000',
+    baseURL: 'https://playdatesport.com:8000',
     headers: { 'Content-Type': 'application/json' },
   }); 
 

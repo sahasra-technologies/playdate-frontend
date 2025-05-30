@@ -23,7 +23,7 @@ const TournamentPage = ({ setIsLoading }) => {
     setWebSocketLoading(true);
     setIsLoading(true);
 
-    ws = new WebSocket('ws://playdatesport.com:8000/tournaments');
+    ws = new WebSocket('wss://playdatesport.com:8000/tournaments');
 
     ws.onopen = () => {
       
