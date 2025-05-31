@@ -43,7 +43,7 @@
 
 /* Logo */
 .logo img {
-  width: 40px;
+  width: 120px;
   height: 40px;
   margin-bottom: 10px;
   background-color: #4f8ccb; 
@@ -56,11 +56,14 @@
   font-size: 24px;
   color: #fff;
   margin-bottom: 20px;
-  display: flex;
-  justify-content: flex-start;
+  text-align: center;       /* 👈 center the text inside the element */
+  width: 100%;              /* 👈 required for text-align to work properly */
 }
 
-
+.login-title img {
+  width: 150px;
+  height: 60px;
+}
 .input-field {
   width: 100%;
   padding: 12px;
@@ -199,3 +202,28 @@
     display: none;
   }
 }
+
+.password-hint-list {
+  font-size: 10px;
+  color: #666;
+  padding-left: 8px;
+  margin-top: 8px;
+  margin-bottom: 16px;
+  list-style: disc;
+  columns: 2; /* 👈 This splits the list into 2 columns */
+  column-gap: 15px; /* Space between the columns */
+}
+
+.password-hint-list li {
+  margin-bottom: 6px;
+  line-height: 1.4;
+  break-inside: avoid; /* Keeps items from breaking between columns */
+}
+
+@media (max-width: 500px) {
+  .password-hint-list {
+    columns: 1;
+  }
+}
+
+

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import logo from '../../assets/images/logo.png';
+import logo from '../../assets/images/image.png';
 import {useUser} from './UserContext';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import './Login.css';
@@ -35,8 +35,19 @@ const LoginForm = () => {
   
   const navigate = useNavigate();
 
+  const isPasswordValid = (password) => {
+    const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?#&])[A-Za-z\d@$!%*?#&]{8,}$/;
+    return regex.test(password);
+  };
+
   const handleLogin = async (e) => {
     e.preventDefault();
+
+    if (!isPasswordValid(password)) {
+      alert("Password must be at least 8 characters long and include at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character.");
+      return;
+    }
+
     try {
       const res = await apiClient.post('/Auth/token/', {
         username,
@@ -93,19 +104,22 @@ const LoginForm = () => {
   }
 
   const handleBack = () =>{
-    navigate('/login', {state: {fromLogin: true}})
+    // navigate('/login', {state: {fromLogin: true}})
+    setShowForgot(false)
   }
 
   return (
     <div className='login-container'>
       <div className="login-box">
-        <div className="logo">
+        {/* <div className="logo">
           <img src={logo} alt="Logo" />
-        </div>
-        <h2 className="login-title">Login</h2>
+        </div> */}
         <form onSubmit={handleLogin}>
           {!showForgot ? (
             <>
+              <h2 className="login-title">
+                <img src={logo} alt="Logo" /><br/>
+                Login</h2>
               <input
                 type="email"
                 placeholder="Email"
@@ -132,6 +146,9 @@ const LoginForm = () => {
             </>
           ) : (
             <div className='forgot-password-section'>
+              <h2 className="login-title">
+                  <img src={logo} alt="Logo" /><br/>
+                  Forget Password</h2>
               <input
                 type='email'
                 placeholder='Enter your email'

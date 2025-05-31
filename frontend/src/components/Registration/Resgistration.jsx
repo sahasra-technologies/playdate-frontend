@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import axios from 'axios' 
 import { useNavigate } from 'react-router-dom' 
 import '../Login/Login'
+import logo from '../../assets/images/image.png';
 
 const apiClient = axios.create({
   baseURL: 'https://playdatesport.com/api',
@@ -13,7 +14,12 @@ const Register = () =>{
     const [username, setUsername] =useState('')
     const [firstName, setFirstName] = useState('')
     const [password, setPassword] = useState('')
-    const navigate = useNavigate()  
+    const navigate = useNavigate()
+    
+    const isPasswordValid = (password) => {
+      const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?#&])[A-Za-z\d@$!%*?#&]{8,}$/;
+      return regex.test(password);
+    };
 
 
     const handleRegister = async() =>{
@@ -21,7 +27,12 @@ const Register = () =>{
             alert('All fields are required')
             return
         }
-     try{ 
+     try{
+        
+        if (!isPasswordValid(password)) {
+          alert("Password must be at least 8 characters long and include at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character.");
+          return;
+        }
         const response = await apiClient.post('/User/signup/',{
             username, 
             password, 
@@ -41,7 +52,9 @@ const Register = () =>{
     return(
         <div className="login-container">
       <div className="login-box">
-        <h2 className="login-title">Register</h2>
+        <h2 className="login-title">
+          <img src={logo} alt="Logo" /><br/>
+          Register</h2>
         <input
           type="text"
           placeholder="Full Name"
@@ -63,6 +76,20 @@ const Register = () =>{
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
+
+        {/* <p style={{ fontWeight: '600', fontSize: '13px', color: '#444', margin: '4px 0 6px' }}>
+          Password Requirements:
+        </p> */}
+
+        <ul className="password-hint-list">
+          <li>Minimum 8 characters</li>
+          <li>At least 1 uppercase letter (A-Z)</li>
+          <li>At least 1 lowercase letter (a-z)</li>
+          <li>At least 1 number (0-9)</li>
+          <li>At least 1 special character (@$!%*?#&)</li>
+        </ul>
+
+
         <button type="button" className="sign-in-button" onClick={handleRegister}>
           Register
         </button>
