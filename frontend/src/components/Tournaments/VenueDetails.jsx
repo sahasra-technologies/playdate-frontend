@@ -13,7 +13,7 @@ import TournamentRules from '../Tournaments/TournamentRules';
 
 
 
-const API_URL = 'http://157.173.195.249:8000/Tournament/teams/';
+const API_URL = 'https://playdatesport.com/api/Tournament/teams/';
 
 const VenueDetails = () => {
   const { id } = useParams();
@@ -140,7 +140,7 @@ const updateTransactionStatus = async (paymentId, status, message, razorpayOrder
   
 
   try {
-    const response = await fetch("http://157.173.195.249:8000/payments/order/", {
+    const response = await fetch("https://playdatesport.com/api/payments/order/", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -179,7 +179,7 @@ const handlePayment = async () => {
   };
 
   try {
-    const orderResponse = await fetch("http://157.173.195.249:8000/payments/orders/", {
+    const orderResponse = await fetch("https://playdatesport.com/api/payments/orders/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

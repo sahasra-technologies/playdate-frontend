@@ -10,7 +10,7 @@ import defaultVenueImage from '../../assets/Tournment/sahasra.png';
 import MatchSchedule from './MatchSchedule';
 import GroundTournamentRules from './GroundTournamentRules/GroundTournamentRules';
 
-const API_URL = 'http://157.173.195.249:8000/Tournament/tournaments/';
+const API_URL = 'https://playdatesport.com/api/Tournament/tournaments/';
 
 const GameDetailsPage = ({ setIsLoading }) => {
   const { id } = useParams();

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { ThemeContext } from '../../context/ThemeContext';
 import './TournamentsPage.css';
+import axios from 'axios';
 
 const TournamentPage = ({ setIsLoading }) => {
   const navigate = useNavigate();
@@ -12,79 +13,99 @@ const TournamentPage = ({ setIsLoading }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [webSocketLoading, setWebSocketLoading] = useState(true);
 
-  let ws;
-
   useEffect(() => {
-  connectWebSocket();
-}, []);
-
-
-  const connectWebSocket = () => {
-    setWebSocketLoading(true);
-    setIsLoading(true);
-
-    ws = new WebSocket('ws://157.173.195.249:8000/tournaments');
-
-    ws.onopen = () => {
-      
-      setWebSocketLoading(false);
-    };
-
-    ws.onmessage = (event) => {
-      setIsLoading(true);
+    const fetchData = async () => {
       try {
-        const payload = JSON.parse(event.data);
-       
-        handleWebSocketAction(payload);
-      } catch (error) {
-        console.error('❌ Failed to parse WebSocket data:', error);
-      } finally {
+        setWebSocketLoading(true);
+        setIsLoading(true);
+        const response = await axios.get("https://playdatesport.com/api/Tournament/tournaments/");
+        console.log("Response data:", response.data);
+        setTournamentData(response.data)
+        setWebSocketLoading(false);
         setIsLoading(false);
+      } catch (err) {
+        console.error("Error fetching tournaments:", err);
       }
     };
 
-    ws.onerror = (error) => {
-      console.error('❌ WebSocket error:', error);
-      setWebSocketLoading(false);
-      setIsLoading(false);
-    };
+    fetchData();
+  }, []); // Empty dependency array means this runs once when the component mounts
 
-    ws.onclose = (e) => {
+    
+
+  let ws;
+
+//   useEffect(() => {
+//   connectWebSocket();
+// }, []);
+
+
+  // const connectWebSocket = () => {
+  //   setWebSocketLoading(true);
+  //   setIsLoading(true);
+
+  //   ws = new WebSocket('ws://157.173.195.249:8000/tournaments');
+
+  //   ws.onopen = () => {
       
-      setTimeout(connectWebSocket, 3000);
-    };
-  };
+  //     setWebSocketLoading(false);
+  //   };
 
-  const handleWebSocketAction = (message) => {
-    switch (message.action) {
-      case 'initial':
-        if (Array.isArray(message.data)) {
-          setTournamentData(message.data);
-        }
-        break;
+  //   ws.onmessage = (event) => {
+  //     setIsLoading(true);
+  //     try {
+  //       const payload = JSON.parse(event.data);
+       
+  //       handleWebSocketAction(payload);
+  //     } catch (error) {
+  //       console.error('❌ Failed to parse WebSocket data:', error);
+  //     } finally {
+  //       setIsLoading(false);
+  //     }
+  //   };
 
-      case 'create':
-        setTournamentData((prev) => [...prev, message.data]);
-        break;
+  //   ws.onerror = (error) => {
+  //     console.error('❌ WebSocket error:', error);
+  //     setWebSocketLoading(false);
+  //     setIsLoading(false);
+  //   };
 
-      case 'update':
-        setTournamentData((prev) =>
-          prev.map((item) =>
-            item.id === message.data.id ? { ...item, ...message.data } : item
-          )
-        );
-        break;
+  //   ws.onclose = (e) => {
+      
+  //     setTimeout(connectWebSocket, 3000);
+  //   };
+  // };
 
-      case 'delete':
-        setTournamentData((prev) =>
-          prev.filter((item) => item.id !== message.data.id)
-        );
-        break;
+  // const handleWebSocketAction = (message) => {
+  //   switch (message.action) {
+  //     case 'initial':
+  //       if (Array.isArray(message.data)) {
+  //         setTournamentData(message.data);
+  //       }
+  //       break;
 
-      default:
-        console.warn('⚠️ Unhandled WebSocket action:', message.action);
-    }
-  };
+  //     case 'create':
+  //       setTournamentData((prev) => [...prev, message.data]);
+  //       break;
+
+  //     case 'update':
+  //       setTournamentData((prev) =>
+  //         prev.map((item) =>
+  //           item.id === message.data.id ? { ...item, ...message.data } : item
+  //         )
+  //       );
+  //       break;
+
+  //     case 'delete':
+  //       setTournamentData((prev) =>
+  //         prev.filter((item) => item.id !== message.data.id)
+  //       );
+  //       break;
+
+  //     default:
+  //       console.warn('⚠️ Unhandled WebSocket action:', message.action);
+  //   }
+  // };
 
   const handleCardClick = (gameId) => {
     navigate(`/tournaments/${gameId}`);

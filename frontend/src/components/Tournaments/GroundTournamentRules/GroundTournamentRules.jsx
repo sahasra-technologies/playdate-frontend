@@ -9,7 +9,7 @@ const GroundTournamentRules = ({ setIsLoading }) => {
       try {
         setIsLoading(true); // show spinner
 
-        const response = await fetch('http://157.173.195.249:8000/Tournament/tournaments/');
+        const response = await fetch('https://playdatesport.com/api/Tournament/tournaments/');
         if (!response.ok) {
           throw new Error('Network response was not ok ' + response.statusText);
         }
