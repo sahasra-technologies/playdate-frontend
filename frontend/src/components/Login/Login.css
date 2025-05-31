@@ -41,6 +41,25 @@
   border: 1px solid rgba(255, 255, 255, 0.18); 
 }
 
+.login-box {
+  background: rgba(255, 255, 255, 0.1); 
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border-radius: 20px;
+  padding: 20px;
+  width: 100%;
+  max-width: 400px;
+  height: 560px;
+  z-index: 2;
+  text-align: center;
+  min-height: 480px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid rgba(255, 255, 255, 0.18); 
+}
+
 /* Logo */
 .logo img {
   width: 120px;
@@ -191,16 +210,38 @@
   gap: 10px;
 }
 
+.page-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Full height of the viewport */
+}
 
-@media (max-width: 500px) {
-  .login-box {
-    width: 90%;
-    padding: 20px;
-  }
+/* Main content section that holds the register form */
+.main-content {
+  flex: 1; /* This takes up all available space, pushing footer to the bottom */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
 
-  .decorative {
-    display: none;
-  }
+.reg-box {
+  background: rgba(255, 255, 255, 0.1); 
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border-radius: 20px;
+  padding: 20px;
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  min-height: 480px;
+  z-index: 2;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid rgba(255, 255, 255, 0.18);
 }
 
 .password-hint-list {
@@ -220,10 +261,61 @@
   break-inside: avoid; /* Keeps items from breaking between columns */
 }
 
+.reg_password-hint-list {
+  font-size: 10px;
+  color: #666;
+  padding-left: 8px;
+  margin-top: 8px;
+  margin-bottom: 16px;
+  list-style: disc;
+  columns: 2; /* 👈 This splits the list into 2 columns */
+  column-gap: 15px; /* Space between the columns */
+}
+
+.reg_password-hint-list li {
+  margin-bottom: 6px;
+  line-height: 1.4;
+  break-inside: avoid; /* Keeps items from breaking between columns */
+}
+
+.reg_password-hint-list-mobile {
+    display: none;
+  }
+
 @media (max-width: 500px) {
+  .login-box {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .decorative {
+    display: none;
+  }
+
+  .reg-box {
+    max-width: 90%;
+    padding: 15px;
+  }
+
   .password-hint-list {
     columns: 1;
   }
+
+  .reg_password-hint-list {
+      display: none;
+    }
+
+  .reg_password-hint-list-mobile {
+    display: block;
+    font-size: 10px;
+    color: #666;
+  }
+
+  .reg-box .login-title img {
+    display: none;
+  }
+
+
 }
 
 

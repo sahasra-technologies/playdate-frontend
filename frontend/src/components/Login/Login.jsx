@@ -143,6 +143,9 @@ const LoginForm = () => {
                 Forgot Password?
               </div>
               <button type="submit" className="sign-in-button">Sign In</button>
+              <div className="register-text">
+                Don’t have an account? <span onClick={() => navigate('/register')}>Register for free</span>
+              </div>
             </>
           ) : (
             <div className='forgot-password-section'>
@@ -161,6 +164,9 @@ const LoginForm = () => {
               </button>
               <div className="forgot-password" onClick={handleBack}>
                 Back to Login
+              </div>
+              <div className="register-text">
+                Don’t have an account? <span onClick={() => navigate('/register')}>Register for free</span>
               </div>
             </div>
           )}
@@ -182,9 +188,9 @@ const LoginForm = () => {
           </div>
         </div> */}
 
-        <div className="register-text">
+        {/* <div className="register-text">
           Don’t have an account? <span onClick={() => navigate('/register')}>Register for free</span>
-        </div>
+        </div> */}
       </div>
     </div>
   );
