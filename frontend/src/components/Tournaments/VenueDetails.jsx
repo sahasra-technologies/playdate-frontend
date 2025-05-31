@@ -239,6 +239,8 @@ const initiatePayment = (razorpayOrderId, amount, userEmail) => {
         razorpayOrderId,
         response.razorpay_signature
       );
+    
+    navigate('/')
     },
     prefill: { email: userEmail || "guest@example.com" },
     theme: { color: "#F37254" },
