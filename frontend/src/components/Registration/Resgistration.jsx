@@ -42,7 +42,7 @@ const Register = () =>{
             username, 
             password, 
             first_name: firstName,
-            phone,
+            phone:`+91${phone}`,
         })
 
         alert('Registration successful! Please log in.');
