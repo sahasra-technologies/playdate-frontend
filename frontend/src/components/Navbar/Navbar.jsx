@@ -118,9 +118,9 @@ const Navbar = () => {
 
       {/* Desktop Navigation */}
       <div className="nav-buttons desktop-only">
-        <button className="btn search-btn"><FaSearch className="btn-icon" /> Search</button>
+        {/* <button className="btn search-btn"><FaSearch className="btn-icon" /> Search</button> */}
         <button className="btn sky-blue" onClick={() => navigate('/')}>Tournaments</button>
-        <button className="btn"><MdLocalOffer className="btn-icon" /> Offers</button>
+        {/* <button className="btn"><MdLocalOffer className="btn-icon" /> Offers</button> */}
 
         <div className="dropdown-wrapper">
           <button className="btn" onClick={() => setShowLoginDropdown(!showLoginDropdown)}>
@@ -152,9 +152,9 @@ const Navbar = () => {
             </div>
           </div>
 
-          <button className="btn search-btn"><FaSearch className="btn-icon" /> Search</button>
+          {/* <button className="btn search-btn"><FaSearch className="btn-icon" /> Search</button> */}
           <button className="btn sky-blue" onClick={() => navigate('/')}>Tournaments</button>
-          <button className="btn"><MdLocalOffer className="btn-icon" /> Offers</button>
+          {/* <button className="btn"><MdLocalOffer className="btn-icon" /> Offers</button> */}
           <div className="dropdown-wrapper">
             <button className="btn" onClick={() => setShowLoginDropdown(!showLoginDropdown)}>
               <FaUser className="btn-icon" /> {isLoggedIn ? (names || 'Profile') : 'Login'}

@@ -41,7 +41,7 @@ function LayoutWrapper({ children }) {
     <div className={`app-container ${theme}`}>
       {!hideLayout && <Navbar />}
       {children}
-      {!hideLayout && <Footer />}
+      {/* {!hideLayout && <Footer />} */}
     </div>
   );
 }

@@ -137,7 +137,7 @@ const TournamentPage = ({ setIsLoading }) => {
 
       <div className="tournament-container">
         <h1 className="sub-heading">PICK YOUR GAME</h1>
-        <p className="sub-title">PICK YOUR GAME</p>
+        {/* <p className="sub-title">PICK YOUR GAME</p> */}
 
         {webSocketLoading && <p>Connecting to server...</p>}
 

@@ -20,7 +20,7 @@
 }
 
 .add-team-button {
-  position: fixed; 
+  position: flex; 
   top: 140px;
   right: 130px;
   background-color: #4f8ccb;
@@ -50,7 +50,7 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 span{
-  color: blue;
+  color: #0f78d8;
 }
 .main-heading {
   background-color: rgb(14, 7, 7);
@@ -67,7 +67,7 @@ span{
   font-weight: 700;
   margin-bottom: 10px;
   text-transform: uppercase;
-  color: blue;
+  color: #0f78d8;
 }
 
 .sub-title {

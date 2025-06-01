@@ -43,7 +43,7 @@ const AddTeamDetails = () => {
   const [teamLogoFile, setTeamLogoFile] = useState(null);
   const [status, setStatus] = useState("");
   const [captain, setCaptain] = useState({ name: "", email: "" });
-const [viceCaptain, setViceCaptain] = useState({ name: "", email: "" });
+  const [viceCaptain, setViceCaptain] = useState({ name: "", email: "" });
  
 
   const handleChange = (index, field, value) => {
