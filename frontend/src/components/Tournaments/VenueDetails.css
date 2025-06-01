@@ -26,8 +26,8 @@
 
 .back-btn {
   position: absolute;
-  top: 16px;
-  left: 16px;
+  /* top: 16px;
+  left: 16px; */
   background: #0074cc;
   color: white;
   border: none;
@@ -162,7 +162,7 @@
 .btn-wrap{
   display: flex;
   justify-content: center;
-  align-items: center;
+  /* align-items: center; */
 }
 .book-button:hover {
   background-color: #4b6eee;

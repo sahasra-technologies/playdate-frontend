@@ -279,9 +279,7 @@ const initiatePayment = (razorpayOrderId, amount, userEmail) => {
     <div className='venue-container'>
       <div className='sub-container'>
     <div className={`venue-details-wrapper ${theme}`}>
-      <button className="back-btn" onClick={handleBack}>
-        <ArrowLeft size={22} /> Back
-      </button>
+      
 
       <div className="top-section">
         <img src={mainImage} alt="ground" className="main-img" />
@@ -403,6 +401,9 @@ const initiatePayment = (razorpayOrderId, amount, userEmail) => {
     </div>
     </div>
     <div className='btn-wrap'>
+      <button className="book-button" onClick={handleBack}>
+        <ArrowLeft size={10} /> Back
+      </button>&nbsp;
        <button className="book-button" onClick={handleBooking}>
           Go to book slot
         </button>

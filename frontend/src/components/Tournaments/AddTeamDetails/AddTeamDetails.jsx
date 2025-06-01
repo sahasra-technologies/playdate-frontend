@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./AddTeamDetails.css";
-import defaultImage from "../../../assets/Tournment/team.png";
+import Cookies from 'js-cookie';
+import defaultImage from "../../../assets/Tournment/Profile-PNG-Images.png";
 
 const API_URL = "https://playdatesport.com/api/Tournament/teams/";
 const ACCESS_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ4MDAwMDA5LCJpYXQiOjE3NDc1NjgwMDksImp0aSI6ImYwMzJmMTBhY2Q2ZDQ0YTliNTY1OWQyYjM5ODM4ZjQ2IiwidXNlcl9pZCI6MjR9._X7HvE5I_-423jWElaK83K9QO-L1TxiKOl3GmYL1wpY";
@@ -117,11 +118,13 @@ const AddTeamDetails = () => {
   };
 
   try {
+    var access = Cookies.get('access')
+    console.log("access", access)
     const res = await fetch(API_URL, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${ACCESS_TOKEN}`,
+        Authorization: `Bearer ${access}`,
       },
       body: JSON.stringify(payload),
     });
@@ -198,7 +201,7 @@ const AddTeamDetails = () => {
             <span className="delete" onClick={() => handleDeletePlayer(index)}>&#128465;</span>
           </div>
           <div className="image-wrapper">
-            <img src={player.image || defaultImage} alt="Player" className="player-img" />
+            <img src={ defaultImage} alt="Player" className="player-img" />
           </div>
           <input
             type="text"
