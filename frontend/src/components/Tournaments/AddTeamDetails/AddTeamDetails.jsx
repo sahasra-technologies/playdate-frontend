@@ -4,7 +4,7 @@ import Cookies from 'js-cookie';
 import defaultImage from "../../../assets/Tournment/Profile-PNG-Images.png";
 
 const API_URL = "https://playdatesport.com/api/Tournament/teams/";
-const ACCESS_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzQ4MDAwMDA5LCJpYXQiOjE3NDc1NjgwMDksImp0aSI6ImYwMzJmMTBhY2Q2ZDQ0YTliNTY1OWQyYjM5ODM4ZjQ2IiwidXNlcl9pZCI6MjR9._X7HvE5I_-423jWElaK83K9QO-L1TxiKOl3GmYL1wpY";
+const ACCESS_TOKEN = Cookies.get('access')
 
 // Decode JWT to extract user_id
 const parseJwt = (token) => {
@@ -220,7 +220,7 @@ const AddTeamDetails = () => {
     </div>
 
     <button className="submit-btn" onClick={handleSubmit}>Save Team</button>
-    {status && <p className="status-text">{status}</p>}
+    {/* {status && <p className="status-text">{status}</p>} */}
 
     {teamModalOpen && (
       <div className="modal-overlay">

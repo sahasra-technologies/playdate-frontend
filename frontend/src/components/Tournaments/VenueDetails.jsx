@@ -277,7 +277,131 @@ const initiatePayment = (razorpayOrderId, amount, userEmail) => {
 
   return (
     <div className='venue-container'>
-      <div className='sub-container'>
+      {/* mobile responsive */}
+      <div className={`mobile_venue-details-wrapper ${theme}`}>
+      
+
+      <div className="top-section">
+        <img src={mainImage} alt="ground" className="main-img" />
+        <div className="details-section">
+          <div className="details-header">
+            <div>
+              <h1>{ground.ground_name}</h1>
+              <p className="game-name">{ground.name || 'N/A'}</p>
+            </div>
+            <a
+              href={`https://maps.google.com/?q=${encodeURIComponent(location)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="get-directions"
+            >
+              Get Directions <Navigation size={14} />
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div className="section">
+        <h2>About</h2>
+        <p>{ground.description || 'No description available.'}</p>
+      </div>
+
+      <div className="section">
+        <h2>Slot Time</h2>
+        {ground.maintenanceSchedule?.map((slot, idx) => (
+          <div key={idx} className="maintance-schedule">
+            <p>Days: {slot.days.join(', ')}</p>
+            <p>Start: {slot.startTime}</p>
+            <p>End: {slot.endTime}</p>
+          </div>
+        ))}
+      </div>
+
+      <div className="section">
+        <h2>Amenities</h2>
+        <ul className="amenities-list">
+          {ground.amenities?.map((a, i) => <li key={i}>{a},</li>)}
+        </ul>
+      </div>
+
+      <div className="section"><h2>Location</h2><p>{ground.address || 'N/A'}</p></div>
+      <div className="section"><h2>Ground Timings</h2><p>{ground.Created || 'N/A'}</p></div>
+
+     
+      
+
+      {showForm && (
+        <div className="modal-overlay" onClick={() => setShowForm(false)}>
+          <div className="modal-form" onClick={(e) => e.stopPropagation()}>
+            <h2 className="form-title">Registration Form</h2>
+
+            <div className="form-group">
+              <label>Tournament</label>
+              <input
+                type="text"
+                value={formData.tournament}
+                readOnly
+                placeholder="e.g. JAGGAHUNDA MARATHON"
+                className='inout-form-payment'
+                disabled
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Mail ID</label>
+              <input
+                type="email"
+                value={formData.email}
+                onChange={(e) =>
+                  setFormData((prev) => ({ ...prev, email: e.target.value }))
+                }
+                placeholder="Enter your mail ID"
+                className={`inout-form-payments ${!isGuest ? 'disabled-input' : ''}`}
+                disabled={!isGuest} 
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Team</label>
+              <select
+                  value={formData.team}
+                  onChange={(e) => setFormData({ ...formData, team: e.target.value })}
+                >
+                  <option value="">Select Team</option>
+                  {teams.map((team, index) => (
+                    <option key={index} value={team}>{team}</option>
+                  ))}
+               </select>
+            </div>
+
+            <div className="form-group">
+              <label>Price</label>
+              <input
+                type="text"
+                value={formData.price}
+                className='inout-form-payment'
+                readOnly
+              />
+            </div>
+           <div className="form-btn-wrap">
+          <button className="submit-btn" onClick={(e) => {
+                  e.preventDefault(); 
+                  handlePayment();
+                }}>
+                  Book Slot
+          </button>
+            </div>
+           
+          </div>
+        </div>
+      )}
+      </div>
+      <br/>
+      <div className='mobile_venue-details-wrapper'>
+      <TournamentRules/>
+      </div>
+    {/* laptop responsive */}
+    <div className='sub-container'>
     <div className={`venue-details-wrapper ${theme}`}>
       
 

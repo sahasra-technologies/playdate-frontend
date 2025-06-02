@@ -1,13 +1,19 @@
 import { useNavigate } from 'react-router-dom';
-import matchSchedule from '../../assets/Tournment/matchSchedule.png'
+import matchSchedule from '../../assets/Tournment/matchSchedule.png';
+import './MatchSchedule.css';
 
 const MatchSchedule = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="match-schedule-container">
-      <img src={matchSchedule} alt="Match Schedule" className="match-schedule-image" />
+    <div className="match-schedule">
+      <img 
+        src={matchSchedule} 
+        alt="Tournament Match Schedule" 
+        className="match-schedule__image" 
+      />
     </div>
   );
 };
+
 export default MatchSchedule;
