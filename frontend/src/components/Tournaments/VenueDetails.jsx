@@ -202,10 +202,12 @@ const handlePayment = async () => {
     }
 
      
-    const razorpayOrderId = data.order_id; 
+    // const razorpayOrderId = data.order_id;
+    console.log(data) 
 
     notification.success({ message: "Success", description: "Payment initiated!" });
-    initiatePayment(razorpayOrderId, data.amount, formData.email);
+    window.location.href = data.upi_link;
+    // initiatePayment(razorpayOrderId, data.amount, formData.email);
     
   } catch (error) {
     console.error("Error creating order:", error);

@@ -148,7 +148,7 @@
 
 .book-button {
   margin-top: 20px;
-  background-color: #3c4bf4;
+  background-color: #007bff;
   color: white;
   padding: 12px 20px;
   border: none;
@@ -280,6 +280,7 @@
   transition: background 0.3s;
 }
 
+
 .submit-btn:hover {
   background: #2563eb;
 }
@@ -304,6 +305,19 @@
   color: #999999;
   cursor: not-allowed;
 }
+
+.qr-section {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.qr-code {
+  width: 150px;
+  height: 150px;
+  object-fit: contain;
+  margin: 10px auto;
+}
+
 
 
 .mobile_venue-details-wrapper {
