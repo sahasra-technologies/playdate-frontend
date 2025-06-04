@@ -5,8 +5,7 @@ import defaultImage from "../../../assets/Tournment/Profile-PNG-Images.png";
 import { useNavigate } from 'react-router-dom';
 
 const API_URL = "https://playdatesport.com/api/Tournament/teams/";
-const ACCESS_TOKEN = Cookies.get('access');
-const userId = Cookies.get('userId');
+
 
 const toBase64 = (file) => {
   return new Promise((resolve, reject) => {
@@ -28,6 +27,11 @@ const AddTeamDetails = () => {
   const [viceCaptain, setViceCaptain] = useState({ name: "", email: "" });
   const [teamId, setTeamId] = useState(null);
   const navigate = useNavigate();
+
+  const ACCESS_TOKEN = Cookies.get('access');
+  const userId = Cookies.get('userId');
+
+  console.log("userId", userId)
 
   useEffect(() => {
     const fetchTeamData = async () => {

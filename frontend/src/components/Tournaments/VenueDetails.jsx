@@ -34,18 +34,40 @@ const VenueDetails = () => {
   const [tournamentName, setTournamentName] = useState('');
   const [teams, setTeams] = useState([]);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [fetchedGround, setFetchedGround] = useState(null);
+  const ACCESS_TOKEN = Cookies.get('access');
+  const userId = Cookies.get('userId');
 
 
- 
-  
-    useEffect(()=>{
-      const useEmail = Cookies.get('email')
-        if(useEmail){
-          setFormData((prev) => ({ ...prev, email: useEmail }))
-          setIsAuthenticated(true)
+  useEffect(() => {
+  const fetchGroundById = async () => {
+    if (!ground && id) {
+      try {
+        const response = await axios.get(`https://playdatesport.com/api/Grounds/ground_info/`, {
+          params: { id },
+        });
+
+        if (response.data) {
+          setFetchedGround(response.data); // Save in fallback state
         }
-      
-    },[])
+      } catch (error) {
+        console.error('Error fetching ground by ID:', error);
+      }
+    }
+  };
+
+  fetchGroundById();
+}, [ground, id]);
+
+  
+  useEffect(()=>{
+    const useEmail = Cookies.get('email')
+      if(useEmail){
+        setFormData((prev) => ({ ...prev, email: useEmail }))
+        setIsAuthenticated(true)
+      }
+    
+  },[])
 
  useEffect(() => {
   const fetchTeams = async () => {
@@ -102,10 +124,10 @@ const handleBooking = () => {
     }
 };
 
+  const activeGround = ground || fetchedGround;
+  if (!activeGround) return <p className="error-msg">❌ No venue data found.</p>;
 
-  if (!ground) return <p className="error-msg">❌ No venue data found.</p>;
-
-  const location = ground.location || game?.address || 'N/A';
+  const location = activeGround.location || game?.address || 'N/A';
   const mainImage = game?.images?.[0]?.url || gameImg;   
 
 
@@ -291,8 +313,8 @@ const handlePayment = async () => {
         <div className="details-section">
           <div className="details-header">
             <div>
-              <h1>{ground.ground_name}</h1>
-              <p className="game-name">{ground.name || 'N/A'}</p>
+              <h1>{activeGround.ground_name}</h1>
+              <p className="game-name">{activeGround.name || 'N/A'}</p>
             </div>
             {/*<a
               href={`https://maps.google.com/?q=${encodeURIComponent(location)}`}
@@ -308,12 +330,12 @@ const handlePayment = async () => {
 
       <div className="section">
         <h2>About</h2>
-        <p>{ground.description || 'No description available.'}</p>
+        <p>{activeGround.description || 'No description available.'}</p>
       </div>
 
       <div className="section">
         <h2>Slot Time</h2>
-        {ground.maintenanceSchedule?.map((slot, idx) => (
+        {activeGround.maintenanceSchedule?.map((slot, idx) => (
           <div key={idx} className="maintance-schedule">
             <p>Days: {slot.days.join(', ')}</p>
             <p>Start: {slot.startTime}</p>
@@ -325,12 +347,12 @@ const handlePayment = async () => {
       <div className="section">
         <h2>Amenities</h2>
         <ul className="amenities-list">
-          {ground.amenities?.map((a, i) => <li key={i}>{a},</li>)}
+          {activeGround.amenities?.map((a, i) => <li key={i}>{a},</li>)}
         </ul>
       </div>
 
-      <div className="section"><h2>Location</h2><p>{ground.address || 'N/A'}</p></div>
-      <div className="section"><h2>Ground Timings</h2><p>{ground.Created || 'N/A'}</p></div>
+      <div className="section"><h2>Location</h2><p>{activeGround.address || 'N/A'}</p></div>
+      <div className="section"><h2>Ground Timings</h2><p>{activeGround.Created || 'N/A'}</p></div>
 
      
       
@@ -415,8 +437,8 @@ const handlePayment = async () => {
         <div className="details-section">
           <div className="details-header">
             <div>
-              <h1>{ground.ground_name}</h1>
-              <p className="game-name">{ground.name || 'N/A'}</p>
+              <h1>{activeGround.ground_name}</h1>
+              <p className="game-name">{activeGround.name || 'N/A'}</p>
             </div>
             {/* <a
               href={`https://maps.google.com/?q=${encodeURIComponent(location)}`}
@@ -432,12 +454,12 @@ const handlePayment = async () => {
 
       <div className="section">
         <h2>About</h2>
-        <p>{ground.description || 'No description available.'}</p>
+        <p>{activeGround.description || 'No description available.'}</p>
       </div>
 
       <div className="section">
         <h2>Slot Time</h2>
-        {ground.maintenanceSchedule?.map((slot, idx) => (
+        {activeGround.maintenanceSchedule?.map((slot, idx) => (
           <div key={idx} className="maintance-schedule">
             <p>Days: {slot.days.join(', ')}</p>
             <p>Start: {slot.startTime}</p>
@@ -449,12 +471,12 @@ const handlePayment = async () => {
       <div className="section">
         <h2>Amenities</h2>
         <ul className="amenities-list">
-          {ground.amenities?.map((a, i) => <li key={i}>{a},</li>)}
+          {activeGround.amenities?.map((a, i) => <li key={i}>{a},</li>)}
         </ul>
       </div>
 
-      <div className="section"><h2>Location</h2><p>{ground.address || 'N/A'}</p></div>
-      <div className="section"><h2>Ground Timings</h2><p>{ground.Created || 'N/A'}</p></div>
+      <div className="section"><h2>Location</h2><p>{activeGround.address || 'N/A'}</p></div>
+      <div className="section"><h2>Ground Timings</h2><p>{activeGround.Created || 'N/A'}</p></div>
 
      
       
