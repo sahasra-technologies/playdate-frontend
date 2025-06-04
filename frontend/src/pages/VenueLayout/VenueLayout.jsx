@@ -53,7 +53,7 @@ const VenueLayout = ({ setIsLoading }) => {
         {activeTab === 'venue' && (
           <>
             <div className="venue-card">
-              <VenueDetails id={id} />
+              <VenueDetails id={id} setIsLoading={setIsLoading} />
             </div>
             {/* <div className="rules-card">
               <TournamentRules id={id} />

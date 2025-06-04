@@ -15,7 +15,7 @@ import TournamentRules from '../Tournaments/TournamentRules';
 
 const API_URL = 'https://playdatesport.com/api/Tournament/teams/';
 
-const VenueDetails = () => {
+const VenueDetails = ({setIsLoading}) => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { theme } = useContext(ThemeContext);
@@ -114,19 +114,20 @@ const VenueDetails = () => {
 
   const handleBack = () => navigate(-1);
  
-const handleBooking = () => {
-   
-   if (user) {
-      setShowForm(true);
-    } else {
-      alert('⚠️ Please log in to book a slot.');
-      navigate('/login');
-    }
-};
+  const handleBooking = () => {
+    
+    if (user) {
+        setShowForm(true);
+      } else {
+        alert('⚠️ Please log in to book a slot.');
+        navigate('/login');
+      }
+  };
 
+  setIsLoading(true)
   const activeGround = ground || fetchedGround;
   if (!activeGround) return <p className="error-msg">❌ No venue data found.</p>;
-
+  setIsLoading(false)
   const location = activeGround.location || game?.address || 'N/A';
   const mainImage = game?.images?.[0]?.url || gameImg;   
 
@@ -136,16 +137,16 @@ const isGuest = !Cookies.get("access");
 
   //payment
 
-useEffect(() => {
-  const script = document.createElement("script");
-  script.src = "https://checkout.razorpay.com/v1/checkout.js";
-  script.async = true;
-  document.body.appendChild(script);
+// useEffect(() => {
+//   const script = document.createElement("script");
+//   script.src = "https://checkout.razorpay.com/v1/checkout.js";
+//   script.async = true;
+//   document.body.appendChild(script);
 
-  return () => {
-    document.body.removeChild(script); 
-  };
-}, []);
+//   return () => {
+//     document.body.removeChild(script); 
+//   };
+// }, []);
 
 //payment
 const updateTransactionStatus = async (paymentId, status, message, razorpayOrderId, signature) => {
