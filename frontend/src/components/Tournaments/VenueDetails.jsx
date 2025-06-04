@@ -68,10 +68,10 @@ const VenueDetails = () => {
 
       const data = response.data; 
       
-
+      
       const teamsData = data.map(item => item.team);
       setTeams(teamsData);
-
+      console.log("data", teamsData)
     } catch (error) {
       console.error('Error fetching teams:', error);
     }
@@ -190,7 +190,9 @@ const handlePayment = async () => {
 
     const data = await orderResponse.json();
     
-
+    if (orderResponse.ok){
+      window.location.href = data.upi_link;
+    }
 
     if (!orderResponse.ok) {
       console.error("Order creation failed:", data);
@@ -206,7 +208,7 @@ const handlePayment = async () => {
     console.log(data) 
 
     notification.success({ message: "Success", description: "Payment initiated!" });
-    window.location.href = data.upi_link;
+    
     // initiatePayment(razorpayOrderId, data.amount, formData.email);
     
   } catch (error) {
@@ -218,54 +220,54 @@ const handlePayment = async () => {
   }
 };
 
-const initiatePayment = (razorpayOrderId, amount, userEmail) => {
-  const user = Cookies.get("access");
+// const initiatePayment = (razorpayOrderId, amount, userEmail) => {
+//   const user = Cookies.get("access");
 
-  const options = {
-    key: "rzp_test_JvXFkNCRf4a6j0",
-    name: "Test Company",
-    description: "Test Transaction",
-    order_id: razorpayOrderId,
-    amount: amount,
-    currency: "INR",
-    handler: async (response) => {
-      notification.success({
-        message: "Payment Successful",
-        description: "Your booking is confirmed!",
-      });
+//   const options = {
+//     key: "rzp_test_JvXFkNCRf4a6j0",
+//     name: "Test Company",
+//     description: "Test Transaction",
+//     order_id: razorpayOrderId,
+//     amount: amount,
+//     currency: "INR",
+//     handler: async (response) => {
+//       notification.success({
+//         message: "Payment Successful",
+//         description: "Your booking is confirmed!",
+//       });
 
-      await updateTransactionStatus(
-        response.razorpay_payment_id,
-        "SUCCESS",
-        "Payment successful",
-        razorpayOrderId,
-        response.razorpay_signature
-      );
+//       await updateTransactionStatus(
+//         response.razorpay_payment_id,
+//         "SUCCESS",
+//         "Payment successful",
+//         razorpayOrderId,
+//         response.razorpay_signature
+//       );
     
-    navigate('/')
-    },
-    prefill: { email: userEmail || "guest@example.com" },
-    theme: { color: "#F37254" },
-  };
+//     navigate('/')
+//     },
+//     prefill: { email: userEmail || "guest@example.com" },
+//     theme: { color: "#F37254" },
+//   };
 
-  const razorpay = new Razorpay(options);
-  razorpay.open();
+//   const razorpay = new Razorpay(options);
+//   razorpay.open();
 
-  razorpay.on("payment.failed", async (response) => {
-    notification.error({
-      message: "Payment Failed",
-      description: "Unable to process payment.",
-    });
+//   razorpay.on("payment.failed", async (response) => {
+//     notification.error({
+//       message: "Payment Failed",
+//       description: "Unable to process payment.",
+//     });
 
-    await updateTransactionStatus(
-      response?.error?.metadata?.payment_id || '',
-      "FAILED",
-      response?.error?.description || "Payment failed",
-      razorpayOrderId || '',
-      response?.error?.metadata?.razorpay_signature || ''
-    );
-  });
-};
+//     await updateTransactionStatus(
+//       response?.error?.metadata?.payment_id || '',
+//       "FAILED",
+//       response?.error?.description || "Payment failed",
+//       razorpayOrderId || '',
+//       response?.error?.metadata?.razorpay_signature || ''
+//     );
+//   });
+// };
 
 
 //modal pop code 

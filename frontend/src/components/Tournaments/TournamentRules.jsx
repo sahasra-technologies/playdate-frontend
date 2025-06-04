@@ -32,9 +32,19 @@ const TournamentRules = () => {
           <div className="section">
             <h3 className="section-heading blue"><VscTriangleRight className="icon" />Ground Rules</h3>
             <ul className="no-list-style">
-              <li><strong>Goals:</strong> {groundData.groundRulesInfo?.goals || 'N/A'}</li>
+              <li><strong>Rules:</strong>
+                <ul>
+                  {groundData.groundRulesInfo?.goals?.length > 0 ? (
+                    groundData.groundRulesInfo.goals.map((goal, index) => (
+                      <li key={index}>{goal}</li>
+                    ))
+                  ) : (
+                    <li>N/A</li>
+                  )}
+                </ul>
+              </li>
          
-              <li><strong>Dimensions:</strong> {groundData.groundRulesInfo?.dimensions || 'N/A'}</li>
+              {/* <li><strong>Dimensions:</strong> {groundData.groundRulesInfo?.dimensions || 'N/A'}</li> */}
             </ul>
           </div>
 
