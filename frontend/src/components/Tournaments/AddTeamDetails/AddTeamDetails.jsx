@@ -28,9 +28,10 @@ const AddTeamDetails = () => {
   const [teamId, setTeamId] = useState(null);
   const navigate = useNavigate();
 
+  navigate('/add-team')
+
   const ACCESS_TOKEN = Cookies.get('access');
   const userId = Cookies.get('userId');
-
   console.log("userId", userId)
 
   useEffect(() => {
@@ -45,7 +46,7 @@ const AddTeamDetails = () => {
         });
 
         const data = await res.json();
-        if (!res.ok) throw new Error("Failed to fetch teams");
+        // if (!res.ok) throw new Error("Failed to fetch teams");
 
         if (data.length > 0) {
           const team = data[0];
