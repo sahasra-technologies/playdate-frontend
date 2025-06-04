@@ -28,15 +28,15 @@ const AddTeamDetails = () => {
   const [teamId, setTeamId] = useState(null);
   const navigate = useNavigate();
 
-  navigate('/add-team')
+  // navigate('/add-team')
 
   const ACCESS_TOKEN = Cookies.get('access');
-  const userId = Cookies.get('userId');
-  console.log("userId", userId)
+
 
   useEffect(() => {
     const fetchTeamData = async () => {
       try {
+        const userId = Cookies.get('userId');
         const res = await fetch(`${API_URL}?id=${userId}`, {
           method: "GET",
           headers: {
@@ -110,6 +110,7 @@ const AddTeamDetails = () => {
 
   const handleFinalSubmit = async () => {
     setStatus("Submitting team...");
+    const userId = Cookies.get('userId');
 
     let base64Image = "";
     if (teamLogoFile) {
