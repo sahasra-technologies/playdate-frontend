@@ -129,9 +129,9 @@ const TournamentPage = ({ setIsLoading }) => {
           Released <span>Tournaments</span>
         </h1>
         {isAuthenticated && (
-  <button className="add-team-button" onClick={handleAddPlayer}>
-    + Add Team
-  </button>
+        <button className="add-team-button" onClick={handleAddPlayer}>
+          Your Team
+        </button>
 )}
       </div>
 

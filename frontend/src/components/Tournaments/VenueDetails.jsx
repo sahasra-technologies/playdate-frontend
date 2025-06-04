@@ -163,7 +163,7 @@ const updateTransactionStatus = async (paymentId, status, message, razorpayOrder
 };
 
 
-
+console.log("kkkk", formData, formData.price)
 
 const handlePayment = async () => {
   const user = Cookies.get("access");
@@ -177,6 +177,7 @@ const handlePayment = async () => {
     teamId: '',
     
   };
+  
 
   try {
     const orderResponse = await fetch("https://playdatesport.com/api/payments/orders/", {
