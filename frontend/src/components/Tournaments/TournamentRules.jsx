@@ -32,7 +32,7 @@ const TournamentRules = () => {
           <div className="section">
             <h3 className="section-heading blue"><VscTriangleRight className="icon" />Ground Rules</h3>
             <ul className="no-list-style">
-              <li><strong>Rules:</strong>
+              <li><strong>Instruction:</strong>
                 <ul>
                   {groundData.groundRulesInfo?.goals?.length > 0 ? (
                     groundData.groundRulesInfo.goals.map((goal, index) => (

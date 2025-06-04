@@ -417,14 +417,14 @@ const handlePayment = async () => {
               <h1>{ground.ground_name}</h1>
               <p className="game-name">{ground.name || 'N/A'}</p>
             </div>
-            <a
+            {/* <a
               href={`https://maps.google.com/?q=${encodeURIComponent(location)}`}
               target="_blank"
               rel="noopener noreferrer"
               className="get-directions"
             >
               Get Directions <Navigation size={14} />
-            </a>
+            </a> */}
           </div>
         </div>
       </div>
