@@ -188,6 +188,16 @@
   background-color: #e9f2ff;
 }
 
+.invalid-email {
+  border: 1px solid red;
+}
+
+.error-text {
+  color: red;
+  font-size: 12px;
+}
+
+
 /* Responsive */
 @media (max-width: 768px) {
   .player-card {
