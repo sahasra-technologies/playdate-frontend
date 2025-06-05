@@ -3,44 +3,38 @@ import "./AddTeamDetails.css";
 import Cookies from 'js-cookie';
 import defaultImage from "../../../assets/Tournment/Profile-PNG-Images.png";
 import { useNavigate } from 'react-router-dom';
-import { FaS } from "react-icons/fa6";
 
 const API_URL = "https://playdatesport.com/api/Tournament/teams/";
-
 
 const toBase64 = (file) => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);  // .split(',')[1]
-    reader.onerror = (error) => reject(error);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = reject;
   });
 };
 
 const AddTeamDetails = ({ setIsLoading }) => {
-  const [players, setPlayers] = useState([{ name: "", email: "", image: defaultImage }]);
-  const [teamModalOpen, setTeamModalOpen] = useState(false);
+  const [teamId, setTeamId] = useState(null);
   const [teamName, setTeamName] = useState("");
   const [teamLogo, setTeamLogo] = useState(null);
   const [teamLogoFile, setTeamLogoFile] = useState(null);
-  const [status, setStatus] = useState("");
   const [captain, setCaptain] = useState({ name: "", email: "" });
   const [viceCaptain, setViceCaptain] = useState({ name: "", email: "" });
-  const [teamId, setTeamId] = useState(null);
+  const [players, setPlayers] = useState([{ name: "", email: "", image: defaultImage }]);
+  const [status, setStatus] = useState("");
+  const [teamModalOpen, setTeamModalOpen] = useState(false);
+
   const navigate = useNavigate();
-
-  // navigate('/add-team')
-
   const ACCESS_TOKEN = Cookies.get('access');
-
+  const USER_ID = Cookies.get('userId');
 
   useEffect(() => {
     const fetchTeamData = async () => {
+      setIsLoading(true);
       try {
-        const userId = Cookies.get('userId');
-        setIsLoading(true)
-        const res = await fetch(`${API_URL}?id=${userId}`, {
-          method: "GET",
+        const res = await fetch(`${API_URL}?id=${USER_ID}`, {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${ACCESS_TOKEN}`,
@@ -48,57 +42,42 @@ const AddTeamDetails = ({ setIsLoading }) => {
         });
 
         const data = await res.json();
-        setIsLoading(false)
-        // if (!res.ok) throw new Error("Failed to fetch teams");
-
         if (data.length > 0) {
           const team = data[0];
           setTeamId(team.id);
           setTeamName(team.name);
-          if (team.images?.url) {
-            setTeamLogo(team.images.url);
-          }
+          if (team.images?.url) setTeamLogo(team.images.url);
 
-          const captainData = team.team.find((p) => p.role === "Captain");
-          const viceCaptainData = team.team.find((p) => p.role === "Vice Captain");
+          setCaptain(team.team.find(p => p.role === "Captain") || { name: "", email: "" });
+          setViceCaptain(team.team.find(p => p.role === "Vice Captain") || { name: "", email: "" });
 
-          setCaptain(captainData || { name: "", email: "" });
-          setViceCaptain(viceCaptainData || { name: "", email: "" });
-
-          const otherPlayers = team.team.filter(
-            (p) => p.role !== "Captain" && p.role !== "Vice Captain"
-          );
-          setPlayers(
-            otherPlayers.map((player) => ({
-              name: player.name,
-              email: player.email,
-              image: defaultImage,
-            }))
-          );
+          const otherPlayers = team.team.filter(p => !["Captain", "Vice Captain"].includes(p.role));
+          setPlayers(otherPlayers.map(p => ({ name: p.name, email: p.email, image: defaultImage })));
         }
       } catch (err) {
         console.error("Fetch error:", err);
         setStatus("Failed to load team data");
       }
+      setIsLoading(false);
     };
 
     fetchTeamData();
   }, []);
 
-  const handleChange = (index, field, value) => {
-    const updated = [...players];
-    updated[index][field] = value;
-    setPlayers(updated);
+  const updatePlayer = (index, field, value) => {
+    setPlayers(prev => {
+      const copy = [...prev];
+      copy[index][field] = value;
+      return copy;
+    });
   };
 
   const handleAddPlayer = () => {
-    setPlayers([...players, { name: "", email: "", image: defaultImage }]);
+    setPlayers(prev => [...prev, { name: "", email: "", image: defaultImage }]);
   };
 
   const handleDeletePlayer = (index) => {
-    const updated = [...players];
-    updated.splice(index, 1);
-    setPlayers(updated);
+    setPlayers(prev => prev.filter((_, i) => i !== index));
   };
 
   const handleTeamLogoChange = (e) => {
@@ -107,20 +86,17 @@ const AddTeamDetails = ({ setIsLoading }) => {
     setTeamLogo(URL.createObjectURL(file));
   };
 
-  const handleSubmit = () => {
-    setTeamModalOpen(true);
-  };
+  const handleSubmit = () => setTeamModalOpen(true);
 
   const handleFinalSubmit = async () => {
     setStatus("Submitting team...");
-    const userId = Cookies.get('userId');
 
     let base64Image = "";
     if (teamLogoFile) {
       try {
         base64Image = await toBase64(teamLogoFile);
-      } catch (err) {
-        setStatus("Error converting image to Base64");
+      } catch {
+        setStatus("Error converting image");
         return;
       }
     }
@@ -129,31 +105,22 @@ const AddTeamDetails = ({ setIsLoading }) => {
       name: teamName,
       images: { url: base64Image },
       team: [
-        {
-          role: "Captain",
-          email: captain.email,
-          name: captain.name,
-        },
-        {
-          role: "Vice Captain",
-          email: viceCaptain.email,
-          name: viceCaptain.name,
-        },
-        ...players.map((player) => ({
-          role: player.name,
-          email: player.email,
-          name: player.name,
-        })),
+        { role: "Captain", name: captain.name, email: captain.email },
+        { role: "Vice Captain", name: viceCaptain.name, email: viceCaptain.email },
+        ...players.map(p => ({
+          role: p.name,
+          name: p.name,
+          email: p.email
+        }))
       ],
-      owner: userId,
-      ...(teamId && { id: teamId })  // 👈 Conditionally add "id" if teamId exists
+      owner: USER_ID,
+      ...(teamId && { id: teamId })
     };
 
     const method = teamId ? "PUT" : "POST";
-    // const url = teamId ? `${API_URL}${teamId}/` : API_URL;
 
     try {
-      setIsLoading(true)
+      setIsLoading(true);
       const res = await fetch(API_URL, {
         method,
         headers: {
@@ -164,21 +131,43 @@ const AddTeamDetails = ({ setIsLoading }) => {
       });
 
       const result = await res.json();
+      if (!res.ok) throw new Error(result.message || "Submission failed");
 
-      if (!res.ok) {
-        throw new Error(`Submission failed: ${JSON.stringify(result)}`);
-      }
-
-      setStatus("Team submitted successfully!");
       alert("Team submitted successfully!");
       setTeamModalOpen(false);
-      setIsLoading(false)
       navigate('/');
     } catch (err) {
-      console.error(err);
+      console.error("Submission Error:", err);
       setStatus("Error submitting team");
     }
+    setIsLoading(false);
   };
+
+  const renderPlayerCard = (role, user, setUser, removable = false, index = 0) => (
+    <div className="player-card" key={index}>
+      {removable && (
+        <div className="icons-row">
+          <span className="delete" onClick={() => handleDeletePlayer(index)}>&#128465;</span>
+        </div>
+      )}
+      <div className="image-wrapper">
+        <img src={defaultImage} alt={role} className="player-img" />
+      </div>
+      {role && <div className="role-label">{role}</div>}
+      <input
+        type="text"
+        placeholder="Enter Name"
+        value={user.name}
+        onChange={(e) => setUser({ ...user, name: e.target.value })}
+      />
+      <input
+        type="email"
+        placeholder="Enter Email"
+        value={user.email}
+        onChange={(e) => setUser({ ...user, email: e.target.value })}
+      />
+    </div>
+  );
 
   return (
     <div className="add-team-container">
@@ -188,69 +177,16 @@ const AddTeamDetails = ({ setIsLoading }) => {
       </div>
 
       <div className="players-grid">
-        <div className="player-card">
-          <div className="image-wrapper">
-            <img src={defaultImage} alt="Captain" className="player-img" />
-          </div>
-          <div className="role-label">Captain</div>
-          <input
-            type="text"
-            placeholder="Enter Name"
-            value={captain.name}
-            onChange={(e) => setCaptain({ ...captain, name: e.target.value })}
-          />
-          <input
-            type="email"
-            placeholder="Enter Email"
-            value={captain.email}
-            onChange={(e) => setCaptain({ ...captain, email: e.target.value })}
-          />
-        </div>
-
-        <div className="player-card">
-          <div className="image-wrapper">
-            <img src={defaultImage} alt="Vice Captain" className="player-img" />
-          </div>
-          <div className="role-label">Vice Captain</div>
-          <input
-            type="text"
-            placeholder="Enter Name"
-            value={viceCaptain.name}
-            onChange={(e) => setViceCaptain({ ...viceCaptain, name: e.target.value })}
-          />
-          <input
-            type="email"
-            placeholder="Enter Email"
-            value={viceCaptain.email}
-            onChange={(e) => setViceCaptain({ ...viceCaptain, email: e.target.value })}
-          />
-        </div>
-
-        {players.map((player, index) => (
-          <div className="player-card" key={index}>
-            <div className="icons-row">
-              <span className="delete" onClick={() => handleDeletePlayer(index)}>&#128465;</span>
-            </div>
-            <div className="image-wrapper">
-              <img src={defaultImage} alt="Player" className="player-img" />
-            </div>
-            <input
-              type="text"
-              placeholder="Enter Role"
-              value={player.name}
-              onChange={(e) => handleChange(index, "name", e.target.value)}
-            />
-            <input
-              type="email"
-              placeholder="Enter Email"
-              value={player.email}
-              onChange={(e) => handleChange(index, "email", e.target.value)}
-            />
-          </div>
-        ))}
+        {renderPlayerCard("Captain", captain, setCaptain)}
+        {renderPlayerCard("Vice Captain", viceCaptain, setViceCaptain)}
+        {players.map((player, i) =>
+          renderPlayerCard(null, player, (updated) => updatePlayer(i, "name", updated.name), true, i)
+        )}
       </div>
 
-      <button className="submit-btn" onClick={handleSubmit}>{teamId ? "Update Team" : "Save Team"}</button>
+      <button className="submit-btn" onClick={handleSubmit}>
+        {teamId ? "Update Team" : "Save Team"}
+      </button>
       {status && <p className="status-text">{status}</p>}
 
       {teamModalOpen && (
@@ -266,7 +202,9 @@ const AddTeamDetails = ({ setIsLoading }) => {
             <input type="file" accept="image/*" onChange={handleTeamLogoChange} />
             {teamLogo && <img src={teamLogo} alt="Team Logo" className="team-logo-preview" />}
             <div className="modal-actions">
-              <button className="save-btn" onClick={handleFinalSubmit}>{teamId ? "Update Team" : "Save Team"}</button>
+              <button className="save-btn" onClick={handleFinalSubmit}>
+                {teamId ? "Update Team" : "Save Team"}
+              </button>
               <button className="cancel-btn" onClick={() => setTeamModalOpen(false)}>Cancel</button>
             </div>
           </div>
