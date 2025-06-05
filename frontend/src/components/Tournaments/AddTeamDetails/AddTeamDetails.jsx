@@ -3,6 +3,7 @@ import "./AddTeamDetails.css";
 import Cookies from 'js-cookie';
 import defaultImage from "../../../assets/Tournment/Profile-PNG-Images.png";
 import { useNavigate } from 'react-router-dom';
+import { FaS } from "react-icons/fa6";
 
 const API_URL = "https://playdatesport.com/api/Tournament/teams/";
 
@@ -16,7 +17,7 @@ const toBase64 = (file) => {
   });
 };
 
-const AddTeamDetails = () => {
+const AddTeamDetails = ({ setIsLoading }) => {
   const [players, setPlayers] = useState([{ name: "", email: "", image: defaultImage }]);
   const [teamModalOpen, setTeamModalOpen] = useState(false);
   const [teamName, setTeamName] = useState("");
@@ -37,6 +38,7 @@ const AddTeamDetails = () => {
     const fetchTeamData = async () => {
       try {
         const userId = Cookies.get('userId');
+        setIsLoading(true)
         const res = await fetch(`${API_URL}?id=${userId}`, {
           method: "GET",
           headers: {
@@ -46,6 +48,7 @@ const AddTeamDetails = () => {
         });
 
         const data = await res.json();
+        setIsLoading(false)
         // if (!res.ok) throw new Error("Failed to fetch teams");
 
         if (data.length > 0) {
@@ -150,6 +153,7 @@ const AddTeamDetails = () => {
     // const url = teamId ? `${API_URL}${teamId}/` : API_URL;
 
     try {
+      setIsLoading(true)
       const res = await fetch(API_URL, {
         method,
         headers: {
@@ -168,6 +172,7 @@ const AddTeamDetails = () => {
       setStatus("Team submitted successfully!");
       alert("Team submitted successfully!");
       setTeamModalOpen(false);
+      setIsLoading(false)
       navigate('/');
     } catch (err) {
       console.error(err);
