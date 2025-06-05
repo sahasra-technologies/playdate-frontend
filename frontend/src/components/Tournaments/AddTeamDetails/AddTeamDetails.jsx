@@ -112,14 +112,16 @@ const AddTeamDetails = ({ setIsLoading }) => {
   };
 
   const handleSubmit = () => {
+    // if (!teamName) return alert("Team name is required");
+    if (!captain.name || !captain.email) return alert("Captain details are required");
+    if (!viceCaptain.name || !viceCaptain.email) return alert("Vice Captain details are required");
+    if (captain.email == viceCaptain.email) return alert("Captain and Vice Cqptain details will not be same")
     setTeamModalOpen(true);
   };
 
   const handleFinalSubmit = async () => {
     setStatus("Submitting team...");
-    if (!teamName) return setStatus("Team name is required");
-    if (!captain.name || !captain.email) return setStatus("Captain details are required");
-    if (!viceCaptain.name || !viceCaptain.email) return setStatus("Vice Captain details are required");
+    if (!teamName) return alert("Team name is required");
 
     for (let i = 0; i < players.length; i++) {
       const { name, role, email } = players[i];
