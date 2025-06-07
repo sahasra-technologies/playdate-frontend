@@ -135,8 +135,7 @@ const AddTeamDetails = ({ setIsLoading }) => {
       try {
         base64Image = await toBase64(teamLogoFile);
       } catch (err) {
-        setStatus("Error converting image to Base64")
-        console.log("Error converting image to Base64");
+        setStatus("Error converting image to Base64");
         return;
       }
     }
@@ -193,7 +192,6 @@ const AddTeamDetails = ({ setIsLoading }) => {
     } catch (err) {
       console.error(err);
       setStatus("Error submitting team");
-      alert("Error submitting team");
     }
   };
 
