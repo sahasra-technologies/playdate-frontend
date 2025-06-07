@@ -23,7 +23,7 @@ const AddTeamDetails = ({ setIsLoading }) => {
   const [teamName, setTeamName] = useState("");
   const [teamLogo, setTeamLogo] = useState(null);
   const [teamLogoFile, setTeamLogoFile] = useState(null);
-  const [status, setStatus] = useState("");
+  // const [status, setStatus] = useState("");
   const [captain, setCaptain] = useState({ name: "", email: "", role: "Captain" });
   const [viceCaptain, setViceCaptain] = useState({ name: "", email: "", role: "Vice Captain" });
   const [teamId, setTeamId] = useState(null);
@@ -82,7 +82,7 @@ const AddTeamDetails = ({ setIsLoading }) => {
         }
       } catch (err) {
         console.error("Fetch error:", err);
-        setStatus("Failed to load team data");
+        // setStatus("Failed to load team data");
       }
     };
 
@@ -120,13 +120,13 @@ const AddTeamDetails = ({ setIsLoading }) => {
   };
 
   const handleFinalSubmit = async () => {
-    setStatus("Submitting team...");
+    // setStatus("Submitting team...");
     if (!teamName) return alert("Team name is required");
 
     for (let i = 0; i < players.length; i++) {
       const { name, role, email } = players[i];
-      if (!name || !role || !email) return setStatus(`Player ${i + 1} is missing fields`);
-      if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) return setStatus(`Invalid email at Player ${i + 1}`);
+      // if (!name || !role || !email) return setStatus(`Player ${i + 1} is missing fields`);
+      // if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) return setStatus(`Invalid email at Player ${i + 1}`);
     }
     const userId = Cookies.get('userId');
 
@@ -135,7 +135,8 @@ const AddTeamDetails = ({ setIsLoading }) => {
       try {
         base64Image = await toBase64(teamLogoFile);
       } catch (err) {
-        setStatus("Error converting image to Base64");
+        // setStatus("Error converting image to Base64")
+        console.log("Error converting image to Base64");
         return;
       }
     }
@@ -184,14 +185,15 @@ const AddTeamDetails = ({ setIsLoading }) => {
         throw new Error(`Submission failed: ${JSON.stringify(result)}`);
       }
 
-      setStatus("Team submitted successfully!");
+      // setStatus("Team submitted successfully!");
       alert("Team submitted successfully!");
       setTeamModalOpen(false);
       setIsLoading(false)
       navigate('/');
     } catch (err) {
       console.error(err);
-      setStatus("Error submitting team");
+      // setStatus("Error submitting team");
+      alert("Error submitting team");
     }
   };
 
