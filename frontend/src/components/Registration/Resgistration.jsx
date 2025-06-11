@@ -52,6 +52,7 @@ const Register = ({ setIsLoading }) =>{
 
      }catch(error){
         console.error('Registration error:', error.response?.data || error.message);
+        setIsLoading(false)
         alert('Registration failed. Try a different email.');
      }
     }
