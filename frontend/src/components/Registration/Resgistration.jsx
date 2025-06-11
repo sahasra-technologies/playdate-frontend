@@ -11,7 +11,7 @@ const apiClient = axios.create({
 }); 
 
 
-const Register = () =>{
+const Register = ({ setIsLoading }) =>{
     const [username, setUsername] =useState('')
     const [firstName, setFirstName] = useState('')
     const [phone, setPhone] = useState('');
@@ -37,7 +37,8 @@ const Register = () =>{
           alert("Password must be at least 8 characters long and include at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character.");
           return;
         }
-        console.log("phone", phone)
+        // console.log("phone", phone)
+        setIsLoading(true)
         const response = await apiClient.post('/User/signup/',{
             username, 
             password, 
@@ -46,6 +47,7 @@ const Register = () =>{
         })
 
         alert('Registration successful! Please log in.');
+        setIsLoading(false)
         navigate('/login');
 
      }catch(error){

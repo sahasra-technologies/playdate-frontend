@@ -73,11 +73,17 @@ const Navbar = () => {
     setShowLoginDropdown(false);
   };
 
+  const handleContactUsClick = () => {
+    navigate("/contact-us");
+    setShowLoginDropdown(false);
+  };
+
  const renderDropdown = () => (
   <div className="dropdown-menu right-align">
     {/* <button onClick={toggleTheme} className="dropdown-btn">
       {theme === 'dark' ? '🌞 Light Mode' : '🌙 Dark Mode'}
     </button> */}
+    <button onClick={handleContactUsClick} className='dropdown-btn'>Contact Us</button>
     {isLoggedIn ? (
       <button onClick={handleLogout} className="dropdown-btn">Logout</button>
     ) : (

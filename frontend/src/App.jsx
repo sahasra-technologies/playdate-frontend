@@ -24,6 +24,8 @@ import MatchSchedule from './components/Tournaments/MatchSchedule';
 import GroundVenueDetails from './components/Tournaments/GroundVenueDetails/GroundVenueDetails';
 import GroundTournamentRules from './components/Tournaments/GroundTournamentRules/GroundTournamentRules';
 import VenueDetails from './components/Tournaments/VenueDetails';
+import MatchPage from './components/Match/MatchPage';
+import ContactUs from './pages/ContactPage/ContactPage';
 
 // import { SpinnerInfinity } from 'spinners-react';
 import CustomSpinner from './components/Spinner/CustomSpinner';
@@ -86,7 +88,7 @@ function App() {
           <Route path="/" element={<TournamentPage setIsLoading={setIsLoading} />} />
           <Route path="/login" element={<LoginForm />} />
           <Route path="/reset-password" element={<ResetPassword />} />
-          <Route path="/register" element={<Registration/>}/>
+          <Route path="/register" element={<Registration setIsLoading={setIsLoading}/>}/>
 
           {/* Protected & Other Routes */}
           <Route path="/home" element={<Home setIsLoading={setIsLoading} />} />
@@ -104,6 +106,8 @@ function App() {
             }
           />
           <Route path="/match-schedule" element={<MatchSchedule setIsLoading={setIsLoading} />} />
+          {/* <Route path='/match-page' element={<MatchPage setIsLoading={setIsLoading} />} /> */}
+          <Route path='/contact-us' element={<ContactUs setIsLoading={setIsLoading} />} />
 
           {/* 404 fallback */}
           <Route path="*" element={<NotFound />} />
