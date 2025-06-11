@@ -24,7 +24,7 @@ import MatchSchedule from './components/Tournaments/MatchSchedule';
 import GroundVenueDetails from './components/Tournaments/GroundVenueDetails/GroundVenueDetails';
 import GroundTournamentRules from './components/Tournaments/GroundTournamentRules/GroundTournamentRules';
 import VenueDetails from './components/Tournaments/VenueDetails';
-import MatchPage from './components/Match/MatchPage';
+// import MatchPage from './components/Match/MatchPage';
 import ContactUs from './pages/ContactPage/ContactPage';
 
 // import { SpinnerInfinity } from 'spinners-react';
