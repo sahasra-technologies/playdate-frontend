@@ -205,7 +205,7 @@ const Register = ({ setIsLoading }) => {
 
           <h2>13. Contact & Support</h2>
           <p>Email: support@playdatesport.com<br/>
-          Address: [Insert business address]</p>
+          Address: 2-17-116, Sbh colony,Uppal,Hyderabad.</p>
             <button onClick={() => setShowTerms(false)} className="close-modal-btn">Close</button>
           </div>
         </div>
