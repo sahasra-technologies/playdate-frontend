@@ -66,9 +66,9 @@ const ContactUs = () => {
         <div className="contact-header">
           <p className="contact-subtitle">Contact Us</p>
           <h2>Get In Touch</h2>
-          <p className="contact-description">
+          {/* <p className="contact-description">
             IT Solution is a broad category that encompasses various technological solutions
-          </p>
+          </p> */}
         </div>
 
         <div className="contact-box">
@@ -124,21 +124,21 @@ const ContactUs = () => {
               <span className="icon">📧</span>
               <div>
                 <strong>Email</strong>
-                <p>Company@mail.com</p>
+                <p>contact@palydatesport.com</p>
               </div>
             </div>
             <div className="info-item">
               <span className="icon">📞</span>
               <div>
                 <strong>Phone</strong>
-                <p>012 345 678 9101</p>
+                <p>9618387894</p>
               </div>
             </div>
             <div className="info-item">
               <span className="icon">📍</span>
               <div>
                 <strong>Location</strong>
-                <p>4517 Washington Ave. Manchester, Kentucky 39495</p>
+                <p>Uppal , Hyderabad, Telangana-500039</p>
               </div>
             </div>
           </div>
