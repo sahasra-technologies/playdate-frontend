@@ -26,6 +26,7 @@ import GroundTournamentRules from './components/Tournaments/GroundTournamentRule
 import VenueDetails from './components/Tournaments/VenueDetails';
 // import MatchPage from './components/Match/MatchPage';
 import ContactUs from './pages/ContactPage/ContactPage';
+import AboutPlayDate from './pages/About/AboutPlayDate';
 
 // import { SpinnerInfinity } from 'spinners-react';
 import CustomSpinner from './components/Spinner/CustomSpinner';
@@ -108,6 +109,7 @@ function App() {
           <Route path="/match-schedule" element={<MatchSchedule setIsLoading={setIsLoading} />} />
           {/* <Route path='/match-page' element={<MatchPage setIsLoading={setIsLoading} />} /> */}
           <Route path='/contact-us' element={<ContactUs setIsLoading={setIsLoading} />} />
+          <Route path='/about-us' element={<AboutPlayDate setIsLoading={setIsLoading} />} />
 
           {/* 404 fallback */}
           <Route path="*" element={<NotFound />} />
