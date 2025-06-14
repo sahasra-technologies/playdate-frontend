@@ -216,16 +216,51 @@ const Register = ({ setIsLoading }) => {
         <div className="terms-modal">
           <div className="terms-content">
             <span className="close-icon" onClick={() => setShowPrivacy(false)}>×</span>
-            <h3>Privacy Policy</h3>
+            <h1>Privacy Policy - PlayDate Sports Pvt. Ltd.</h1>
+            <div className="meta">Effective Date: 01/06/2025</div>
+
+            <h2>1. Information We Collect</h2>
+            <p>We collect personal info (name, contact, DOB, etc.), credentials, GPS location, media content, device data, match history, communication logs, and payment information (handled securely via Razorpay).</p>
+
+            <h2>2. How We Use Your Information</h2>
+            <p>We use your data to match games, manage tournaments, show performance, send notifications, personalize content, and improve the app.</p>
+
+            <h2>3. Consent for Media Usage</h2>
+            <p>By participating in events, you consent to media usage. You can opt out by emailing <a href="mailto:contact@playdate.com">contact@playdate.com</a>.</p>
+
+            <h2>4. Data Sharing and Disclosure</h2>
+            <p>We don’t sell your data. We only share with secure processors (e.g., Razorpay, Firebase), authorities if required, and under strict confidentiality with partners.</p>
+
+            <h2>5. User Rights & Choices</h2>
+            <p>You can access, correct, or delete your data, and opt out of promotional communications via the app or email.</p>
+
+            <h2>6. Cookies & Tracking</h2>
+            <p>We use cookies and SDKs for session management and analytics. You can manage this via your browser/device settings.</p>
+
+            <h2>7. Children’s Privacy</h2>
+            <p>Users under 18 need verified guardian consent. We protect minors with limited visibility and identity masking.</p>
+
+            <h2>8. Security Practices</h2>
+            <p>We use encryption, HTTPS, secure authentication, internal access tiers, and regular audits to protect data.</p>
+
+            <h2>9. Refunds and Transaction Issues</h2>
+            <p>Refunds are processed in 3–5 business days. Disputes must be raised within 24 hours of an issue.</p>
+
+            <h2>10. Policy Updates</h2>
+            <p>Policy may change. We notify you via app/email. Continued use implies acceptance.</p>
+
+            <h2>11. Grievance and Contact</h2>
             <p>
-              We are committed to protecting your privacy. All your personal information such as name, email, and phone
-              will be securely stored and never shared without your consent. Your data will only be used for account management,
-              service improvement, and support communication.
+              <strong>PlayDate Sports Pvt. Ltd.</strong><br />
+              SBH Colony, Uppal, Hyderabad - 500039<br />
+              Email: <a href="mailto:contact@playdate.com">contact@playdate.com</a>
             </p>
+
             <button onClick={() => setShowPrivacy(false)} className="close-modal-btn">Close</button>
           </div>
         </div>
       )}
+
     </div>
   );
 };
