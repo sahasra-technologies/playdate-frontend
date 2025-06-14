@@ -1,11 +1,12 @@
 import React from 'react';
 import './AboutPlayDate.css';
+import Footer from '../../components/Footer/Footer';
 
 const AboutPlayDate = () => {
   return (
     <main className="playdate-container">
       <header className="intro-section">
-        <p className="intro-label">About PlayDate</p>
+        <p className="intro-label">About <span style={{ color: '#007bff' }}>PlayDate</span></p>
         <h1>More Than a Game,<br /><span className="highlight">It's Your Moment</span></h1>
         <p className="intro-text">
           We’re building a sports culture where every match matters, every player counts, and every
@@ -119,16 +120,19 @@ const AboutPlayDate = () => {
         <h2>Join the movement.</h2>
         <p className="cta-sub">It isn’t about the big game. It’s about every game.</p>
         <button className="cta-button">Get Started Today</button>
-        <div className="stats">
+        {/* <div className="stats">
           <div><strong>1000+</strong><br />Active Players</div>
           <div><strong>500+</strong><br />Matches Organized</div>
           <div><strong>50+</strong><br />Venue Partners</div>
-        </div>
+        </div> */}
       </section>
 
-      <footer className="footer">
+      <Footer />
+
+      {/* <footer className="footer">
         <p>Building the future of competitive sports, one game at a time.</p>
-      </footer>
+      </footer> */}
+      
     </main>
   );
 };

@@ -15,6 +15,7 @@
 .intro-section {
   text-align: center;
   padding: 30px 10px;
+  background: linear-gradient(135deg, #fff, #e6eeff);
 }
 
 .intro-label {
