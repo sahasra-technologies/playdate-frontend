@@ -78,6 +78,11 @@ const Navbar = () => {
     setShowLoginDropdown(false);
   };
 
+  const handleAboutUsClick = () => {
+    navigate("/about-us");
+    setShowLoginDropdown(false);
+  };
+
  const renderDropdown = () => (
   <div className="dropdown-menu right-align">
     {/* <button onClick={toggleTheme} className="dropdown-btn">
@@ -127,15 +132,23 @@ const Navbar = () => {
         {/* <button className="btn search-btn"><FaSearch className="btn-icon" /> Search</button> */}
         <button className="btn sky-blue" onClick={() => navigate('/')}>Tournaments</button>
         {/* <button className="btn"><MdLocalOffer className="btn-icon" /> Offers</button> */}
+        <button onClick={handleAboutUsClick} className='btn'>About Us</button>
+        <button onClick={handleContactUsClick} className='btn'>Contact Us</button>
+        {isLoggedIn ? (
+          <button onClick={handleLogout} className="dropdown-btn"><FaUser className="btn-icon" /> Logout</button>
+        ) : (
+          <button onClick={handleLoginClick} className="btn"><FaUser className="btn-icon" /> {isLoggedIn ? (names || 'Profile') : 'Login'}</button>
 
-        <div className="dropdown-wrapper">
+        )}
+
+        {/* <div className="dropdown-wrapper">
           <button className="btn" onClick={() => setShowLoginDropdown(!showLoginDropdown)}>
             <FaUser className="btn-icon" /> {isLoggedIn ? (names || 'Profile') : 'Login'}
           </button>
           
           {showLoginDropdown && renderDropdown()}
           
-        </div>
+        </div> */}
       </div>
 
       {/* Mobile Dropdown */}
@@ -160,13 +173,21 @@ const Navbar = () => {
 
           {/* <button className="btn search-btn"><FaSearch className="btn-icon" /> Search</button> */}
           <button className="btn sky-blue" onClick={() => navigate('/')}>Tournaments</button>
+          <button onClick={handleContactUsClick} className='btn'>Contact Us</button>
+          <button onClick={handleAboutUsClick} className='btn'>About Us</button>
+          {isLoggedIn ? (
+          <button onClick={handleLogout} className="dropdown-btn"><FaUser className="btn-icon" /> Logout</button>
+          ) : (
+            <button onClick={handleLoginClick} className="btn"><FaUser className="btn-icon" /> {isLoggedIn ? (names || 'Profile') : 'Login'}</button>
+
+          )}
           {/* <button className="btn"><MdLocalOffer className="btn-icon" /> Offers</button> */}
-          <div className="dropdown-wrapper">
+          {/* <div className="dropdown-wrapper">
             <button className="btn" onClick={() => setShowLoginDropdown(!showLoginDropdown)}>
               <FaUser className="btn-icon" /> {isLoggedIn ? (names || 'Profile') : 'Login'}
             </button>
             {showLoginDropdown && renderDropdown()}
-          </div>
+          </div> */}
         </div>
       )}
     </nav>
