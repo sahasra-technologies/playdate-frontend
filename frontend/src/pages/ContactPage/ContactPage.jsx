@@ -124,7 +124,7 @@ const ContactUs = () => {
               <span className="icon">📧</span>
               <div>
                 <strong>Email</strong>
-                <p>contact@palydatesport.com</p>
+                <p>contact@playdatesport.com</p>
               </div>
             </div>
             <div className="info-item">
