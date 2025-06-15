@@ -204,8 +204,8 @@ const Register = ({ setIsLoading }) => {
           <p>These terms are governed by Indian law and the jurisdiction of Hyderabad, Telangana. Please contact support before raising legal disputes.</p>
 
           <h2>13. Contact & Support</h2>
-          <p>Email: support@playdatesport.com<br/>
-          Address: 2-17-116, Sbh colony,Uppal,Hyderabad.</p>
+          <p>Email: <a href="mailto:contact@playdate.com">contact@playdate.com</a><br/>
+          Address: Uppal,Hyderabad.</p>
             <button onClick={() => setShowTerms(false)} className="close-modal-btn">Close</button>
           </div>
         </div>
@@ -251,8 +251,8 @@ const Register = ({ setIsLoading }) => {
 
             <h2>11. Grievance and Contact</h2>
             <p>
-              <strong>PlayDate Sports Pvt. Ltd.</strong><br />
-              SBH Colony, Uppal, Hyderabad - 500039<br />
+              <strong>PlayDate Sport</strong><br />
+              Address: Uppal,Hyderabad.<br />
               Email: <a href="mailto:contact@playdate.com">contact@playdate.com</a>
             </p>
 
