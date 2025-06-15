@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import './VenueDetails.css';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { ThemeContext } from '../../context/ThemeContext';
 import { useGame } from '../../context/GameContext';
 import { Navigation, ArrowLeft, Cookie } from 'lucide-react';
@@ -18,8 +18,11 @@ const API_URL = 'https://playdatesport.com/api/Tournament/teams/';
 const VenueDetails = ({setIsLoading}) => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const locate = useLocation();
   const { theme } = useContext(ThemeContext);
   const { ground, game } = useGame();
+  const { status } = locate.state
+  console.log("Venue status", status)
 
   const user = true;
 
@@ -556,7 +559,9 @@ const handlePayment = async () => {
       <button className="book-button" onClick={handleBack}>
         <ArrowLeft size={10} /> Back
       </button>&nbsp;
-       <button className="book-button" onClick={handleBooking}>
+       <button className="book-button" 
+       onClick={handleBooking} 
+       disabled={status === 'Completed' || status === 'Scheduled'}>
           Go to book slot
         </button>
 </div>

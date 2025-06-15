@@ -107,8 +107,8 @@ const TournamentPage = ({ setIsLoading }) => {
   //   }
   // };
 
-  const handleCardClick = (gameId) => {
-    navigate(`/tournaments/${gameId}`);
+  const handleCardClick = (gameId, status) => {
+    navigate(`/tournaments/${gameId}`, { state: { status } });
   };
 
   const handleAddPlayer = () => {
@@ -147,7 +147,7 @@ const TournamentPage = ({ setIsLoading }) => {
               <div
                 key={game.id}
                 className="game-card"
-                onClick={() => handleCardClick(game.id)}
+                onClick={() => handleCardClick(game.id, game.status)}
               >
                 <img
                   src={game.images?.main_image || '/default.jpg'}
