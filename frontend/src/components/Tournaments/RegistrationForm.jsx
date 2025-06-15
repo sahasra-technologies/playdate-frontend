@@ -50,6 +50,62 @@ const RegistrationForm  = () => {
     fetchTeams();
   }, [navigate, status]);
 
+  const handlePayment = async () => {
+  const user = Cookies.get("access");
+
+
+  const payload = {
+    tournamentId: game.id,
+    amount: Number(formData.price),
+    currency: "INR",
+    user: formData.email,
+    teamId: '',
+    
+  };
+  
+
+  try {
+    const orderResponse = await fetch("https://playdatesport.com/api/payments/orders/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFTOKEN": user,
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const data = await orderResponse.json();
+    
+    if (orderResponse.ok){
+      window.location.href = data.upi_link;
+    }
+
+    if (!orderResponse.ok) {
+      console.error("Order creation failed:", data);
+      notification.error({
+        message: "Order Failed",
+        description: data?.error || "Unable to create order.",
+      });
+      return;
+    }
+
+     
+    // const razorpayOrderId = data.order_id;
+    console.log(data) 
+
+    notification.success({ message: "Success", description: "Payment initiated!" });
+    
+    // initiatePayment(razorpayOrderId, data.amount, formData.email);
+    
+  } catch (error) {
+    console.error("Error creating order:", error);
+    notification.error({
+      message: "Order Failed",
+      description: "Unable to create order.",
+    });
+  }
+};
+
   const handleBookingSubmit = async (e) => {
     e.preventDefault();
     const payload = {
