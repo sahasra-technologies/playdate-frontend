@@ -27,6 +27,7 @@ import VenueDetails from './components/Tournaments/VenueDetails';
 // import MatchPage from './components/Match/MatchPage';
 import ContactUs from './pages/ContactPage/ContactPage';
 import AboutPlayDate from './pages/About/AboutPlayDate';
+import RegistrationForm from './components/Tournaments/RegistrationForm'
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -103,6 +104,10 @@ function App() {
           <Route path="/venue/:id/details" element={<GroundVenueDetails setIsLoading={setIsLoading} />} />
           <Route path="/venue/:id/tournament-rules" element={<GroundTournamentRules setIsLoading={setIsLoading} />} />
           <Route path="/venue-details/:id" element={<VenueDetails setIsLoading={setIsLoading} />} />
+          <Route
+          path="/venue/:id/register"
+          element={<RegistrationForm setIsLoading={setIsLoading}/>}
+        />
           <Route
             path="/add-team"
             element={

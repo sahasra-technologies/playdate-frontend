@@ -120,7 +120,14 @@ const VenueDetails = ({setIsLoading}) => {
   const handleBooking = () => {
     
     if (user) {
-        setShowForm(true);
+        // setShowForm(true);
+        navigate(`/venue/${id}/register`, {
+          state: {
+            tournamentName: formData.tournament,
+            price: formData.price,
+            status
+          }
+        });
       } else {
         alert('⚠️ Please log in to book a slot.');
         navigate('/login');
