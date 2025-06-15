@@ -28,6 +28,9 @@ import VenueDetails from './components/Tournaments/VenueDetails';
 import ContactUs from './pages/ContactPage/ContactPage';
 import AboutPlayDate from './pages/About/AboutPlayDate';
 
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 // import { SpinnerInfinity } from 'spinners-react';
 import CustomSpinner from './components/Spinner/CustomSpinner';
 import './App.css';
@@ -62,6 +65,8 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
 
   return (
+    <>
+    <ToastContainer position="top-right" autoClose={5000} />
     <BrowserRouter>
       {/* ✅ Spinner placed above Routes */}
       {isLoading && (
@@ -116,6 +121,7 @@ function App() {
         </Routes>
       </LayoutWrapper>
     </BrowserRouter>
+    </>
   );
 }
 

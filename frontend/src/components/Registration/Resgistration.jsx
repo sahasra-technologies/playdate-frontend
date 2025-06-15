@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import '../Login/Login';
 import logo from '../../assets/images/image.png';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { toast } from 'react-toastify';
 
 const apiClient = axios.create({
   baseURL: 'https://playdatesport.com/api',
@@ -29,18 +30,21 @@ const Register = ({ setIsLoading }) => {
 
   const handleRegister = async () => {
     if (!username || !firstName || !password) {
-      alert('All fields are required');
-      return;
+      // alert('All fields are required');
+      return toast.error('Please fill in all required fields.');
+      // return;
     }
 
     if (!isPasswordValid(password)) {
-      alert("Password must be at least 8 characters long and include at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character.");
-      return;
+      return toast.error("Password must be at least 8 characters long and include at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character.");
+      // alert("Password must be at least 8 characters long and include at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character.");
+      // return;
     }
 
     if (!isChecked) {
-      alert("You must agree to the terms and privacy policy before registering.");
-      return;
+      // alert("You must agree to the terms and privacy policy before registering.");
+      return toast.error("You must agree to the terms and privacy policy before registering.");
+      // return;
     }
 
     try {
@@ -52,13 +56,13 @@ const Register = ({ setIsLoading }) => {
         phone: `+91${phone}`,
       });
 
-      alert('Registration successful! Please log in.');
+      toast.success('Registration successful! Please log in.');
       setIsLoading(false);
       navigate('/login');
     } catch (error) {
       console.error('Registration error:', error.response?.data || error.message);
       setIsLoading(false);
-      alert('Registration failed. Try a different email.');
+      toast.error('Registration failed. Try a different email.');
     }
   };
 
