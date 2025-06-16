@@ -18,7 +18,7 @@ const GameDetailsPage = ({ setIsLoading }) => {
   const location = useLocation();
   const { theme } = useContext(ThemeContext);
   const { game, setGame, setGround } = useGame();
-  const { status } = location.state
+  const { status } = location.state || ''
 
   const [activeTab, setActiveTab] = useState('venue');
   const [grounds, setGrounds] = useState([]);

@@ -24,7 +24,7 @@ import MatchSchedule from './components/Tournaments/MatchSchedule';
 import GroundVenueDetails from './components/Tournaments/GroundVenueDetails/GroundVenueDetails';
 import GroundTournamentRules from './components/Tournaments/GroundTournamentRules/GroundTournamentRules';
 import VenueDetails from './components/Tournaments/VenueDetails';
-// import MatchPage from './components/Match/MatchPage';
+import MatchPage from './components/Match/MatchPage';
 import ContactUs from './pages/ContactPage/ContactPage';
 import AboutPlayDate from './pages/About/AboutPlayDate';
 import RegistrationForm from './components/Tournaments/RegistrationForm'
@@ -117,7 +117,7 @@ function App() {
             }
           />
           <Route path="/match-schedule" element={<MatchSchedule setIsLoading={setIsLoading} />} />
-          {/* <Route path='/match-page' element={<MatchPage setIsLoading={setIsLoading} />} /> */}
+          <Route path='/match-page' element={<MatchPage setIsLoading={setIsLoading} />} />
           <Route path='/contact-us' element={<ContactUs setIsLoading={setIsLoading} />} />
           <Route path='/about-us' element={<AboutPlayDate setIsLoading={setIsLoading} />} />
 
