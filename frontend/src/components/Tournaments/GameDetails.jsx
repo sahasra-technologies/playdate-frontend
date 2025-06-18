@@ -8,6 +8,7 @@ import axios from 'axios';
 import './GameDetails.css';
 import defaultVenueImage from '../../assets/Tournment/sahasra.png'; 
 import MatchSchedule from './MatchSchedule';
+import MatchPage from '../Match/MatchPage';
 import GroundTournamentRules from './GroundTournamentRules/GroundTournamentRules';
 
 const API_URL = 'https://playdatesport.com/api/Tournament/tournaments/';
@@ -138,7 +139,7 @@ const GameDetailsPage = ({ setIsLoading }) => {
             </div>
           )}
 
-          {activeTab === 'schedule' && <MatchSchedule id={id} />}
+          {activeTab === 'schedule' && <MatchPage setIsLoading={setIsLoading} id={id} />}
           {activeTab === 'rules' && <GroundTournamentRules id={id} setIsLoading={setIsLoading} />}
         </div>
       </div>
