@@ -63,10 +63,10 @@ function MatchPage({ setIsLoading, id }) {
                 <p><strong>Date:</strong> {match?.date || 'N/A'}</p>
               </div>
 
-              <div className="buttons">
+              {/* <div className="buttons">
                 <button>View Players</button>
                 <button>View Score</button>
-              </div>
+              </div> */}
             </div>
           ))
         )}
