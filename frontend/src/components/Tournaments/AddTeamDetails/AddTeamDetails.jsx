@@ -191,8 +191,8 @@ const AddTeamDetails = ({ setIsLoading }) => {
       navigate('/');
     } catch (err) {
       console.error(err);
-      setStatus(err)
-      // setStatus("Error submitting team");
+      // setStatus(err)
+      setStatus("Error submitting team");
     }
   };
 
