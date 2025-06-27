@@ -8,7 +8,7 @@ import { useGame } from '../../context/GameContext';
 import './VenueDetails'; // reuse same CSS as modal
 import { notification } from 'antd'; // make sure you have antd installed
 
-const RegistrationForm = () => {
+const RegistrationForm = ({setIsLoading}) => {
   const navigate = useNavigate();
   const { id } = useParams();
   const { game } = useGame();
@@ -72,7 +72,8 @@ const RegistrationForm = () => {
       user: formData.email,
       teamId: formData.team,
     };
-    console.log("payload", payload)
+    // console.log("payload", payload)
+    setIsLoading(true)
 
     try {
       const orderResponse = await fetch("https://playdatesport.com/api/payments/orders/", {
@@ -85,7 +86,9 @@ const RegistrationForm = () => {
       });
 
       const data = await orderResponse.json();
-
+      
+      setIsLoading(false)
+      
       if (orderResponse.ok) {
         window.location.href = data.upi_link;
         return;
