@@ -177,13 +177,28 @@ const RegistrationForm  = () => {
 
             <div className="form-group">
               <label>Price</label>
-              <input
-                type="text"
-                value={formData.price}
-                className='inout-form-payment'
-                readOnly
-              />
+              {Array.isArray(formData.price) ? (
+                <select
+                  className='inout-form-payment'
+                  value={formData.selectedPrice || formData.price[0]}
+                  onChange={(e) =>
+                    setFormData((prev) => ({ ...prev, selectedPrice: e.target.value }))
+                  }
+                >
+                  {formData.price.map((price, index) => (
+                    <option key={index} value={price}>₹{price}</option>
+                  ))}
+                </select>
+              ) : (
+                <input
+                  type="text"
+                  value={formData.price}
+                  className='inout-form-payment'
+                  readOnly
+                />
+              )}
             </div>
+
            <div className="form-btn-wrap">
           <button className="submit-btn" onClick={(e) => {
                   e.preventDefault(); 

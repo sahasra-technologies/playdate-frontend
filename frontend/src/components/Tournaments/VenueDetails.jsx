@@ -31,7 +31,7 @@ const VenueDetails = ({setIsLoading}) => {
     tournament: game?.ground?.[0]?.name || '',
     email: '',
     team: '',
-    price: game?.ground?.[0]?.pricing?.[0]?.times?.[0]?.price || '',
+    price: game?.ground?.[0]?.pricing?.flatMap(p => p.times?.map(t => t.price) || []) || [],
   });
 
   const [tournamentName, setTournamentName] = useState('');
@@ -116,6 +116,7 @@ const VenueDetails = ({setIsLoading}) => {
   }, [game]);
 
   const handleBack = () => navigate(-1);
+  console.log("formData",game, ground)
  
   const handleBooking = () => {
     
