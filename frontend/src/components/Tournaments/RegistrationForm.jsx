@@ -6,7 +6,7 @@ import axios from 'axios';
 import { ThemeContext } from '../../context/ThemeContext';
 import { useGame } from '../../context/GameContext';
 import './VenueDetails'; // reuse same CSS as modal
-import { notification } from 'antd'; // make sure you have antd installed
+import { toast } from 'react-toastify'; // make sure you have antd installed
 
 const RegistrationForm = ({setIsLoading}) => {
   const navigate = useNavigate();
@@ -14,9 +14,11 @@ const RegistrationForm = ({setIsLoading}) => {
   const { game } = useGame();
   const { theme } = useContext(ThemeContext);
   const location = useLocation();
-  const { tournamentName, price, status } = location.state || {};
+  const { tournamentId, tournamentName, price, status } = location.state || {};
 
   const [teams, setTeams] = useState([]);
+
+  console.log("game", game, tournamentId, tournamentName, price, status)
   const [formData, setFormData] = useState({
     tournament: tournamentName || game.name || '',
     team: '',
@@ -54,6 +56,21 @@ const RegistrationForm = ({setIsLoading}) => {
     fetchTeams();
   }, [navigate, status]);
 
+  const validateForm = () => {
+    if (!formData.email || formData.email.trim() === '') {
+      toast.error("Email is required.");
+      return false;
+    }
+
+    // if (!formData.selectedPrice && !formData.price) {
+    //   toast.error({ message: "Validation Error", description: "Price is required." });
+    //   return false;
+    // }
+
+    return true;
+  };
+
+
   const handlePayment = async () => {
     const user = Cookies.get("access");
     let effectivePrice = formData.selectedPrice || formData.price;
@@ -63,10 +80,9 @@ const RegistrationForm = ({setIsLoading}) => {
       return;
     }
     effectivePrice = Number(effectivePrice);
-    console.log("game", game)
 
     const payload = {
-      tournamentId: game.id,
+      tournamentId: game?.id || tournamentId,
       amount: effectivePrice,
       currency: "INR",
       user: formData.email,
@@ -183,6 +199,7 @@ const RegistrationForm = ({setIsLoading}) => {
             className="submit-btn"
             onClick={(e) => {
               e.preventDefault();
+              if (!validateForm()) return;
               handlePayment();
             }}
           >

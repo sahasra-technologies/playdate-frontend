@@ -28,6 +28,7 @@ const VenueDetails = ({setIsLoading}) => {
 
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
+    tournamentId: game.id,
     tournament: game?.ground?.[0]?.name || '',
     email: '',
     team: '',
@@ -116,7 +117,7 @@ const VenueDetails = ({setIsLoading}) => {
   }, [game]);
 
   const handleBack = () => navigate(-1);
-  console.log("formData",game, ground)
+  console.log("formData",formData)
  
   const handleBooking = () => {
     
@@ -124,6 +125,7 @@ const VenueDetails = ({setIsLoading}) => {
         // setShowForm(true);
         navigate(`/venue/${id}/register`, {
           state: {
+            tournamentId: formData.tournamentId,
             tournamentName: formData.tournament,
             price: formData.price,
             status
