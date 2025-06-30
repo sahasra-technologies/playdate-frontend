@@ -6,9 +6,9 @@ import axios from 'axios';
 import { ThemeContext } from '../../context/ThemeContext';
 import { useGame } from '../../context/GameContext';
 import './VenueDetails'; // reuse same CSS as modal
-import { toast } from 'react-toastify'; // make sure you have antd installed
+import { toast } from 'react-toastify'; // you already use this for notifications
 
-const RegistrationForm = ({setIsLoading}) => {
+const RegistrationForm = ({ setIsLoading }) => {
   const navigate = useNavigate();
   const { id } = useParams();
   const { game } = useGame();
@@ -18,9 +18,15 @@ const RegistrationForm = ({setIsLoading}) => {
 
   const [teams, setTeams] = useState([]);
 
-  console.log("game", game, tournamentId, tournamentName, price, status)
+  console.log("game", game, tournamentId, tournamentName, price, status);
+
   const [formData, setFormData] = useState({
-    tournament: tournamentName || game.name || '',
+    tournament: 
+      typeof tournamentName === 'string'
+        ? tournamentName
+        : typeof game?.name === 'string'
+          ? game.name
+          : '',
     team: '',
     email: Cookies.get('email') || '',
     price: price || '',
@@ -61,15 +67,8 @@ const RegistrationForm = ({setIsLoading}) => {
       toast.error("Email is required.");
       return false;
     }
-
-    // if (!formData.selectedPrice && !formData.price) {
-    //   toast.error({ message: "Validation Error", description: "Price is required." });
-    //   return false;
-    // }
-
     return true;
   };
-
 
   const handlePayment = async () => {
     const user = Cookies.get("access");
@@ -88,8 +87,8 @@ const RegistrationForm = ({setIsLoading}) => {
       user: formData.email,
       teamId: formData.team,
     };
-    // console.log("payload", payload)
-    setIsLoading(true)
+
+    setIsLoading(true);
 
     try {
       const orderResponse = await fetch("https://playdatesport.com/api/payments/orders/", {
@@ -102,25 +101,18 @@ const RegistrationForm = ({setIsLoading}) => {
       });
 
       const data = await orderResponse.json();
-      
-      setIsLoading(false)
-      
+      setIsLoading(false);
+
       if (orderResponse.ok) {
         window.location.href = data.upi_link;
         return;
       }
 
       console.error("Order creation failed:", data);
-      notification.error({
-        message: "Order Failed",
-        description: data?.error || "Unable to create order.",
-      });
+      toast.error(data?.error || "Unable to create order.");
     } catch (error) {
       console.error("Error creating order:", error);
-      notification.error({
-        message: "Order Failed",
-        description: "Unable to create order.",
-      });
+      toast.error("Unable to create order.");
     }
   };
 
@@ -133,7 +125,11 @@ const RegistrationForm = ({setIsLoading}) => {
           <label>Tournament</label>
           <input
             type="text"
-            value={formData.tournament}
+            value={
+              typeof formData.tournament === 'string'
+                ? formData.tournament
+                : JSON.stringify(formData.tournament)
+            }
             readOnly
             placeholder="e.g. JAGGAHUNDA MARATHON"
             className="inout-form-payment"
