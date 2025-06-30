@@ -1,27 +1,32 @@
 import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import './GroundTournamentRules.css';
 
 const GroundTournamentRules = ({ setIsLoading }) => {
+  const { id } = useParams();
   const [firstRules, setFirstRules] = useState([]);
+
+  console.log("id", id)
 
  useEffect(() => {
   const fetchData = async () => {
     try {
       setIsLoading(true);
 
-      const response = await fetch('https://playdatesport.com/api/Tournament/tournaments/');
+      const response = await fetch(`https://playdatesport.com/api/Tournament/tournaments/?id=${id}`);
       if (!response.ok) {
         throw new Error('Network response was not ok ' + response.statusText);
       }
       // console.log(response.json())
 
       const data = await response.json();
+      console.log("data", data)
+      // const allRules = data
+      //   .flatMap(tournament => tournament.rules || [])
+      //   .filter(rule => rule);
 
-      const allRules = data
-        .flatMap(tournament => tournament.rules || [])
-        .filter(rule => rule);
-
-      setFirstRules(allRules);
+      // setFirstRules(allRules);
+      setFirstRules(data.rules)
     } catch (error) {
       console.error('Fetch error:', error);
     } finally {
