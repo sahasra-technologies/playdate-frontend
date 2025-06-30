@@ -72,7 +72,7 @@ const RegistrationForm = ({ setIsLoading }) => {
     let effectivePrice = formData.selectedPrice || formData.price;
 
     if (!effectivePrice || isNaN(Number(effectivePrice))) {
-      alert("Invalid or missing price. Please select a valid amount.");
+      toast,error("Invalid or missing price. Please select a valid amount.");
       return;
     }
     effectivePrice = Number(effectivePrice);
@@ -122,11 +122,12 @@ const RegistrationForm = ({ setIsLoading }) => {
           <label>Tournament</label>
           <input
             type="text"
-            value={
-              typeof formData.tournament === 'string'
-                ? formData.tournament
-                : JSON.stringify(formData.tournament)
-            }
+            value={formData.tournament}
+            // value={
+            //   typeof formData.tournament === 'string'
+            //     ? formData.tournament
+            //     : JSON.stringify(formData.tournament)
+            // }
             readOnly
             placeholder="e.g. JAGGAHUNDA MARATHON"
             className="inout-form-payment"
