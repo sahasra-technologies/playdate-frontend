@@ -1,12 +1,11 @@
-// src/pages/RegistrationForm.jsx
 import React, { useContext, useState, useEffect } from 'react';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 import { ThemeContext } from '../../context/ThemeContext';
 import { useGame } from '../../context/GameContext';
-import './VenueDetails'; // reuse same CSS as modal
-import { toast } from 'react-toastify'; // you already use this for notifications
+import './VenueDetails';
+import { toast } from 'react-toastify';
 
 const RegistrationForm = ({ setIsLoading }) => {
   const navigate = useNavigate();
@@ -18,10 +17,8 @@ const RegistrationForm = ({ setIsLoading }) => {
 
   const [teams, setTeams] = useState([]);
 
-  console.log("game", game, tournamentId, tournamentName, price, status);
-
   const [formData, setFormData] = useState({
-    tournament: 
+    tournament:
       typeof tournamentName === 'string'
         ? tournamentName
         : typeof game?.name === 'string'
@@ -88,7 +85,7 @@ const RegistrationForm = ({ setIsLoading }) => {
       teamId: formData.team,
     };
 
-    setIsLoading(true);
+    setIsLoading?.(true);
 
     try {
       const orderResponse = await fetch("https://playdatesport.com/api/payments/orders/", {
@@ -101,7 +98,7 @@ const RegistrationForm = ({ setIsLoading }) => {
       });
 
       const data = await orderResponse.json();
-      setIsLoading(false);
+      setIsLoading?.(false);
 
       if (orderResponse.ok) {
         window.location.href = data.upi_link;
