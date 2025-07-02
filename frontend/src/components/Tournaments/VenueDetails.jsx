@@ -21,14 +21,13 @@ const VenueDetails = ({setIsLoading}) => {
   const locate = useLocation();
   const { theme } = useContext(ThemeContext);
   const { ground, game } = useGame();
-  const { status } = locate.state
-  console.log("Venue status", status)
+  const { status, id: tournamentId } = locate.state
+  console.log("Venue status", status, id, tournamentId)
 
   const user = true;
 
   const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
-    tournamentId: game.id,
     tournament: game?.ground?.[0]?.name || '',
     email: '',
     team: '',
@@ -117,7 +116,7 @@ const VenueDetails = ({setIsLoading}) => {
   }, [game]);
 
   const handleBack = () => navigate(-1);
-  console.log("formData",formData)
+  console.log("formData",game, ground)
  
   const handleBooking = () => {
     
@@ -125,7 +124,7 @@ const VenueDetails = ({setIsLoading}) => {
         // setShowForm(true);
         navigate(`/venue/${id}/register`, {
           state: {
-            tournamentId: formData.tournamentId,
+            tournamentId,
             tournamentName: formData.tournament,
             price: formData.price,
             status

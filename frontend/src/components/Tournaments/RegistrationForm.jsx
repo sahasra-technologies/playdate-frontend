@@ -49,15 +49,25 @@ const RegistrationForm = ({ setIsLoading }) => {
             params: { id: userId },
           }
         );
-        const teamNames = response.data.map((i) => i.team);
-        setTeams(teamNames);
+
+        console.log("Teams API response:", response.data);
+
+        // Map to array of objects with id and name
+        // const teamNames = response.data.map((i) => ({
+        //   id: i.team.id,
+        //   name: i.team.name,
+        // }));
+
+        setTeams(response.data);
       } catch (err) {
-        console.error(err);
+        console.error("Error fetching teams:", err);
+        toast.error("Failed to fetch teams.");
       }
     };
 
     fetchTeams();
   }, [navigate, status]);
+  console.log("teams", teams)
 
   const validateForm = () => {
     if (!formData.email || formData.email.trim() === '') {
@@ -67,12 +77,16 @@ const RegistrationForm = ({ setIsLoading }) => {
     return true;
   };
 
+  const isMobileDevice = () => {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  };
+
   const handlePayment = async () => {
     const user = Cookies.get("access");
     let effectivePrice = formData.selectedPrice || formData.price;
 
     if (!effectivePrice || isNaN(Number(effectivePrice))) {
-      toast,error("Invalid or missing price. Please select a valid amount.");
+      toast.error("Invalid or missing price. Please select a valid amount.");
       return;
     }
     effectivePrice = Number(effectivePrice);
@@ -101,7 +115,12 @@ const RegistrationForm = ({ setIsLoading }) => {
       setIsLoading?.(false);
 
       if (orderResponse.ok) {
-        window.location.href = data.upi_link;
+        if (isMobileDevice()) {
+          window.location.href = data.upi_link;
+        } else {
+          toast.info("UPI payment requires a mobile device with a UPI app installed.");
+          console.log("UPI Link:", data.upi_link);
+        }
         return;
       }
 
@@ -110,9 +129,11 @@ const RegistrationForm = ({ setIsLoading }) => {
     } catch (error) {
       console.error("Error creating order:", error);
       toast.error("Unable to create order.");
+      setIsLoading?.(false);
     }
   };
 
+  console.log("team", teams)
   return (
     <div className="modal-overlay" onClick={() => navigate(-1)}>
       <div className="modal-form" onClick={(e) => e.stopPropagation()}>
@@ -123,11 +144,6 @@ const RegistrationForm = ({ setIsLoading }) => {
           <input
             type="text"
             value={formData.tournament}
-            // value={
-            //   typeof formData.tournament === 'string'
-            //     ? formData.tournament
-            //     : JSON.stringify(formData.tournament)
-            // }
             readOnly
             placeholder="e.g. JAGGAHUNDA MARATHON"
             className="inout-form-payment"
@@ -156,10 +172,13 @@ const RegistrationForm = ({ setIsLoading }) => {
             onChange={(e) =>
               setFormData((prev) => ({ ...prev, team: e.target.value }))
             }
+            className="inout-form-payment"
           >
             <option value="">Select Team</option>
-            {teams.map((team, index) => (
-              <option key={index} value={team}>{team}</option>
+            {teams.map((team) => (
+              <option key={team.id} value={team.id}>
+                {team.name}
+              </option>
             ))}
           </select>
         </div>
@@ -175,7 +194,9 @@ const RegistrationForm = ({ setIsLoading }) => {
               }
             >
               {formData.price.map((price, index) => (
-                <option key={index} value={price}>₹{price}</option>
+                <option key={index} value={price}>
+                  ₹{price}
+                </option>
               ))}
             </select>
           ) : (

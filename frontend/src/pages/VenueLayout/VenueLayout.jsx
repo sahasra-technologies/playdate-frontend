@@ -12,6 +12,7 @@ import './VenueLayout.css';
 const VenueLayout = ({ setIsLoading }) => {
   const { id } = useParams();
   const [activeTab, setActiveTab] = useState('venue');
+  console.log("id", id)
 
   return (
     <div className="venue-layout-wrapper">

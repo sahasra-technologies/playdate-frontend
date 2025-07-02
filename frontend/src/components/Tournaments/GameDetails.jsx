@@ -25,6 +25,8 @@ const GameDetailsPage = ({ setIsLoading }) => {
   const [grounds, setGrounds] = useState([]);
   const [error, setError] = useState(null);
 
+  console.log('GameDetailsPageID', id)
+
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
     const currentTab = queryParams.get('tab') || 'venue';
@@ -55,7 +57,7 @@ const GameDetailsPage = ({ setIsLoading }) => {
 
   const handleVenueClick = (ground) => {
     setGround(ground);
-    navigate(`/venue/${ground.id}`,  { state: { status } });
+    navigate(`/venue/${ground.id}`,  { state: { status, id } });
   };
 
   const updateTab = (tabName) => {
