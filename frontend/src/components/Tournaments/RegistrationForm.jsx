@@ -61,7 +61,7 @@ const RegistrationForm = ({ setIsLoading }) => {
         setTeams(response.data);
       } catch (err) {
         console.error("Error fetching teams:", err);
-        toast.error("Failed to fetch teams.");
+        // toast.error("Failed to fetch teams.");
       }
     };
 
