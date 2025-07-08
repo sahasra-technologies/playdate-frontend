@@ -57,7 +57,7 @@ const GameDetailsPage = ({ setIsLoading }) => {
 
   const handleVenueClick = (ground) => {
     setGround(ground);
-    navigate(`/venue/${ground.id}`,  { state: { status, id } });
+    navigate(`/venue/${id}`,  { state: { status, ground } });
   };
 
   const updateTab = (tabName) => {
@@ -67,6 +67,7 @@ const GameDetailsPage = ({ setIsLoading }) => {
 
   if (error) return <div>{error}</div>;
   if (!grounds.length) return <div>No grounds found.</div>;
+
 
   return (
     <div className="page-wrapper">

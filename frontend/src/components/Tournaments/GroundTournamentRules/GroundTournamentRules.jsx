@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import './GroundTournamentRules.css';
 
 const GroundTournamentRules = ({ setIsLoading }) => {
   const { id } = useParams();
+  const locate = useLocation();
   const [firstRules, setFirstRules] = useState([]);
 
-  console.log("id", id)
+  // const { status, id: tournamentId } = locate.state
+  // console.log("Venue status", status, id, tournamentId)
+
+  // console.log("id", id)
 
  useEffect(() => {
   const fetchData = async () => {
