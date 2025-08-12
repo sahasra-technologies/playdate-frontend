@@ -42,10 +42,19 @@ const AddTeamDetails = ({ setIsLoading }) => {
           const team = data[0];
           setTeamId(team.id);
           setTeamName(team.name);
+
+          let logoPath = "";
           if (team.logo) {
-            const fullLogoUrl = `http://127.0.0.1:8000${team.logo.startsWith('/') ? team.logo : '/' + team.logo}`;
-            setTeamLogo(fullLogoUrl);
-            setExistingImageUrl(fullLogoUrl);
+            logoPath  = `http://127.0.0.1:8000${team.logo.startsWith('/') ? team.logo : '/' + team.logo}`;
+            // setTeamLogo(fullLogoUrl);
+            // setExistingImageUrl(fullLogoUrl);
+          } else if (team.images && team.images.url) {
+            logoPath = team.images.url; // Base64 image
+          }
+
+          if (logoPath) {
+            setTeamLogo(logoPath);
+            setExistingImageUrl(logoPath);
           }
 
           const captainData = team.team.find((p) => p.role === "Captain");
