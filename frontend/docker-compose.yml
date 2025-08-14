@@ -25,18 +25,18 @@ services:
       - "6379:6379"
     restart: unless-stopped
 
-  db:
-    image: postgis/postgis:15-3.3
-    container_name: postgres
-    ports:
-      - "5432:5432"
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 1213
-      POSTGRES_DB: playdate
-    volumes:
-      - pg_data:/var/lib/postgresql/data
-    restart: unless-stopped
+  # db:
+  #   image: postgis/postgis:15-3.3
+  #   container_name: postgres
+  #   ports:
+  #     - "5432:5432"
+  #   environment:
+  #     POSTGRES_USER: postgres
+  #     POSTGRES_PASSWORD: 1213
+  #     POSTGRES_DB: playdate
+  #   volumes:
+  #     - pg_data:/var/lib/postgresql/data
+  #   restart: unless-stopped
 
   pgadmin:
     image: dpage/pgadmin4
