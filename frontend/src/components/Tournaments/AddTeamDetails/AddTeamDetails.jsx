@@ -45,7 +45,7 @@ const AddTeamDetails = ({ setIsLoading }) => {
 
           let logoPath = "";
           if (team.logo) {
-            logoPath  = `http://127.0.0.1:8000${team.logo.startsWith('/') ? team.logo : '/' + team.logo}`;
+            logoPath  = `https://playdatesport.com/api${team.logo.startsWith('/') ? team.logo : '/' + team.logo}`;
             // setTeamLogo(fullLogoUrl);
             // setExistingImageUrl(fullLogoUrl);
           } else if (team.images && team.images.url) {
