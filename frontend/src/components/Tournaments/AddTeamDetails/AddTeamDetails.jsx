@@ -5,7 +5,7 @@ import defaultImage from "../../../assets/Tournment/Profile-PNG-Images.png";
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-const API_URL = "http://127.0.0.1:8000/Tournament/teams/";
+const API_URL = "https://playdatesport.com/api/Tournament/teams/";
 
 const AddTeamDetails = ({ setIsLoading }) => {
   const [players, setPlayers] = useState([{ name: "", role: "", email: "", image: defaultImage }]);
